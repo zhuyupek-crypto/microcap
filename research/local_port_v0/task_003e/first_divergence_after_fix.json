@@ -1,0 +1,21 @@
+{
+  "first_divergence_date": "2026-05-26",
+  "first_divergence_field": "cash",
+  "first_divergence_security": null,
+  "first_divergence_time": null,
+  "jq_value": 10199.04,
+  "local_value": 4077.040000000008,
+  "jq_previous_state": {
+    "date": "2026-05-25",
+    "cash": 10199.04,
+    "total": 977240.04
+  },
+  "local_previous_state": {
+    "date": "2026-05-25",
+    "cash": 10199.040000000008,
+    "total": 977240.04
+  },
+  "root_or_cascade": "ROOT",
+  "match_days_before": 14,
+  "total_days": 35
+}

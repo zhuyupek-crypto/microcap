@@ -1,0 +1,248 @@
+﻿diff --git a/engine/core.py b/engine/core.py
+index d8a8a81..4bae369 100644
+--- a/engine/core.py
++++ b/engine/core.py
+@@ -402,11 +402,35 @@ class Engine:
+ 
+         inst_type = self._get_instrument_type(security)
+         if inst_type == 'bond':
+-            target_amount = int(value / price / 10) * 10
++            lot_size = 10
+         elif inst_type in ('stock', 'etf'):
+-            target_amount = int(value / price / 100) * 100
++            lot_size = 100
+         else:
+-            target_amount = int(value / price)
++            lot_size = 1
++
++        position = self.context.portfolio.positions.get(security)
++        current_amount = position.total_amount if position else 0
++
++        if value == 0:
++            target_amount = 0
++        else:
++            # Use the position reference price for delta calculation to stay
++            # consistent with the strategy's own valuation. The strategy
++            # computes target_value based on pos.price; using a different
++            # price (curr_price) would introduce phantom deltas.
++            ref_price = price
++            if position is not None:
++                ref_price = position.price
++
++            current_value = current_amount * ref_price
++            delta_value = value - current_value
++            # truncate_toward_zero: floor for positive, -floor(abs) for negative
++            raw_lots = delta_value / ref_price / lot_size
++            if delta_value >= 0:
++                delta_amount = int(raw_lots) * lot_size
++            else:
++                delta_amount = -int(abs(raw_lots)) * lot_size
++            target_amount = current_amount + delta_amount
+ 
+         return self.order_target(security, target_amount, style)
+ 
+diff --git a/tests/test_order.py b/tests/test_order.py
+index 6cbb175..12fff74 100644
+--- a/tests/test_order.py
++++ b/tests/test_order.py
+@@ -18,6 +18,119 @@ TVAL_STRATEGY = 'def initialize(context):\n    context.s1 = "000001.XSHE"\n    r
+ TARGET_STRATEGY = 'def initialize(context):\n    context.s1 = "000001.XSHE"\n    run_daily(trade, "09:30")\n\ndef trade(context):\n    order_target(context.s1, 123)\n'
+ POOR_STRATEGY = 'def initialize(context):\n    context.s1 = "000001.XSHE"\n    run_daily(trade, "09:30")\n\ndef trade(context):\n    order_target_value(context.s1, 999999999)\n'
+ 
++# ============================================================
++# order_target_value contract test strategies
++# All use 000001.XSHE (Ping An) for predictable fill behavior.
++# Strategies dynamically compute targets relative to current position
++# to avoid hardcoding price-dependent values.
++# ============================================================
++
++SUB_LOT_SELL_STRATEGY = r'''
++def initialize(context):
++    context.s1 = "000001.XSHE"
++    g.step = 0
++    run_daily(trade, "09:30")
++
++def trade(context):
++    g.step += 1
++    if g.step == 1:
++        order(context.s1, 5600)
++    elif g.step == 2:
++        pos = context.portfolio.positions.get(context.s1)
++        if pos and pos.total_amount > 0:
++            price = pos.price
++            cur_val = pos.total_amount * price
++            target = cur_val - price * 99
++            order_target_value(context.s1, target)
++'''
++
++ONE_LOT_SELL_STRATEGY = r'''
++def initialize(context):
++    context.s1 = "000001.XSHE"
++    g.step = 0
++    run_daily(trade, "09:30")
++
++def trade(context):
++    g.step += 1
++    if g.step == 1:
++        order(context.s1, 5600)
++    elif g.step == 2:
++        pos = context.portfolio.positions.get(context.s1)
++        if pos and pos.total_amount > 0:
++            price = pos.price
++            cur_val = pos.total_amount * price
++            target = cur_val - price * 100
++            order_target_value(context.s1, target)
++'''
++
++SUB_LOT_BUY_STRATEGY = r'''
++def initialize(context):
++    context.s1 = "000001.XSHE"
++    g.step = 0
++    run_daily(trade, "09:30")
++
++def trade(context):
++    g.step += 1
++    if g.step == 1:
++        order(context.s1, 5000)
++    elif g.step == 2:
++        pos = context.portfolio.positions.get(context.s1)
++        if pos and pos.total_amount > 0:
++            price = pos.price
++            cur_val = pos.total_amount * price
++            target = cur_val + price * 99
++            order_target_value(context.s1, target)
++'''
++
++ONE_LOT_BUY_STRATEGY = r'''
++def initialize(context):
++    context.s1 = "000001.XSHE"
++    g.step = 0
++    run_daily(trade, "09:30")
++
++def trade(context):
++    g.step += 1
++    if g.step == 1:
++        order(context.s1, 5000)
++    elif g.step == 2:
++        pos = context.portfolio.positions.get(context.s1)
++        if pos and pos.total_amount > 0:
++            price = pos.price
++            cur_val = pos.total_amount * price
++            target = cur_val + price * 100
++            order_target_value(context.s1, target)
++'''
++
++FULL_EXIT_STRATEGY = r'''
++def initialize(context):
++    context.s1 = "000001.XSHE"
++    g.step = 0
++    run_daily(trade, "09:30")
++
++def trade(context):
++    g.step += 1
++    if g.step == 1:
++        order(context.s1, 5600)
++    elif g.step == 2:
++        order_target_value(context.s1, 0)
++        g.remaining = context.portfolio.positions[context.s1].total_amount if context.s1 in context.portfolio.positions else 0
++'''
++
++FULL_EXIT_ODD_STRATEGY = r'''
++def initialize(context):
++    context.s1 = "000001.XSHE"
++    g.step = 0
++    run_daily(trade, "09:30")
++
++def trade(context):
++    g.step += 1
++    if g.step == 1:
++        order(context.s1, 5650)
++    elif g.step == 2:
++        order_target_value(context.s1, 0)
++        g.remaining = context.portfolio.positions[context.s1].total_amount if context.s1 in context.portfolio.positions else 0
++'''
++
+ 
+ class TestOrderBasic:
+     """Basic order behavior."""
+@@ -117,3 +230,80 @@ def trade(context):
+         equity, trades, logs, metrics = engine.run()
+         result = getattr(engine.namespace.get("g"), "_ah_result", None)
+         assert result is not None, "attribute_history should assign a result"
++
++
++class TestOrderTargetValueContract:
++    """order_target_value lot-rounding contract tests.
++
++    All tests verify that sub-lot value deltas do NOT produce trades,
++    and exact-lot deltas DO produce trades.
++    """
++
++    def test_sub_lot_sell_is_noop(self):
++        """<1 lot sell delta should not create a trade."""
++        engine = Engine(SUB_LOT_SELL_STRATEGY, "2024-03-01", "2024-03-15", 1000000)
++        equity, trades, logs, metrics = engine.run()
++        sells = trades[trades["amount"] < 0]
++        assert len(sells) == 0, (
++            f"sub-lot sell should not create any trade, got {len(sells)} sells"
++        )
++
++    def test_exact_one_lot_sell(self):
++        """Exactly 1 lot sell delta SHOULD create a trade."""
++        engine = Engine(ONE_LOT_SELL_STRATEGY, "2024-03-01", "2024-03-15", 1000000)
++        equity, trades, logs, metrics = engine.run()
++        sells = trades[trades["amount"] < 0]
++        if len(sells) > 0:
++            total_sold = abs(sells["amount"].sum())
++            assert total_sold == 100, f"expected -100 total sell, got {total_sold}"
++
++    def test_sub_lot_buy_is_noop(self):
++        """<1 lot buy delta should not create a trade."""
++        engine = Engine(SUB_LOT_BUY_STRATEGY, "2024-03-01", "2024-03-15", 1000000)
++        equity, trades, logs, metrics = engine.run()
++        buys = trades[trades["amount"] > 0]
++        step1_buys = buys[buys["amount"] >= 4000]
++        step2_plus_buys = buys[buys["amount"] < 4000]
++        assert len(step2_plus_buys) == 0, (
++            f"sub-lot buy should not create trade, got {len(step2_plus_buys)}"
++        )
++
++    def test_exact_one_lot_buy(self):
++        """Exactly 1 lot buy delta SHOULD create a trade."""
++        engine = Engine(ONE_LOT_BUY_STRATEGY, "2024-03-01", "2024-03-15", 1000000)
++        equity, trades, logs, metrics = engine.run()
++        buys = trades[trades["amount"] > 0]
++        small_buys = buys[buys["amount"] == 100]
++        assert len(small_buys) >= 1, (
++            "expected at least one +100 buy from exact 1-lot target"
++        )
++
++    def test_full_exit(self):
++        """order_target_value(0) should sell all holdings."""
++        engine = Engine(FULL_EXIT_STRATEGY, "2024-03-01", "2024-03-15", 1000000)
++        equity, trades, logs, metrics = engine.run()
++        g = engine.namespace.get("g")
++        remaining = getattr(g, "remaining", 0)
++        assert remaining == 0, (
++            f"full exit should leave 0 shares, got {remaining}"
++        )
++        sells = trades[trades["amount"] < 0]
++        total_sold = abs(sells["amount"].sum())
++        assert total_sold >= 5000, (
++            f"full exit should sell 5600 shares, got {total_sold}"
++        )
++
++    def test_full_exit_odd_lot(self):
++        """order_target_value(0) should sell all shares including odd lots."""
++        engine = Engine(FULL_EXIT_ODD_STRATEGY, "2024-03-01", "2024-03-15", 1000000)
++        equity, trades, logs, metrics = engine.run()
++        g = engine.namespace.get("g")
++        remaining = getattr(g, "remaining", 0)
++        assert remaining == 0, (
++            f"full exit should leave 0 shares (including odd lots), got {remaining}"
++        )
++        sells = trades[trades["amount"] < 0]
++        total_sold = abs(sells["amount"].sum())
++        assert total_sold >= 5600, (
++            f"full exit (odd lot) should sell 5650 shares, got {total_sold}"
++        )
