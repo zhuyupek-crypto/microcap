@@ -3,7 +3,7 @@
   "strategy_sha256": "f363464fa55218c5b721d9286449c99a0c9acc097524b6f5f3db89a13af151d6",
   "local_quant_path": "D:\\Work Space\\local_quant",
   "local_quant_branch": "task/microcap-compat-v1",
-  "local_quant_commit": "a7045bb677677389f1ca1af7e9f85a2fe338f552",
+  "local_quant_commit": "64cae09abdc073864c9220c416ad460f8e3d585c",
   "local_quant_remote": "https://github.com/zhuyupek-crypto/local_quant",
   "extracted_dependencies": [
     "<expr>.filter",
@@ -234,7 +234,7 @@
     "run_daily": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1164,
+      "line": 1169,
       "evidence": "def run_daily(self, func, time=\"09:30\"):"
     },
     "get_all_securities": {
@@ -264,7 +264,7 @@
     "get_current_data": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1411,
+      "line": 1416,
       "evidence": "def get_current_data(self):"
     },
     "order_target": {
@@ -342,31 +342,31 @@
     "current_data.paused": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 941,
+      "line": 946,
       "evidence": "paused = row.get(\"paused\", False)"
     },
     "current_data.is_st": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1434,
+      "line": 1439,
       "evidence": "'is_st', code,"
     },
     "current_data.last_price": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1442,
+      "line": 1447,
       "evidence": "'last_price': price,"
     },
     "current_data.high_limit": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 939,
+      "line": 944,
       "evidence": "high = round(float(row.get(\"high_limit\", 999999)), 2)"
     },
     "current_data.low_limit": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 940,
+      "line": 945,
       "evidence": "low = round(float(row.get(\"low_limit\", 0)), 2)"
     },
     "valuation.code": {
@@ -408,19 +408,19 @@
     "log.info": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1145,
+      "line": 1150,
       "evidence": "def info(self, msg):"
     },
     "log.warning": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1153,
+      "line": 1158,
       "evidence": "def warning(self, msg):"
     },
     "log.warn": {
       "status": "PASS",
       "file": "engine/core.py",
-      "line": 1157,
+      "line": 1162,
       "evidence": "def warn(self, msg):"
     }
   },
