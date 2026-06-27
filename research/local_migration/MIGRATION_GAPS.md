@@ -6,6 +6,24 @@
 
 ## P0：阻止正确运行
 
+### GAP-012：`log.warn` 缺失
+
+| 项目 | 内容 |
+|---|---|
+| 编号 | GAP-012 |
+| 优先级 | **P0** |
+| 涉及接口 | `log.warn` |
+| 聚宽策略中的使用位置 | 第154行：`log.warn("risk filter skipped for %s: %s" % (stock, e))`；第186行：`log.warn("batch risk filter skipped: %s" % e)` |
+| local_quant当前行为 | `log` 对象（Engine 自身）仅有 `info()`、`warning()`、`debug()` 方法。`warn()` 方法不存在。调用 `log.warn()` 将抛出 `AttributeError` |
+| 预期正确行为 | `log.warn()` 应为 `log.warning()` 的别名，与聚宽一致 |
+| 执行链分析 | `cash_flow`/`balance` 查询失败 → 策略进入 `except` 块 → 调用 `log.warn(...)` → **`AttributeError`** → 策略中断。注意：此缺口与 GAP-002/003/004 交互。即使修复了 `cash_flow`/`balance` 表，其他查询异常仍可能触发此路径 |
+| 建议修复位置 | `engine/core.py` 的 `Logger` 类添加 `def warn(self, msg): return self.warning(msg)` |
+| 建议测试 | 调用 `log.warn("test")` 验证不抛出异常且等效于 `log.warning` |
+
+---
+
+## P0：阻止正确运行
+
 ### GAP-001：`position.value` 属性缺失
 
 | 项目 | 内容 |
@@ -164,7 +182,7 @@
 
 | 优先级 | 数量 | 编号 |
 |---|---|---|
-| **P0** | 4 | GAP-001, GAP-002, GAP-003, GAP-004 |
+| **P0** | 5 | GAP-001, GAP-002, GAP-003, GAP-004, GAP-012 |
 | **P1** | 4 | GAP-005, GAP-006, GAP-007, GAP-008 |
 | **P2** | 3 | GAP-009, GAP-010, GAP-011 |
-| **合计** | **11** | |
+| **合计** | **12** | |

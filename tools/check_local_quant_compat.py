@@ -17,6 +17,7 @@ import json
 import os
 import sys
 import hashlib
+import subprocess
 from pathlib import Path
 
 
@@ -145,7 +146,6 @@ def extract_dependencies_from_source(source_path):
     deps = set()
 
     for node in ast.walk(tree):
-        # 函数调用: func(...)
         if isinstance(node, ast.Call):
             func = node.func
             if isinstance(func, ast.Name):
@@ -162,7 +162,6 @@ def extract_dependencies_from_source(source_path):
                     parts.append("<expr>")
                 deps.add(".".join(reversed(parts)))
 
-        # 属性访问: a.b.c
         if isinstance(node, ast.Attribute):
             parts = []
             curr = node
@@ -173,12 +172,6 @@ def extract_dependencies_from_source(source_path):
                 parts.append(curr.id)
                 deps.add(".".join(reversed(parts)))
 
-        # 名称 (变量/函数引用)
-        if isinstance(node, ast.Name):
-            # 只记录顶级名称，避免过多噪声
-            if isinstance(node.ctx, (ast.Load, ast.Store)):
-                pass  # 所有名称都会在 Call/Attribute 中被捕获
-
     return deps
 
 
@@ -186,15 +179,43 @@ def match_deps_to_known(deps_set):
     """将提取的依赖匹配到已知 API 列表。"""
     matched = set()
     for dep in deps_set:
-        # 精确匹配
         if dep in KNOWN_JQ_ALL:
             matched.add(dep)
         else:
-            # 部分匹配：如 "valuation" 匹配 "valuation.code"
             for known in KNOWN_JQ_ALL:
                 if dep == known or known.startswith(dep + ".") or dep.startswith(known):
                     matched.add(known)
     return matched
+
+
+def resolve_local_quant_path(args_path=None):
+    """按优先级解析 local_quant 路径。"""
+    if args_path:
+        p = Path(args_path)
+        if p.exists():
+            return p
+        print("ERROR: 指定路径不存在: %s" % args_path, file=sys.stderr)
+        sys.exit(1)
+
+    env_path = os.environ.get("LOCAL_QUANT_PATH")
+    if env_path:
+        p = Path(env_path)
+        if p.exists():
+            return p
+        print("ERROR: 环境变量 LOCAL_QUANT_PATH 指向不存在的路径: %s" % env_path, file=sys.stderr)
+        sys.exit(1)
+
+    candidates = [
+        Path.cwd().parent / "local_quant",
+        Path(__file__).resolve().parent.parent.parent / "local_quant",
+    ]
+    for c in candidates:
+        if c.exists():
+            return c
+
+    print("ERROR: 无法定位 local_quant 路径。请通过 --local-quant-path 或环境变量 LOCAL_QUANT_PATH 指定。",
+          file=sys.stderr)
+    sys.exit(1)
 
 
 # ─── local_quant 覆盖检查 ─────────────────────────────────────────────
@@ -209,7 +230,6 @@ def check_local_quant_coverage(local_quant_path):
     lq = Path(local_quant_path)
     engine_dir = lq / "engine"
 
-    # 构建文件名 → 全文 映射
     file_texts = {}
     for py_file in engine_dir.rglob("*.py"):
         try:
@@ -224,11 +244,21 @@ def check_local_quant_coverage(local_quant_path):
     order_text = file_texts.get(Path("engine/order.py"), "")
 
     def _find_in_text(text, keyword):
-        """查找 keyword 在 text 中的位置，返回 (行号, 上下文行)。"""
         lines = text.split("\n")
         for i, line in enumerate(lines):
             if keyword in line:
                 return i + 1, line.strip()
+        return None, None
+
+    def _find_def(text, def_name):
+        """精确查找 def def_name(self, ... 或 def def_name(..."""
+        lines = text.split("\n")
+        pattern1 = "def " + def_name + "("
+        pattern2 = "def " + def_name + " ("
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            if stripped.startswith(pattern1) or stripped.startswith(pattern2):
+                return i + 1, stripped
         return None, None
 
     # ── 配置/调度 ──
@@ -252,7 +282,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = ctx
 
         elif api == "set_slippage":
-            line, ctx = _find_in_text(core_text, "def set_slippage")
+            line, ctx = _find_def(core_text, "set_slippage")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/core.py"
@@ -260,7 +290,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = ctx
 
         elif api == "set_order_cost":
-            line, ctx = _find_in_text(core_text, "def set_order_cost")
+            line, ctx = _find_def(core_text, "set_order_cost")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/core.py"
@@ -276,24 +306,15 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = "lambda x: None (no-op)"
 
         elif api == "set_option":
-            line, ctx = _find_in_text(core_text, "def set_option")
+            line, ctx = _find_def(core_text, "set_option")
             if line:
-                # 检查是否只处理 order_volume_ratio
-                if "order_volume_ratio" in (ctx or ""):
-                    info["status"] = "PARTIAL"
-                    info["evidence"] = "only processes order_volume_ratio key"
-                else:
-                    line2, ctx2 = _find_in_text(core_text, "order_volume_ratio")
-                    if line2:
-                        info["status"] = "PARTIAL"
-                        info["evidence"] = "only processes order_volume_ratio key (line %d)" % line2
-                    else:
-                        info["status"] = "PARTIAL"
+                info["status"] = "PARTIAL"
                 info["file"] = "engine/core.py"
                 info["line"] = line
+                info["evidence"] = "only processes order_volume_ratio key"
 
         elif api == "run_daily":
-            line, ctx = _find_in_text(core_text, "def run_daily")
+            line, ctx = _find_def(core_text, "run_daily")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/core.py"
@@ -307,7 +328,7 @@ def check_local_quant_coverage(local_quant_path):
         info = {"status": "MISSING", "file": "", "line": 0, "evidence": ""}
 
         if api == "get_all_securities":
-            line, ctx = _find_in_text(data_api_text, "def get_all_securities")
+            line, ctx = _find_def(data_api_text, "get_all_securities")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/data_api.py"
@@ -315,7 +336,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = ctx
 
         elif api == "get_extras":
-            line, ctx = _find_in_text(data_api_text, "def get_extras")
+            line, ctx = _find_def(data_api_text, "get_extras")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/data_api.py"
@@ -323,7 +344,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = ctx
 
         elif api == "get_price":
-            line, ctx = _find_in_text(data_api_text, "def get_price")
+            line, ctx = _find_def(data_api_text, "get_price")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/data_api.py"
@@ -331,7 +352,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = ctx
 
         elif api == "get_fundamentals":
-            line, ctx = _find_in_text(data_api_text, "def get_fundamentals")
+            line, ctx = _find_def(data_api_text, "get_fundamentals")
             if line:
                 info["status"] = "PARTIAL"
                 info["file"] = "engine/data_api.py"
@@ -339,7 +360,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = "PARTIAL: missing cash_flow and balance tables"
 
         elif api == "get_current_data":
-            line, ctx = _find_in_text(core_text, "def get_current_data")
+            line, ctx = _find_def(core_text, "get_current_data")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/core.py"
@@ -353,7 +374,7 @@ def check_local_quant_coverage(local_quant_path):
         info = {"status": "MISSING", "file": "", "line": 0, "evidence": ""}
 
         if api == "order_target":
-            line, ctx = _find_in_text(core_text, "def order_target")
+            line, ctx = _find_def(core_text, "order_target")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/core.py"
@@ -361,7 +382,7 @@ def check_local_quant_coverage(local_quant_path):
                 info["evidence"] = ctx
 
         elif api == "order_target_value":
-            line, ctx = _find_in_text(core_text, "def order_target_value")
+            line, ctx = _find_def(core_text, "order_target_value")
             if line:
                 info["status"] = "PASS"
                 info["file"] = "engine/core.py"
@@ -374,9 +395,6 @@ def check_local_quant_coverage(local_quant_path):
     for api in KNOWN_JQ_CONTEXT_ATTRS:
         info = {"status": "MISSING", "file": "", "line": 0, "evidence": ""}
 
-        attr_name = api.split(".")[-1]
-        context_name = api.split(".")[1] if len(api.split(".")) > 2 else api.split(".")[0]
-
         if "current_dt" in api:
             line, ctx = _find_in_text(context_text, "current_dt")
             if line:
@@ -384,7 +402,6 @@ def check_local_quant_coverage(local_quant_path):
                 info["file"] = "engine/context.py"
                 info["line"] = line
                 info["evidence"] = ctx
-
         elif "previous_date" in api:
             line, ctx = _find_in_text(context_text, "previous_date")
             if line:
@@ -392,7 +409,6 @@ def check_local_quant_coverage(local_quant_path):
                 info["file"] = "engine/context.py"
                 info["line"] = line
                 info["evidence"] = ctx
-
         elif "positions" in api:
             line, ctx = _find_in_text(context_text, "positions")
             if line:
@@ -400,7 +416,6 @@ def check_local_quant_coverage(local_quant_path):
                 info["file"] = "engine/context.py"
                 info["line"] = line
                 info["evidence"] = ctx
-
         elif "total_value" in api:
             line, ctx = _find_in_text(context_text, "total_value")
             if line:
@@ -408,7 +423,6 @@ def check_local_quant_coverage(local_quant_path):
                 info["file"] = "engine/context.py"
                 info["line"] = line
                 info["evidence"] = ctx
-
         elif "available_cash" in api:
             line, ctx = _find_in_text(context_text, "available_cash")
             if line:
@@ -425,11 +439,9 @@ def check_local_quant_coverage(local_quant_path):
         attr_name = api.split(".")[-1]
 
         if attr_name == "value":
-            # 检查是否有 @property def value
-            line, ctx = _find_in_text(context_text, "def value")
+            line, ctx = _find_def(context_text, "value")
             found = False
             if line:
-                # 检查前面的行是否有 @property
                 lines = context_text.split("\n")
                 if line >= 2 and "@property" in lines[line - 2]:
                     info["status"] = "PASS"
@@ -440,7 +452,9 @@ def check_local_quant_coverage(local_quant_path):
                 info["status"] = "MISSING"
                 info["evidence"] = "position.value not implemented as property"
         else:
-            line, ctx = _find_in_text(context_text, attr_name)
+            line, ctx = _find_in_text(context_text, "self." + attr_name)
+            if line is None:
+                line, ctx = _find_in_text(context_text, "." + attr_name + " ")
             if line:
                 info["status"] = "PASS"
                 info["line"] = line
@@ -475,7 +489,6 @@ def check_local_quant_coverage(local_quant_path):
         field = parts[1]
 
         if table in ("valuation", "indicator"):
-            # core.py 中创建 JQField
             line, ctx = _find_in_text(core_text, "'" + field + "'")
             if line is None:
                 line, ctx = _find_in_text(core_text, '"' + field + '"')
@@ -488,7 +501,6 @@ def check_local_quant_coverage(local_quant_path):
                 info["status"] = "MISSING"
 
         elif table in ("cash_flow", "balance"):
-            # 检查是否有对应的 JQTable / JQField 创建
             line, _ = _find_in_text(core_text, table)
             if line:
                 info["status"] = "PARTIAL"
@@ -509,28 +521,71 @@ def check_local_quant_coverage(local_quant_path):
 
         cov[api] = info
 
-    # ── 日志 ──
-    for api in KNOWN_JQ_OTHERS:
-        info = {"status": "MISSING", "file": "", "line": 0, "evidence": ""}
+    # ── 日志 — 必须分别精确检测每个方法 ──
+    # log.info → def info(self, msg)
+    line, ctx = _find_def(core_text, "info")
+    cov["log.info"] = {
+        "status": "PASS" if line else "MISSING",
+        "file": "engine/core.py" if line else "",
+        "line": line or 0,
+        "evidence": ctx if line else "def info not found in core.py",
+    }
 
-        if "log.info" in api or "log.warn" in api:
-            line, ctx = _find_in_text(core_text, "def info")
-            if line:
-                info["status"] = "PASS"
-                info["file"] = "engine/core.py"
-                info["line"] = line
-                info["evidence"] = ctx
+    # log.warning → def warning(self, msg)
+    line, ctx = _find_def(core_text, "warning")
+    cov["log.warning"] = {
+        "status": "PASS" if line else "MISSING",
+        "file": "engine/core.py" if line else "",
+        "line": line or 0,
+        "evidence": ctx if line else "def warning not found in core.py",
+    }
 
-        cov[api] = info
+    # log.warn → def warn(self, msg)
+    line, ctx = _find_def(core_text, "warn")
+    if line is None:
+        # 也可能存在别名
+        line, ctx = _find_in_text(core_text, ".warn")
+    cov["log.warn"] = {
+        "status": "MISSING" if line is None else "PASS",
+        "file": "engine/core.py" if line else "",
+        "line": line or 0,
+        "evidence": ctx if line else "def warn not found in core.py; log.warn is NOT an alias of log.warning",
+    }
 
     return cov
+
+
+def run_semantic_checks(local_quant_path):
+    """运行时语义探针 — 尝试导入确认 static 无法确认的项目。
+
+    注意：local_quant 初始化需要 HDATA_ROOT 等环境变量，因此失败不代表问题。
+    """
+    results = {}
+    lq_path = Path(local_quant_path)
+    sys.path.insert(0, str(lq_path))
+
+    try:
+        from engine.context import Position, Portfolio
+        pos = Position("000001.SZ", 10.0, 100)
+        has_value_property = isinstance(getattr(type(pos), 'value', None), property)
+        results["position_value_property"] = {
+            "status": "PASS" if has_value_property else "FAIL",
+            "detail": "position.value is a @property" if has_value_property else "no @property value",
+        }
+    except ImportError as e:
+        results["position_value_property"] = {
+            "status": "SKIPPED", "detail": "import error (expected in non-engine context): %s" % str(e)
+        }
+    except Exception as e:
+        results["position_value_property"] = {"status": "SKIPPED", "detail": str(e)}
+
+    return results
 
 
 # ─── 输出 ──────────────────────────────────────────────────────────────
 
 
 def print_table(coverage):
-    """打印控制台表格。"""
     headers = ["API", "Status", "File", "Line", "Evidence"]
     col_widths = [30, 10, 30, 6, 60]
 
@@ -563,7 +618,7 @@ def main():
     parser.add_argument(
         "--local-quant-path",
         default=None,
-        help="local_quant 框架路径（默认 ../local_quant）",
+        help="local_quant 框架路径",
     )
     parser.add_argument(
         "--output",
@@ -594,22 +649,12 @@ def main():
     strategy_sha256 = sha256.hexdigest()
 
     # 定位 local_quant
-    if args.local_quant_path:
-        lq_path = Path(args.local_quant_path)
-    else:
-        lq_path = Path.cwd().parent / "local_quant"
-
-    if not lq_path.exists():
-        print("ERROR: local_quant 不存在: %s" % lq_path, file=sys.stderr)
-        sys.exit(1)
+    lq_path = resolve_local_quant_path(args.local_quant_path)
 
     engine_init = lq_path / "engine" / "__init__.py"
     if not engine_init.exists():
         print("ERROR: local_quant engine 不存在: %s" % engine_init, file=sys.stderr)
         sys.exit(1)
-
-    # 检查 local_quant git 状态
-    import subprocess
 
     def git_cmd(*args):
         try:
@@ -631,16 +676,20 @@ def main():
     # 检查 local_quant 覆盖
     coverage = check_local_quant_coverage(str(lq_path))
 
-    # 统计
+    # 语义探针
+    semantic_checks = run_semantic_checks(str(lq_path))
+
+    # 统计 — 严格基于 coverage 字典
     pass_count = sum(1 for v in coverage.values() if v["status"] == "PASS")
     partial_count = sum(1 for v in coverage.values() if v["status"] == "PARTIAL")
     missing_count = sum(1 for v in coverage.values() if v["status"] == "MISSING")
     unknown_count = sum(1 for v in coverage.values() if v["status"] == "UNKNOWN")
+    total_items = len(coverage)
 
     # 检查关键缺失
     critical_missing = [
         api for api, info in coverage.items()
-        if info["status"] in ("MISSING",) and api in CRITICAL_APIS
+        if info["status"] == "MISSING" and api in CRITICAL_APIS
     ]
     critical_partial = [
         api for api, info in coverage.items()
@@ -663,9 +712,10 @@ def main():
     print("─" * 80)
     print("依赖提取（从策略 AST）")
     print("─" * 80)
+    print("AST 提取项: %d" % len(deps))
     print("匹配到已知 API: %d" % len(known_matched))
     if unmatched:
-        print("未匹配项: %s" % ", ".join(sorted(unmatched)[:20]))
+        print("未匹配项: %s" % ", ".join(sorted(unmatched)[:30]))
     print()
 
     print("─" * 80)
@@ -675,13 +725,20 @@ def main():
     print()
 
     print("─" * 80)
+    print("语义探针")
+    print("─" * 80)
+    for check, result in semantic_checks.items():
+        print("  %s: %s — %s" % (check, result["status"], result.get("detail", "")))
+    print()
+
+    print("─" * 80)
     print("统计")
     print("─" * 80)
     print("  PASS:    %d" % pass_count)
     print("  PARTIAL: %d" % partial_count)
     print("  MISSING: %d" % missing_count)
     print("  UNKNOWN: %d" % unknown_count)
-    print("  合计:    %d" % len(coverage))
+    print("  合计:    %d" % total_items)
     print()
     print("关键缺失 (MISSING): %s" % ", ".join(critical_missing) if critical_missing else "无")
     print("关键 PARTIAL: %s" % ", ".join(critical_partial) if critical_partial else "无")
@@ -695,13 +752,17 @@ def main():
         "local_quant_branch": lq_branch,
         "local_quant_commit": lq_commit,
         "local_quant_remote": lq_remote,
+        "extracted_dependencies": sorted(deps),
+        "matched_dependencies": sorted(known_matched),
+        "unmatched_dependencies": sorted(unmatched),
         "coverage": coverage,
+        "semantic_checks": semantic_checks,
         "stats": {
             "PASS": pass_count,
             "PARTIAL": partial_count,
             "MISSING": missing_count,
             "UNKNOWN": unknown_count,
-            "total": len(coverage),
+            "total": total_items,
         },
         "critical_missing": critical_missing,
         "critical_partial": critical_partial,
