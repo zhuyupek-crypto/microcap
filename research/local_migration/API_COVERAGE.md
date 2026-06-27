@@ -379,7 +379,7 @@
 | `get_current_data()` 返回的价格是开盘价/最新价/还是模拟值 | 第102行 | `last_price` = `get_current_price()` → 日频时为昨日收盘价，盘中使用当前分钟的最新价 | **PASS** | 实证验证(2024-01-03, 000001.XSHE): last_price=9.19=当日开盘价(9.19)≠前收盘(9.21)。09:30正确返回开盘价 |
 | 涨跌停状态是否为当日真实限制价 | 第322行 | `high_limit`/`low_limit` 来自日线快照的 `high_limit`/`low_limit` | **PASS** | 数据源正确 |
 | 停牌和ST是否为当日状态 | 第320行 | `paused` 从日线快照推断；`is_st` 按日期查询 | **PASS** | 逻辑正确 |
-| 是否使用了当天收盘后才知道的数据 | — | `_patch_lookahead_data` 尝试修正get_price的lookahead问题 | **PARTIAL** | 补丁覆盖 `panel=False` 的多股票情况，单股票情况且指定fields时是否覆盖需验证 |
+| 是否使用了当天收盘后才知道的数据 | — | `_patch_lookahead_data` 尝试修正get_price的lookahead问题。本策略实际使用的日线 `previous_date` 路径和14:00分钟路径已分别验证 | **PASS** | 通用补丁覆盖 `panel=False` 的多股票情况，本策略不依赖该补丁；日线通过 `previous_date` 拦截未来数据，分钟线通过 `searchsorted` 拦截未来数据 |
 
 ### 8.4 14:00语义
 

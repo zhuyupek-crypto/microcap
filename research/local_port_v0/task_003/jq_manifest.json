@@ -1,0 +1,40 @@
+{
+  "task_id": "TASK-MICROCAP-003A",
+  "generated_at": "2026-06-27T19:01:19.055936",
+  "repository": "zhuyupek-crypto/microcap",
+  "branch": "research/local-port-v0",
+  "base_commit": "3088fc0cdcf69d628088e0f2aece4772eb071a4c",
+  "strategy_file": "D:\\Work Space\\他山之石\\微盘股\\微盘股-母版-20260627.py",
+  "strategy_sha256": "F363464FA55218C5B721D9286449C99A0C9ACC097524B6F5F3DB89A13AF151D6",
+  "input_files": [
+    {
+      "filepath": "D:\\Work Space\\他山之石\\微盘股\\母版交易记录-20260501-20260623.txt",
+      "filename": "母版交易记录-20260501-20260623.txt",
+      "size_bytes": 11030,
+      "sha256": "A7F3513859D3F11CBD9D06EB064246E88E1953D3B27F7B7BC54873550B383DE5",
+      "total_lines": 142,
+      "non_empty_lines": 122,
+      "empty_lines": 20
+    },
+    {
+      "filepath": "D:\\Work Space\\他山之石\\微盘股\\母版持仓&资金记录-20260501-20260623.txt",
+      "filename": "母版持仓&资金记录-20260501-20260623.txt",
+      "size_bytes": 28885,
+      "sha256": "FB7BE7DC04A2D4119B8D814A7B69E9F1033616D31AFF3D2E94888C8A8B93A5B3",
+      "total_lines": 547,
+      "non_empty_lines": 547,
+      "empty_lines": 0
+    }
+  ],
+  "parser_version": "1.0.0",
+  "normalization_rules": {
+    "code_format": "normalized to XSHG/XSHE suffix",
+    "date_format": "YYYY-MM-DD",
+    "time_format": "HH:MM:SS",
+    "amount_format": "decimal without thousand separators",
+    "quantity_format": "integer (shares)",
+    "side_format": "buy/sell (derived from quantity sign or side column)",
+    "encoding": "UTF-8 without BOM"
+  },
+  "known_limitations": []
+}
