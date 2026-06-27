@@ -1,6 +1,6 @@
 # 迁移缺口报告
 
-> 策略基线：`8290ca3` | local_quant HEAD：`64cae09` (TASK-002C) | 开放P0=0 P1=0 P2=3
+> 策略基线：`8290ca3` | 核心代码验收提交：`e97c857` | 开放P0=0 P1=0 P2=3 | 最终交付：本文件所在提交
 
 ---
 
@@ -11,8 +11,9 @@
 | 项目 | 内容 |
 |---|---|
 | 编号 | ~~GAP-012~~ |
-| 优先级 | ~~P0~~ → **已关闭** |
-| 修复 | `engine/core.py` Engine 添加 `warn(self, msg): return self.warning(msg)` |
+| 原优先级 | ~~P0~~ |
+| 修复位置 | `engine/core.py` Engine 添加 `warn(self, msg): return self.warning(msg)` |
+| 关闭证据 | 专线测试 test_log_warn_delegates_to_warning 通过：warn(\"test\")→warning(\"test\") 转发正确，返回值和日志输出均匹配 |
 | 关闭日期 | TASK-MICROCAP-002 |
 
 ---
@@ -24,8 +25,9 @@
 | 项目 | 内容 |
 |---|---|
 | 编号 | ~~GAP-001~~ |
-| 优先级 | ~~P0~~ → **已关闭** |
-| 修复 | `engine/context.py` Position 类添加 `@property def value(self): return self.price * self.total_amount` |
+| 原优先级 | ~~P0~~ |
+| 修复位置 | `engine/context.py` Position 类添加 `@property def value(self): return self.price * self.total_amount` |
+| 关闭证据 | 专项测试 test_position_value_property 通过；price/total_amount 变化后 value 自动反映；调仓代码可直接读取当前持仓市值 |
 | 关闭日期 | TASK-MICROCAP-002 |
 
 ### ~~GAP-002：`cash_flow.net_operate_cash_flow` 表缺失~~ **已关闭**
@@ -33,8 +35,9 @@
 | 项目 | 内容 |
 |---|---|
 | 编号 | ~~GAP-002~~ |
-| 优先级 | ~~P0~~ → **已关闭** |
-| 修复 | `engine/core.py` namespace 添加 `cash_flow`；`engine/data_api.py` PIT读取 `cashflow.parquet` 的 `n_cashflow_act` → `net_operate_cash_flow` |
+| 原优先级 | ~~P0~~ |
+| 修复位置 | `engine/core.py` namespace 添加 `cash_flow`；`engine/data_api.py` PIT读取 `cashflow.parquet` 的 `n_cashflow_act` → `net_operate_cash_flow` |
+| 关闭证据 | PIT实证：000001.XSHE, 2023年报, release=2024-04-20, before=-23469M, on=-21382M；缺文件和缺字段测试均硬失败 |
 | 关闭日期 | TASK-MICROCAP-002 |
 
 ### ~~GAP-003：`balance.total_liability` 表缺失~~ **已关闭**
@@ -42,8 +45,9 @@
 | 项目 | 内容 |
 |---|---|
 | 编号 | ~~GAP-003~~ |
-| 优先级 | ~~P0~~ → **已关闭** |
-| 修复 | `engine/core.py` namespace 添加 `balance`；`engine/data_api.py` PIT读取 `balance.parquet` 的 `total_liab` → `total_liability` |
+| 原优先级 | ~~P0~~ |
+| 修复位置 | `engine/core.py` namespace 添加 `balance`；`engine/data_api.py` PIT读取 `balance.parquet` 的 `total_liab` → `total_liability` |
+| 关闭证据 | PIT实证：000001.XSHE, 2023年报, release=2024-04-20, before liab=5114B, on liab=5243B；缺文件测试硬失败 |
 | 关闭日期 | TASK-MICROCAP-002 |
 
 ### ~~GAP-004：`balance.total_assets` 表缺失~~ **已关闭**
@@ -51,8 +55,9 @@
 | 项目 | 内容 |
 |---|---|
 | 编号 | ~~GAP-004~~ |
-| 优先级 | ~~P0~~ → **已关闭** |
-| 修复 | 同 GAP-003；`balance.parquet` 的 `total_assets` 读取 |
+| 原优先级 | ~~P0~~ |
+| 修复位置 | `engine/core.py` namespace 添加 `balance`；`engine/data_api.py` PIT读取 `balance.parquet` 的 `total_assets` |
+| 关闭证据 | PIT实证：000001.XSHE, 2023年报, release=2024-04-20, before assets=5587B, on assets=5729B；缺字段测试硬失败 |
 | 关闭日期 | TASK-MICROCAP-002 |
 
 ---

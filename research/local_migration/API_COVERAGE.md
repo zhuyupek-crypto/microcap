@@ -1,6 +1,6 @@
 # 聚宽API依赖清单与local_quant覆盖分析
 
-> 策略基线：`8290ca3` | local_quant分支：`task/microcap-compat-v1` | local_quant HEAD：`64cae09` (TASK-002C)
+> 策略基线：`8290ca3` | local_quant分支：`task/microcap-compat-v1` | 核心代码验收提交：`e97c857`
 
 状态说明：
 - **PASS**：已实现，且语义证据充分
@@ -129,10 +129,11 @@
 |---|---|
 | 策略位置 | 第91-97行（市值查询）、第145-152行（财务风险过滤单个）、第176-183行（财务风险过滤批量） |
 | local_quant文件 | `engine/data_api.py:1572-1596` |
-| 实现 | 按 `date` 查询 `stock_indicator` 和 `income` 数据，同时PIT读取 `cashflow`/`balance`/`fina_indicator`。市值映射为 `total_mv/1e8` |
-| 状态 | **PARTIAL** |
-| 证据 | PIT读取cash_flow/balance/fina_indicator全部已实现。数据来源于 `fundamental/cashflow.parquet`、`balance.parquet`，按f_ann_date过滤 |
-| 下任务修复 | **是（P0）** |
+| 实现 | 支持valuation、indicator、cash_flow、balance混合查询；cash_flow、balance、fina_indicator均按公告日进行PIT读取；请求字段缺失时硬失败 |
+| 状态 | **PASS** |
+| 证据 | 专项测试通过；现金流、资产负债表和ROE均具有before/on/after决定性断言；缺文件和缺字段测试均硬失败 |
+| 影响 | 正确 |
+| 下任务修复 | 否 |
 
 ---
 
@@ -176,22 +177,22 @@
 | 项目 | 内容 |
 |---|---|
 | 策略位置 | 第149、180行 |
-| local_quant文件 | — |
+| local_quant文件 | `engine/core.py`, `engine/data_api.py` |
 | 实现 | `JQField('cash_flow', 'net_operate_cash_flow')` + `_get_latest_cashflow` PIT读取 |
 | 状态 | **PASS** |
-| 证据 | 从 `fundamental/cashflow.parquet` 读取 `n_cashflow_act`，按 f_ann_date PIT过滤，映射为 net_operate_cash_flow |
-| 影响 | `get_fundamentals` 查询中引用 `cash_flow.net_operate_cash_flow` 时将抛出异常，被策略 `try/except` 捕获后默认通过风险过滤，导致尾部风险过滤静默失效 |
-| 下任务修复 | **是（P0）** |
+| 证据 | 从 `fundamental/cashflow.parquet` 读取 `n_cashflow_act`，按 f_ann_date PIT过滤，映射为 net_operate_cash_flow。PIT证据：release=2024-04-20，before=-23469M，on=-21382M |
+| 影响 | 正确 |
+| 下任务修复 | 否 |
 
 ### 15. `balance.total_liability`
 
 | 项目 | 内容 |
 |---|---|
 | 策略位置 | 第150、181行 |
-| local_quant文件 | — |
+| local_quant文件 | `engine/core.py`, `engine/data_api.py` |
 | 实现 | `JQField('balance', 'total_liability')` + `_get_latest_balance` PIT读取 |
 | 状态 | **PASS** |
-| 证据 | 从 `fundamental/balance.parquet` 读取 `total_liab`，按 f_ann_date PIT过滤，映射为 total_liability |
+| 证据 | 从 `fundamental/balance.parquet` 读取 `total_liab`，按 f_ann_date PIT过滤，映射为 total_liability。PIT证据：release=2024-04-20，before liab=5114B，on liab=5243B |
 | 影响 | 正确 |
 | 下任务修复 | 否 |
 
@@ -200,10 +201,10 @@
 | 项目 | 内容 |
 |---|---|
 | 策略位置 | 第150、181行 |
-| local_quant文件 | engine/data_api.py |
+| local_quant文件 | `engine/core.py`, `engine/data_api.py` |
 | 实现 | `JQField('balance', 'total_assets')` + `_get_latest_balance` PIT读取 |
 | 状态 | **PASS** |
-| 证据 | 从 `fundamental/balance.parquet` 读取 `total_assets`，按 f_ann_date PIT过滤 |
+| 证据 | 从 `fundamental/balance.parquet` 读取 `total_assets`，按 f_ann_date PIT过滤。PIT证据：release=2024-04-20，before assets=5587B，on assets=5729B |
 | 影响 | 正确 |
 | 下任务修复 | 否 |
 
@@ -292,12 +293,12 @@
 | 项目 | 内容 |
 |---|---|
 | 策略位置 | 第231行：`context.portfolio.positions[stock].value`、第239行 |
-| local_quant文件 | — |
+| local_quant文件 | `engine/context.py` |
 | 实现 | `context.py` Position 类添加 `@property def value(self): return self.price * self.total_amount` |
 | 状态 | **PASS** |
 | 证据 | Position.value 作为 @property 实现。价格/数量变化后自动反映 |
-| 影响 | 策略第231行 `context.portfolio.positions[stock].value` 将抛出 `AttributeError`，导致调仓异常中断 |
-| 下任务修复 | **是（P0）** |
+| 影响 | 正确；调仓代码可直接读取当前持仓市值 |
+| 下任务修复 | 否 |
 
 ---
 
@@ -340,7 +341,7 @@
 | 策略位置 | 第44-46行（is_defensive_asset检查）、第222-223行（调仓跳过ETF） |
 | local_quant文件 | `core.py` 的 `_get_instrument_type` 方法 |
 | 实现 | 可通过instrument type区分股票和ETF |
-| 状态 | **PARTIAL** |
+| 状态 | **PASS** |
 | 证据 | 策略使用 `stock in g.defensive_etfs` 硬编码列表判断，不依赖instrument type判断。local_quant在order中区分 `stock`/`etf`/`bond`，不影响策略逻辑 |
 | 影响 | 无直接影响 |
 | 下任务修复 | 否 |
@@ -357,19 +358,19 @@
 | ST状态是否按历史日期读取 | 第128行 | 从ST parquet按date查询 | **PASS** | 数据来自 `1d_feature/st_list/{year}.parquet`，按年存储的每日ST列表 |
 | 上市日期是否历史正确 | 第121行 | 从 `stock_basic.parquet` 的 `start_date` 读取 | **PASS** | 静态数据，不会随时间变化 |
 | 市值是否为上一交易日可获得数据 | 第97行 | `get_fundamentals(date=data_date)` 按date查询 | **PASS** | `previous_date` 传参，避免当天数据 |
-| 财务字段是否按公告日可得 | 第152行 | `stock_indicator` 按date查询（无f_ann_date），`income` 使用 `f_ann_date` | **PARTIAL** | 见下方详细分析 |
+| 财务字段是否按公告日可得 | 第152行 | `stock_indicator` 按date查询（无f_ann_date，用date替代已验证正确），`income`/`cash_flow`/`balance` 使用 `f_ann_date` | **PASS** | 实证验证：ROE公告日前后值变化（before=8.80, on=10.24）；现金流和资产负债表均有before/on/after决定性断言 |
 
 ### 8.2 财务数据公告日语义 — 详细分析
 
 | 项目 | 内容 |
 |---|---|
 | 策略使用 | `get_fundamentals(q, date=data_date)` 获取 `roe`、`net_operate_cash_flow`、`total_liability`、`total_assets` |
-| local_quant实现 | — `data_api.py:1572-1596` 对 `stock_indicator` 使用 `1d_feature/stock_indicator/{date}.parquet` 按日期直接查询，**不使用`f_ann_date`** |
-| | — `income` 数据使用 `f_ann_date` 过滤，正确避免未来数据 |
-| 潜在问题 | `stock_indicator` 中的 `roe` 字段可能包含未来数据（如在4月30日就能看到尚未披露的一季报数据）。local_quant直接按日期读取，不做 `f_ann_date` 过滤 |
-| 影响 | ROE可能使用了在实际公告日前不可得的数据，导致尾部风险过滤的决策基于未来信息 |
-| 状态 | **PARTIAL** |
-| 下任务修复 | **是（P0/P1）** — 如果ROE数据包含未来信息，风险过滤将基于未来数据，导致选股偏差 |
+| local_quant实现 | — `data_api.py:1572-1596` 对 `stock_indicator` 使用 `1d_feature/stock_indicator/{date}.parquet` 按日期直接查询。`fina_indicator` 无 `f_ann_date`，用 `date` 字段替代已验证正确 |
+| | — `income`、`cash_flow`、`balance` 数据使用 `f_ann_date` 过滤，正确避免未来数据 |
+| 实证证据 | 000001.XSHE 2023年报(20231231) ROE：release=2024-03-15，before(03-14)=8.80，on(03-15)=10.24。新ROE仅在公告日后可见。cashflow和balance均使用f_ann_date PIT过滤，before/on/after决定性断言全部通过 |
+| 影响 | 正确，无未来数据泄漏 |
+| 状态 | **PASS** |
+| 下任务修复 | 否 |
 
 ### 8.3 09:30语义
 
