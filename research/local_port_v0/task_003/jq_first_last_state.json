@@ -1,0 +1,208 @@
+{
+  "first": {
+    "date": "2026-05-06",
+    "cash": 805259.0,
+    "total_asset": 1001161.0,
+    "position_market_value": 195902.0,
+    "num_positions": 10,
+    "positions": [
+      {
+        "code": "300665.XSHE",
+        "name": "飞鹿股份",
+        "quantity": 2300,
+        "price": 8.81,
+        "market_value": 20263.0,
+        "pnl": 483.0
+      },
+      {
+        "code": "301098.XSHE",
+        "name": "金埔园林",
+        "quantity": 2000,
+        "price": 9.64,
+        "market_value": 19280.0,
+        "pnl": 20.0
+      },
+      {
+        "code": "300405.XSHE",
+        "name": "科隆股份",
+        "quantity": 2800,
+        "price": 7.18,
+        "market_value": 20104.0,
+        "pnl": 336.0
+      },
+      {
+        "code": "600561.XSHG",
+        "name": "江西长运",
+        "quantity": 2800,
+        "price": 6.99,
+        "market_value": 19572.0,
+        "pnl": -224.0
+      },
+      {
+        "code": "600697.XSHG",
+        "name": "欧亚集团",
+        "quantity": 1500,
+        "price": 12.7,
+        "market_value": 19050.0,
+        "pnl": 90.0
+      },
+      {
+        "code": "301167.XSHE",
+        "name": "建研设计",
+        "quantity": 1100,
+        "price": 17.95,
+        "market_value": 19745.0,
+        "pnl": 165.0
+      },
+      {
+        "code": "300500.XSHE",
+        "name": "启迪设计",
+        "quantity": 1600,
+        "price": 11.88,
+        "market_value": 19008.0,
+        "pnl": -48.0
+      },
+      {
+        "code": "600455.XSHG",
+        "name": "博通股份",
+        "quantity": 700,
+        "price": 28.71,
+        "market_value": 20097.0,
+        "pnl": 147.0
+      },
+      {
+        "code": "300417.XSHE",
+        "name": "南华仪器",
+        "quantity": 1400,
+        "price": 14.47,
+        "market_value": 20258.0,
+        "pnl": 294.0
+      },
+      {
+        "code": "300929.XSHE",
+        "name": "华骐环保",
+        "quantity": 1300,
+        "price": 14.25,
+        "market_value": 18525.0,
+        "pnl": -52.0
+      }
+    ],
+    "snapshot_time_known": false,
+    "snapshot_type": "SNAPSHOT_TIME_UNKNOWN"
+  },
+  "last": {
+    "date": "2026-06-24",
+    "cash": 1429.06,
+    "total_asset": 788859.06,
+    "position_market_value": 787430.0,
+    "num_positions": 13,
+    "positions": [
+      {
+        "code": "301098.XSHE",
+        "name": "金埔园林",
+        "quantity": 1900,
+        "price": 9.03,
+        "market_value": 17157.0,
+        "pnl": -2092.18
+      },
+      {
+        "code": "300535.XSHE",
+        "name": "达威股份",
+        "quantity": 5500,
+        "price": 14.42,
+        "market_value": 79310.0,
+        "pnl": -17612.77
+      },
+      {
+        "code": "300405.XSHE",
+        "name": "科隆股份",
+        "quantity": 14000,
+        "price": 5.53,
+        "market_value": 77420.0,
+        "pnl": -9973.85
+      },
+      {
+        "code": "600561.XSHG",
+        "name": "江西长运",
+        "quantity": 15000,
+        "price": 5.2,
+        "market_value": 78000.0,
+        "pnl": -25936.0
+      },
+      {
+        "code": "603879.XSHG",
+        "name": "永悦科技",
+        "quantity": 7100,
+        "price": 4.53,
+        "market_value": 32163.0,
+        "pnl": -3989.35
+      },
+      {
+        "code": "600697.XSHG",
+        "name": "欧亚集团",
+        "quantity": 4700,
+        "price": 10.13,
+        "market_value": 47611.0,
+        "pnl": -7659.05
+      },
+      {
+        "code": "300605.XSHE",
+        "name": "恒锋信息",
+        "quantity": 3200,
+        "price": 9.84,
+        "market_value": 31488.0,
+        "pnl": -3448.0
+      },
+      {
+        "code": "301167.XSHE",
+        "name": "建研设计",
+        "quantity": 6000,
+        "price": 13.12,
+        "market_value": 78720.0,
+        "pnl": -25328.0
+      },
+      {
+        "code": "600455.XSHG",
+        "name": "博通股份",
+        "quantity": 3400,
+        "price": 22.65,
+        "market_value": 77010.0,
+        "pnl": -21441.0
+      },
+      {
+        "code": "300417.XSHE",
+        "name": "南华仪器",
+        "quantity": 7300,
+        "price": 10.84,
+        "market_value": 79132.0,
+        "pnl": -23075.17
+      },
+      {
+        "code": "300929.XSHE",
+        "name": "华骐环保",
+        "quantity": 7300,
+        "price": 10.97,
+        "market_value": 80081.0,
+        "pnl": -22118.03
+      },
+      {
+        "code": "300886.XSHE",
+        "name": "华业香料",
+        "quantity": 1500,
+        "price": 20.91,
+        "market_value": 31365.0,
+        "pnl": -3263.0
+      },
+      {
+        "code": "600493.XSHG",
+        "name": "凤竹纺织",
+        "quantity": 14100,
+        "price": 5.53,
+        "market_value": 77973.0,
+        "pnl": -23652.61
+      }
+    ],
+    "snapshot_time_known": false,
+    "snapshot_type": "SNAPSHOT_TIME_UNKNOWN"
+  }
+}

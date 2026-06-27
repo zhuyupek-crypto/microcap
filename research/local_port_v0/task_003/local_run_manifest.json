@@ -1,0 +1,123 @@
+{
+  "run_type": "NON_AUTHORITATIVE_DIAGNOSTIC_RUN",
+  "run_timestamp": "2026-06-27T20:47:21.672238",
+  "strategy_sha256": "F363464FA55218C5B721D9286449C99A0C9ACC097524B6F5F3DB89A13AF151D6",
+  "initial_cash": 1000000,
+  "initial_cash_source": "FROM_ENGINE_DEFAULT (strong indirect evidence from all prior runs)",
+  "start_date": "2026-05-06",
+  "end_date": "2026-06-24",
+  "frequency": "daily",
+  "trading_days": 35,
+  "fills": 58,
+  "orders_submitted": 0,
+  "orders_rejected": 0,
+  "orders_open": 0,
+  "ending_cash": 4113.340000000026,
+  "ending_total_value": 935373.3400000001,
+  "ending_positions": {
+    "301098.XSHE": {
+      "amount": 9400,
+      "price": 10.27,
+      "value": 96538.0
+    },
+    "600455.XSHG": {
+      "amount": 3300,
+      "price": 27.48,
+      "value": 90684.0
+    },
+    "300665.XSHE": {
+      "amount": 6200,
+      "price": 9.5,
+      "value": 58900.0
+    },
+    "300929.XSHE": {
+      "amount": 7300,
+      "price": 12.7,
+      "value": 92710.0
+    },
+    "300417.XSHE": {
+      "amount": 6700,
+      "price": 13.75,
+      "value": 92125.0
+    },
+    "300405.XSHE": {
+      "amount": 8400,
+      "price": 6.77,
+      "value": 56868.0
+    },
+    "600561.XSHG": {
+      "amount": 14600,
+      "price": 6.27,
+      "value": 91542.0
+    },
+    "301167.XSHE": {
+      "amount": 5900,
+      "price": 15.66,
+      "value": 92394.0
+    },
+    "600697.XSHG": {
+      "amount": 8100,
+      "price": 11.4,
+      "value": 92340.0
+    },
+    "300500.XSHE": {
+      "amount": 1600,
+      "price": 11.14,
+      "value": 17824.0
+    },
+    "600493.XSHG": {
+      "amount": 11200,
+      "price": 6.7,
+      "value": 75040.0
+    },
+    "300535.XSHE": {
+      "amount": 3300,
+      "price": 16.83,
+      "value": 55538.99999999999
+    },
+    "603879.XSHG": {
+      "amount": 3600,
+      "price": 5.21,
+      "value": 18756.0
+    }
+  },
+  "local_quant_branch": "task/microcap-compat-v1",
+  "local_quant_commit": "2ff7d76538d301452fdb5e243de2ae4e27abe251",
+  "microcap_branch": "(unknown)",
+  "microcap_commit": "(unknown)",
+  "run_summary": {
+    "total_days": 35,
+    "days_perfect_parity": 22,
+    "days_divergent": 13,
+    "first_divergent_date": "2026-06-05",
+    "fill_count_jq": 112,
+    "fill_count_local": 58,
+    "fill_count_matched": 58,
+    "fill_count_missing": 54,
+    "rejected_sells": 219,
+    "first_day_match": "EXACT (cash=805259, total=1001161)",
+    "last_day_jq": {
+      "cash": 1429.06,
+      "total": 788859.06
+    },
+    "last_day_local": {
+      "cash": 4113.34,
+      "total": 935373.34
+    },
+    "strategy_verified": "Strategy SHA unchanged, buy-side identical through day 11"
+  },
+  "divergence_analysis": {
+    "data_source": "HData (local) vs JQ (remote)",
+    "primary_root_cause": "HData and JQ financial fundamentals and market data differ, causing stock selection & rotation decisions to diverge after ~3 weeks",
+    "secondary_root_cause": "Limit-down detection in local engine prevented 14:00 sell execution on many dates (54 rejected sell attempts)",
+    "impact": "Local portfolio becomes frozen from 2026-06-05 onwards - no rebalancing occurs; JQ portfolio continues to trade",
+    "potential_fixes": [
+      "Align financial fundamentals (fina_indicator) between HData and JQ",
+      "Remove/relax limit-down detection for parity runs",
+      "Use JQ data directly instead of HData for parity testing"
+    ]
+  },
+  "task_003c_recommendation": "SIGNAL_PARITY_REQUIRES_DATA_ALIGNMENT - strategy logic verified identical; HData vs JQ data differences cause divergence after ~3 weeks",
+  "run_status": "COMPLETE",
+  "verification_timestamp": "2026-06-27T20:49:55.149967"
+}
