@@ -1,0 +1,256 @@
+{
+  "strategy_file": "D:\\Work Space\\他山之石\\微盘股\\微盘股-母版-20260627.py",
+  "strategy_sha256": "f363464fa55218c5b721d9286449c99a0c9acc097524b6f5f3db89a13af151d6",
+  "local_quant_path": "D:\\Work Space\\local_quant",
+  "local_quant_branch": "task/qixing-engine-performance",
+  "local_quant_commit": "2a3167efd1dbbe6a2cf7a51391fa33762fe2f1df",
+  "local_quant_remote": "https://github.com/zhuyupek-crypto/local_quant",
+  "coverage": {
+    "set_benchmark": {
+      "status": "PARTIAL",
+      "file": "engine/core.py",
+      "line": 199,
+      "evidence": "lambda x: None (no-op)"
+    },
+    "set_option": {
+      "status": "PARTIAL",
+      "file": "engine/core.py",
+      "line": 807,
+      "evidence": "only processes order_volume_ratio key (line 125)"
+    },
+    "set_slippage": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 794,
+      "evidence": "def set_slippage(self, slippage, type='stock', ref=None):"
+    },
+    "FixedSlippage": {
+      "status": "PASS",
+      "file": "engine/order.py",
+      "line": 20,
+      "evidence": "class FixedSlippage:"
+    },
+    "set_order_cost": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 787,
+      "evidence": "def set_order_cost(self, cost, type='stock', ref=None):"
+    },
+    "OrderCost": {
+      "status": "PASS",
+      "file": "engine/order.py",
+      "line": 6,
+      "evidence": "class OrderCost:"
+    },
+    "run_daily": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1115,
+      "evidence": "def run_daily(self, func, time=\"09:30\"):"
+    },
+    "get_all_securities": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 1293,
+      "evidence": "def get_all_securities(self, types=None, date=None):"
+    },
+    "get_extras": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 1448,
+      "evidence": "def get_extras(self, label, security, start_date=None, end_date=None, **kwargs):"
+    },
+    "get_price": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 891,
+      "evidence": "def get_price(self, security, start_date=None, end_date=None, frequency='daily', fields=None, fq='pre', count=None, **kwargs):"
+    },
+    "get_fundamentals": {
+      "status": "PARTIAL",
+      "file": "engine/data_api.py",
+      "line": 1572,
+      "evidence": "PARTIAL: missing cash_flow and balance tables"
+    },
+    "get_current_data": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1362,
+      "evidence": "def get_current_data(self):"
+    },
+    "order_target": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 361,
+      "evidence": "def order_target(self, security, amount, style=None):"
+    },
+    "order_target_value": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 384,
+      "evidence": "def order_target_value(self, security, value, style=None):"
+    },
+    "context.current_dt": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 40,
+      "evidence": "self._current_dt = pd.to_datetime(start_date)"
+    },
+    "context.previous_date": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 41,
+      "evidence": "self.previous_date = None"
+    },
+    "context.portfolio.positions": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 18,
+      "evidence": "self.positions = {} # {code: Position}"
+    },
+    "context.portfolio.total_value": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 34,
+      "evidence": "def total_value(self):"
+    },
+    "context.portfolio.available_cash": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 17,
+      "evidence": "self.available_cash = cash"
+    },
+    "position.value": {
+      "status": "MISSING",
+      "file": "engine/context.py",
+      "line": 0,
+      "evidence": "position.value not implemented as property"
+    },
+    "position.total_amount": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 8,
+      "evidence": "self.total_amount = amount"
+    },
+    "position.closeable_amount": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 9,
+      "evidence": "self.closeable_amount = 0 # T+1 rule: bought today cannot be sold today"
+    },
+    "position.price": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 5,
+      "evidence": "def __init__(self, security, price, amount):"
+    },
+    "position.avg_cost": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 7,
+      "evidence": "self.avg_cost = price"
+    },
+    "current_data.paused": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 895,
+      "evidence": "paused = row.get(\"paused\", False)"
+    },
+    "current_data.is_st": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1385,
+      "evidence": "'is_st', code,"
+    },
+    "current_data.last_price": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1393,
+      "evidence": "'last_price': price,"
+    },
+    "current_data.high_limit": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 893,
+      "evidence": "high = round(float(row.get(\"high_limit\", 999999)), 2)"
+    },
+    "current_data.low_limit": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 894,
+      "evidence": "low = round(float(row.get(\"low_limit\", 0)), 2)"
+    },
+    "valuation.code": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 140,
+      "evidence": "'code': JQField('valuation', 'code'),"
+    },
+    "valuation.market_cap": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 141,
+      "evidence": "'market_cap': JQField('valuation', 'market_cap'),"
+    },
+    "indicator.roe": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 156,
+      "evidence": "'roe': JQField('indicator', 'roe'),"
+    },
+    "cash_flow.net_operate_cash_flow": {
+      "status": "MISSING",
+      "file": "",
+      "line": 0,
+      "evidence": "table 'cash_flow' not created in core.py JQField definitions"
+    },
+    "balance.total_liability": {
+      "status": "MISSING",
+      "file": "",
+      "line": 0,
+      "evidence": "table 'balance' not created in core.py JQField definitions"
+    },
+    "balance.total_assets": {
+      "status": "MISSING",
+      "file": "",
+      "line": 0,
+      "evidence": "table 'balance' not created in core.py JQField definitions"
+    },
+    "log.info": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1099,
+      "evidence": "def info(self, msg):"
+    },
+    "log.warn": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1099,
+      "evidence": "def info(self, msg):"
+    },
+    "log.warning": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1099,
+      "evidence": "def info(self, msg):"
+    }
+  },
+  "stats": {
+    "PASS": 31,
+    "PARTIAL": 3,
+    "MISSING": 4,
+    "UNKNOWN": 0,
+    "total": 38
+  },
+  "critical_missing": [
+    "position.value",
+    "cash_flow.net_operate_cash_flow",
+    "balance.total_liability",
+    "balance.total_assets"
+  ],
+  "critical_partial": [
+    "set_benchmark",
+    "set_option",
+    "get_fundamentals"
+  ]
+}

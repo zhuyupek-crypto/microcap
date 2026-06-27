@@ -1,0 +1,13 @@
+{
+  "strategy_repository": "zhuyupek-crypto/microcap",
+  "strategy_branch": "master",
+  "strategy_commit": "8290ca3b0368aa6496ac801ee02ae4456fea8987",
+  "strategy_file": "微盘股-母版-20260627.py",
+  "strategy_sha256": "f363464fa55218c5b721d9286449c99a0c9acc097524b6f5f3db89a13af151d6",
+  "local_quant_repository": "zhuyupek-crypto/local_quant",
+  "local_quant_branch": "task/qixing-engine-performance",
+  "local_quant_commit": "2a3167efd1dbbe6a2cf7a51391fa33762fe2f1df",
+  "python_version": "3.14.3",
+  "platform": "win32",
+  "generated_at": "2026-06-27T08:30:00+08:00"
+}
