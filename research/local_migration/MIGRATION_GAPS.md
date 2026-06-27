@@ -1,6 +1,6 @@
 # 迁移缺口报告
 
-> 策略基线：`8290ca3` | local_quant HEAD：`2a3167ef`
+> 策略基线：`8290ca3` | local_quant HEAD：`64cae09` (TASK-002C) | 开放P0=0 P1=0 P2=3
 
 ---
 
