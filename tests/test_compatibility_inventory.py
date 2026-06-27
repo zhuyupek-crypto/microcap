@@ -237,6 +237,18 @@ def test_set_benchmark_not_critical():
     assert "set_benchmark" not in cp, "set_benchmark 不应在 critical_partial 中"
 
 
+def test_non_blocking_partial_includes_set_benchmark():
+    """non_blocking_partial 应包含 set_benchmark。"""
+    data = json.loads(COMPAT_RESULT.read_text(encoding="utf-8"))
+    nbp = data.get("non_blocking_partial", [])
+    assert "set_benchmark" in nbp, (
+        "non_blocking_partial 应包含 set_benchmark，实际为 %s" % nbp
+    )
+    assert nbp == ["set_benchmark"], (
+        "non_blocking_partial 应为 ['set_benchmark']，实际为 %s" % nbp
+    )
+
+
 # ─── log 方法专项检查 ────────────────────────────────────────────────
 
 def test_log_warn_detected_as_missing():

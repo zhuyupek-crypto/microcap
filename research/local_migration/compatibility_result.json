@@ -459,5 +459,7 @@
     "set_option",
     "get_fundamentals"
   ],
-  "non_blocking_partial": []
+  "non_blocking_partial": [
+    "set_benchmark"
+  ]
 }

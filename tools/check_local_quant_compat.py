@@ -717,10 +717,10 @@ def main():
         api for api in critical_partial
         if api in BLOCKING_PARTIAL
     ]
-    non_blocking_partial = [
-        api for api in critical_partial
-        if api not in BLOCKING_PARTIAL
-    ]
+    non_blocking_partial = sorted([
+        api for api, info in coverage.items()
+        if info["status"] == "PARTIAL" and api not in BLOCKING_PARTIAL
+    ])
 
     print("=" * 80)
     print("微盘股策略 → local_quant 兼容性预检报告")

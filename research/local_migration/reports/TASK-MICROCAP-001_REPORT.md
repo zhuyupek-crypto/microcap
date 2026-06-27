@@ -1,12 +1,12 @@
-# TASK-MICROCAP-001 任务报告（修正版 TASK-MICROCAP-001A 生效）
+# TASK-MICROCAP-001 任务报告（修正版 TASK-MICROCAP-001B 生效）
 
-> 本报告已根据 TASK-MICROCAP-001A 纠偏要求更新。统计以 `compatibility_result.json` 为唯一数据源。
+> 本报告已根据 TASK-MICROCAP-001B 要求更新。统计以 `compatibility_result.json` 为唯一数据源。
 
 ## 1. 执行摘要
 
 本任务完成了微盘股策略（`微盘股-母版-20260627.py`）的基线冻结，并系统性地评估了将其迁移到 `local_quant` 框架所需的依赖覆盖情况。
 
-**修正后结论：local_quant 存在 5 个 P0 缺口（阻止正确运行）和 4 个 P1 缺口（可能导致结果偏差）**，无法在当前状态下直接运行策略。新增发现 `log.warn` 缺失（GAP-012），且与 `cash_flow`/`balance` 表缺失存在恶化交互：查询异常→except→`log.warn`→`AttributeError`→策略中断。
+**最终结论：local_quant 存在 5 个 P0 缺口（阻止正确运行）、2 个 P1 缺口（可能导致结果偏差）和 3 个 P2 缺口（影响实盘真实性）**，无法在当前状态下直接运行策略。GAP-005（09:30语义）和 GAP-008（ETF费用）经实证验证已关闭。
 
 ---
 
@@ -114,7 +114,6 @@
 
 - `get_price` 的前瞻数据补丁在单股票+指定 fields 情况下的完整覆盖
 - `stock_indicator` 数据中 `roe` 字段是否在历史截面中已包含未来信息
-- 09:30 价格语义在引擎实际运行时的行为（需要引擎初始化 + 环境变量 HDATA_ROOT）
 
 ---
 
@@ -184,8 +183,8 @@ tests/
 | 提交 | 信息 |
 |---|---|
 | `ab5cec4` | research: add microcap local migration preflight |
-| `0cadcc5` | research: correct microcap migration preflight audit |
-| (本次 001B) | research: finalize microcap migration preflight evidence |
+| `0cadcc593d4a0a9e0d3bba8717a8cf5eaab29157` | research: correct microcap migration preflight audit |
+| `35d7f844ac74a3346d4c3a451de97036357e11c4` | research: finalize microcap migration preflight evidence |
 
 ---
 
