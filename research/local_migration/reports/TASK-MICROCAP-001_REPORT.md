@@ -138,9 +138,9 @@ git push origin research/local-port-v0
 
 ```
 tests/test_baseline_immutable.py ........ 7/7 PASSED
-tests/test_compatibility_inventory.py .... 24/24 PASSED
+tests/test_compatibility_inventory.py .... 25/25 PASSED
 
-总计: 31 通过, 0 失败, 0 跳过
+总计: 32 通过, 0 失败, 0 跳过
 ```
 
 ### 测试覆盖清单
@@ -154,7 +154,7 @@ tests/test_compatibility_inventory.py .... 24/24 PASSED
 | `test_log_warn_detected_as_missing` | PASS | log.warn正确标记为MISSING |
 | `test_log_warning_detected_as_present` | PASS | log.warning正确标记为PASS |
 | `test_current_data_0930_last_price_uses_open` | PASS | 探针运行完成 |
-| `test_511880_uses_etf_cost_model` | PASS | ETF费用静态分析完成 |
+| `test_511880_uses_etf_cost_model` | PASS | 真实Engine费用路由验证完成 |
 | `test_minute_data_has_high_limit_for_check_limit_up` | PASS | 分钟数据high_limit验证完成 |
 
 ---
@@ -185,6 +185,7 @@ tests/
 | `ab5cec4` | research: add microcap local migration preflight |
 | `0cadcc593d4a0a9e0d3bba8717a8cf5eaab29157` | research: correct microcap migration preflight audit |
 | `35d7f844ac74a3346d4c3a451de97036357e11c4` | research: finalize microcap migration preflight evidence |
+| `f5597f5ad8deebc79b299666216e2f879e977054` | research: close microcap preflight 001B |
 
 ---
 
@@ -213,7 +214,7 @@ tests/
 | close_commission | 0.0001 | 0.0001 |
 | min_commission | 5 | **0** |
 
-**结论**：GAP-008已关闭。Engine._order_costs有独立'etf'条目，不受type='stock'设置影响。ET自动使用免印花税费用模型。
+**结论**：GAP-008已关闭。Engine._order_costs有独立'etf'条目，不受type='stock'设置影响。ETF自动使用免印花税费用模型。
 
 ### 分钟数据 high_limit 验证（`test_minute_data_has_high_limit_for_check_limit_up`）
 
@@ -236,7 +237,7 @@ tests/
 
 ## 14. 结论
 
-**本任务已满足 TASK-MICROCAP-001A 验收标准 A-D。**
+**本任务已满足 TASK-MICROCAP-001B 验收标准 A-D。**
 
 - 策略基线未修改（SHA-256 确认，git diff 干净）
 - local_quant 未修改
