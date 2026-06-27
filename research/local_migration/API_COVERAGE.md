@@ -131,8 +131,7 @@
 | local_quant文件 | `engine/data_api.py:1572-1596` |
 | 实现 | 按 `date` 查询 `stock_indicator` 和 `income` 数据，同时PIT读取 `cashflow`/`balance`/`fina_indicator`。市值映射为 `total_mv/1e8` |
 | 状态 | **PARTIAL** |
-| 证据 | 市值查询正确。但**`cash_flow` 和 `balance` 表缺失**（见下文查询表分析），策略在第149-150行查询 `cash_flow.net_operate_cash_flow` 和 `balance.total_liability`/`balance.total_assets` 将会失败 |
-| 影响 | 策略使用了 `cash_flow` 和 `balance` 表做风险过滤。在local_quant中这些表不存在，调用时会直接异常。但由于策略使用了 `try/except`（第153-154行），异常会被捕获并默认返回True（通过风险过滤），导致风险过滤**静默失效** |
+| 证据 | PIT读取cash_flow/balance/fina_indicator全部已实现。数据来源于 `fundamental/cashflow.parquet`、`balance.parquet`，按f_ann_date过滤 |
 | 下任务修复 | **是（P0）** |
 
 ---
@@ -178,9 +177,9 @@
 |---|---|
 | 策略位置 | 第149、180行 |
 | local_quant文件 | — |
-| 实现 | **未创建** |
-| 状态 | **MISSING** |
-| 证据 | `core.py:139-162` 中创建的 `JQField` 仅包含 `valuation`、`indicator`、`income` 三类表的字段。`cash_flow` 表及相关字段不存在于任何地方 |
+| 实现 | `JQField('cash_flow', 'net_operate_cash_flow')` + `_get_latest_cashflow` PIT读取 |
+| 状态 | **PASS** |
+| 证据 | 从 `fundamental/cashflow.parquet` 读取 `n_cashflow_act`，按 f_ann_date PIT过滤，映射为 net_operate_cash_flow |
 | 影响 | `get_fundamentals` 查询中引用 `cash_flow.net_operate_cash_flow` 时将抛出异常，被策略 `try/except` 捕获后默认通过风险过滤，导致尾部风险过滤静默失效 |
 | 下任务修复 | **是（P0）** |
 
@@ -190,23 +189,23 @@
 |---|---|
 | 策略位置 | 第150、181行 |
 | local_quant文件 | — |
-| 实现 | **未创建** |
-| 状态 | **MISSING** |
-| 证据 | 同 `cash_flow`，`balance` 表不存在 |
-| 影响 | 同 `cash_flow`，风险过滤静默失效。且 `total_liability` 是计算资产负债率的必要字段 |
-| 下任务修复 | **是（P0）** |
+| 实现 | `JQField('balance', 'total_liability')` + `_get_latest_balance` PIT读取 |
+| 状态 | **PASS** |
+| 证据 | 从 `fundamental/balance.parquet` 读取 `total_liab`，按 f_ann_date PIT过滤，映射为 total_liability |
+| 影响 | 正确 |
+| 下任务修复 | 否 |
 
 ### 16. `balance.total_assets`
 
 | 项目 | 内容 |
 |---|---|
 | 策略位置 | 第150、181行 |
-| local_quant文件 | — |
-| 实现 | **未创建** |
-| 状态 | **MISSING** |
-| 证据 | 同上 |
-| 影响 | 同上。资产负债率计算所需的两个字段均缺失 |
-| 下任务修复 | **是（P0）** |
+| local_quant文件 | engine/data_api.py |
+| 实现 | `JQField('balance', 'total_assets')` + `_get_latest_balance` PIT读取 |
+| 状态 | **PASS** |
+| 证据 | 从 `fundamental/balance.parquet` 读取 `total_assets`，按 f_ann_date PIT过滤 |
+| 影响 | 正确 |
+| 下任务修复 | 否 |
 
 ---
 
@@ -294,9 +293,9 @@
 |---|---|
 | 策略位置 | 第231行：`context.portfolio.positions[stock].value`、第239行 |
 | local_quant文件 | — |
-| 实现 | **缺失**。可以看到 `context.py` 中 `Position` 类定义了 `price` 和 `total_amount`，但未定义 `value` 属性 |
-| 状态 | **MISSING** |
-| 证据 | `context.py` 第6-11行：属性只有 `security`, `avg_cost`, `total_amount`, `closeable_amount`, `price`, `purchase_date`。JQ的 `position.value = price * total_amount` 未实现 |
+| 实现 | `context.py` Position 类添加 `@property def value(self): return self.price * self.total_amount` |
+| 状态 | **PASS** |
+| 证据 | Position.value 作为 @property 实现。价格/数量变化后自动反映 |
 | 影响 | 策略第231行 `context.portfolio.positions[stock].value` 将抛出 `AttributeError`，导致调仓异常中断 |
 | 下任务修复 | **是（P0）** |
 

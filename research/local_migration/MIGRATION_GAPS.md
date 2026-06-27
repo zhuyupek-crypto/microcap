@@ -6,79 +6,54 @@
 
 ## P0：阻止正确运行
 
-### GAP-012：`log.warn` 缺失
+### ~~GAP-012：`log.warn` 缺失~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-012 |
-| 优先级 | **P0** |
-| 涉及接口 | `log.warn` |
-| 聚宽策略中的使用位置 | 第154行：`log.warn("risk filter skipped for %s: %s" % (stock, e))`；第186行：`log.warn("batch risk filter skipped: %s" % e)` |
-| local_quant当前行为 | `log` 对象（Engine 自身）仅有 `info()`、`warning()`、`debug()` 方法。`warn()` 方法不存在。调用 `log.warn()` 将抛出 `AttributeError` |
-| 预期正确行为 | `log.warn()` 应为 `log.warning()` 的别名，与聚宽一致 |
-| 执行链分析 | `cash_flow`/`balance` 查询失败 → 策略进入 `except` 块 → 调用 `log.warn(...)` → **`AttributeError`** → 策略中断。注意：此缺口与 GAP-002/003/004 交互。即使修复了 `cash_flow`/`balance` 表，其他查询异常仍可能触发此路径 |
-| 建议修复位置 | `engine/core.py` 的 `Logger` 类添加 `def warn(self, msg): return self.warning(msg)` |
-| 建议测试 | 调用 `log.warn("test")` 验证不抛出异常且等效于 `log.warning` |
+| 编号 | ~~GAP-012~~ |
+| 优先级 | ~~P0~~ → **已关闭** |
+| 修复 | `engine/core.py` Engine 添加 `warn(self, msg): return self.warning(msg)` |
+| 关闭日期 | TASK-MICROCAP-002 |
 
 ---
 
 ## P0：阻止正确运行
 
-### GAP-001：`position.value` 属性缺失
+### ~~GAP-001：`position.value` 属性缺失~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-001 |
-| 优先级 | **P0** |
-| 涉及接口 | `context.portfolio.positions[stock].value` |
-| 聚宽策略中的使用位置 | 第231行（`rebalance_to_aggregate_targets`）：`current_value = context.portfolio.positions[stock].value`；第239行：`context.portfolio.positions[stock].value if stock in context.portfolio.positions else 0.0` |
-| local_quant当前行为 | `Position` 类（`engine/context.py:6-11`）无 `value` 属性，访问将抛出 `AttributeError` |
-| 预期正确行为 | `value = self.price * self.total_amount`，即持仓市值 |
-| 可能导致的偏差 | 运行时直接异常，调仓逻辑无法执行 |
-| 建议修复位置 | `engine/context.py` Position类添加 `@property def value(self): return self.price * self.total_amount` |
-| 建议测试 | 单元测试：创建Position实例，设置price和total_amount，验证value返回正确乘积 |
+| 编号 | ~~GAP-001~~ |
+| 优先级 | ~~P0~~ → **已关闭** |
+| 修复 | `engine/context.py` Position 类添加 `@property def value(self): return self.price * self.total_amount` |
+| 关闭日期 | TASK-MICROCAP-002 |
 
-### GAP-002：`cash_flow.net_operate_cash_flow` 表缺失
+### ~~GAP-002：`cash_flow.net_operate_cash_flow` 表缺失~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-002 |
-| 优先级 | **P0** |
-| 涉及接口 | `cash_flow.net_operate_cash_flow` |
-| 聚宽策略中的使用位置 | 第149行、第180行（`risk_filter_ok` 和 `build_risk_filter_map`） |
-| local_quant当前行为 | `cash_flow` 表在 `core.py:139-162` 中未创建。查询时 `JQQuery` 会抛出 `AttributeError` |
-| 预期正确行为 | 从 `fundamental/cashflow.parquet` 读取 `net_operate_cash_flow`（即经营性现金流净额），并按 `f_ann_date` 过滤获得公告日可得数据 |
-| 可能导致的偏差 | 策略 `try/except`（第153-154行）捕获异常后默认返回True（通过风险过滤）。导致本应被过滤的高风险股票（高负债+负现金流且低ROE）被纳入候选池 |
-| 建议修复位置 | `engine/core.py` 添加 `cash_flow` 表的 `JQField` 定义；`engine/data_api.py` 的 `get_fundamentals` 中添加 `cash_flow` 数据读取路径 |
-| 建议测试 | 对比测试：构造一个应被风险过滤拒绝的股票，验证在local_quant中因异常被放行 |
+| 编号 | ~~GAP-002~~ |
+| 优先级 | ~~P0~~ → **已关闭** |
+| 修复 | `engine/core.py` namespace 添加 `cash_flow`；`engine/data_api.py` PIT读取 `cashflow.parquet` 的 `n_cashflow_act` → `net_operate_cash_flow` |
+| 关闭日期 | TASK-MICROCAP-002 |
 
-### GAP-003：`balance.total_liability` 表缺失
+### ~~GAP-003：`balance.total_liability` 表缺失~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-003 |
-| 优先级 | **P0** |
-| 涉及接口 | `balance.total_liability` |
-| 聚宽策略中的使用位置 | 第150行、第181行（计算资产负债率） |
-| local_quant当前行为 | `balance` 表未创建。查询时 `JQQuery` 抛出异常 |
-| 预期正确行为 | 从 `fundamental/balance.parquet` 读取 `total_liability`（总负债），按 `f_ann_date` 过滤 |
-| 可能导致的偏差 | 同GAP-002，异常被捕获后默认放行。资产负债率阈值95%的风险过滤失效 |
-| 建议修复位置 | 同GAP-002，添加 `balance` 表定义和数据读取路径 |
-| 建议测试 | 同GAP-002 |
+| 编号 | ~~GAP-003~~ |
+| 优先级 | ~~P0~~ → **已关闭** |
+| 修复 | `engine/core.py` namespace 添加 `balance`；`engine/data_api.py` PIT读取 `balance.parquet` 的 `total_liab` → `total_liability` |
+| 关闭日期 | TASK-MICROCAP-002 |
 
-### GAP-004：`balance.total_assets` 表缺失
+### ~~GAP-004：`balance.total_assets` 表缺失~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-004 |
-| 优先级 | **P0** |
-| 涉及接口 | `balance.total_assets` |
-| 聚宽策略中的使用位置 | 第150行、第181行（计算资产负债率） |
-| local_quant当前行为 | 同GAP-003，`balance` 表未创建 |
-| 预期正确行为 | 从 `fundamental/balance.parquet` 读取 `total_assets`（总资产） |
-| 可能导致的偏差 | 同GAP-003。`total_assets <= 0` 检查也会失效，因为 `total_assets` 获取不到时变为 `None`，触发 `return False`（拒绝），但这是从except分支返回的默认True，所以实际上两者抵消效果不确定 |
-| 建议修复位置 | 同GAP-002 |
-| 建议测试 | 同GAP-002 |
+| 编号 | ~~GAP-004~~ |
+| 优先级 | ~~P0~~ → **已关闭** |
+| 修复 | 同 GAP-003；`balance.parquet` 的 `total_assets` 读取 |
+| 关闭日期 | TASK-MICROCAP-002 |
 
 ---
 

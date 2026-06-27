@@ -3,7 +3,7 @@
   "strategy_sha256": "f363464fa55218c5b721d9286449c99a0c9acc097524b6f5f3db89a13af151d6",
   "local_quant_path": "D:\\Work Space\\local_quant",
   "local_quant_branch": "task/microcap-compat-v1",
-  "local_quant_commit": "64cae09abdc073864c9220c416ad460f8e3d585c",
+  "local_quant_commit": "f36f26658d5338c7fc1a33a7b1a0aca6d02ad652",
   "local_quant_remote": "https://github.com/zhuyupek-crypto/local_quant",
   "extracted_dependencies": [
     "<expr>.filter",
