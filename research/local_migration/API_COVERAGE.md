@@ -1,6 +1,6 @@
 # 聚宽API依赖清单与local_quant覆盖分析
 
-> 策略基线：`8290ca3` | local_quant分支：`task/microcap-compat-v1` | local_quant HEAD：`780ea2f` (TASK-002B)
+> 策略基线：`8290ca3` | local_quant分支：`task/microcap-compat-v1` | local_quant HEAD：`64cae09` (TASK-002C)
 
 状态说明：
 - **PASS**：已实现，且语义证据充分
