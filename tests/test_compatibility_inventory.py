@@ -251,10 +251,11 @@ def test_non_blocking_partial_includes_set_benchmark():
 
 # ─── log 方法专项检查 ────────────────────────────────────────────────
 
-def test_log_warn_detected_as_missing():
+def test_log_warn_detected_as_present():
+    """After P0 fix, log.warn should be PASS."""
     data = json.loads(COMPAT_RESULT.read_text(encoding="utf-8"))
     status = data["coverage"].get("log.warn", {}).get("status", "")
-    assert status == "MISSING", "log.warn 应为 MISSING，实际为 %s" % status
+    assert status == "PASS", "log.warn 应为 PASS（GAP-012已修复），实际为 %s" % status
 
 
 def test_log_warning_detected_as_present():

@@ -413,9 +413,9 @@
 
 | 状态 | 数量 | 明细 |
 |---|---|---|
-| **PASS** | 30 | set_slippage, FixedSlippage, set_order_cost, OrderCost, run_daily, get_all_securities, get_extras(is_st), get_price(日线), get_price(1分钟), order_target_value, order_target, context.current_dt, context.previous_date, context.portfolio.positions, context.portfolio.total_value, context.portfolio.available_cash, position.total_amount, position.closeable_amount, position.price, position.avg_cost, current_data.paused, current_data.is_st, current_data.last_price, current_data.high_limit, current_data.low_limit, valuation.code, valuation.market_cap, indicator.roe, log.info, log.warning |
-| **PARTIAL** | 3 | set_benchmark, set_option, get_fundamentals |
-| **MISSING** | 5 | cash_flow.net_operate_cash_flow, balance.total_liability, balance.total_assets, position.value, **log.warn** |
+| **PASS** | 37 | set_slippage, FixedSlippage, set_order_cost, OrderCost, run_daily, get_all_securities, get_extras(is_st), get_price(日线), get_price(1分钟), order_target_value, order_target, context.current_dt, context.previous_date, context.portfolio.positions, context.portfolio.total_value, context.portfolio.available_cash, position.total_amount, position.closeable_amount, position.price, position.avg_cost, **position.value**, current_data.paused, current_data.is_st, current_data.last_price, current_data.high_limit, current_data.low_limit, valuation.code, valuation.market_cap, indicator.roe, **cash_flow.net_operate_cash_flow, balance.total_liability, balance.total_assets**, log.info, log.warning, **log.warn**, get_fundamentals, set_option |
+| **PARTIAL** | 1 | set_benchmark |
+| **MISSING** | 0 | — |
 | **UNKNOWN** | 0 | — |
 
 > 注：统计基于 `compatibility_result.json`（唯一数据源），与脚本输出一致。
