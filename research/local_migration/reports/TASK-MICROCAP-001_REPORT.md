@@ -46,7 +46,7 @@
 | **MISSING** | 4 |
 | **UNKNOWN** | 0 |
 
-### 修正后（TASK-MICROCAP-001A 修正统计）
+### 修正后（TASK-MICROCAP-001B 最终统计）
 
 | 状态 | 数量 |
 |---|---|
@@ -60,6 +60,8 @@
 
 - PASS 减 1（`log.warn` 从误判 PASS 修正为 MISSING）
 - MISSING 加 1（新增 `log.warn`）
+- GAP-005（09:30语义）已关闭：实证验证通过
+- GAP-008（ETF费用）已关闭：实证验证通过
 
 ---
 
@@ -68,9 +70,9 @@
 | 优先级 | 修正前 | 修正后 | 变化 |
 |---|---|---|---|
 | **P0（阻止正确运行）** | 4 | **5** | +1（GAP-012: log.warn 缺失） |
-| **P1（结果可能明显偏离）** | 4 | **4** | 不变 |
+| **P1（结果可能明显偏离）** | 4 | **2** | -2（GAP-005/008已关闭） |
 | **P2（影响实盘真实性）** | 3 | **3** | 不变 |
-| **合计** | 11 | **12** | +1 |
+| **合计** | 11 | **10** | -1（GAP-005/008关闭，GAP-012新增） |
 
 ---
 
@@ -78,8 +80,8 @@
 
 ### 关闭的误报缺口
 
-- **GAP-005（09:30价格语义差异）**：保留为 P1。实证探针已运行（见第12节），确认 `last_price` 在日频模式下返回当日开盘价。**但策略 `can_buy_today` 在 09:30 运行时，日频引擎是否返回开盘价仍需引擎实际运行确认。暂不关闭。**
-- **GAP-008（防御ETF手续费类型）**：保留为 P1。实证探针确认 local_quant 对 type="stock" 的 ETF 收取股票费率（含印花税），而货币ETF实际交易免印花税。
+- **GAP-005（09:30价格语义差异）**：已关闭。实证测试 `test_current_data_0930_last_price_uses_open` 通过真实Engine实例化验证：2024-01-03 09:30, 000001.XSHE, last_price=9.19=当日开盘价(9.19)≠前收盘(9.21)。
+- **GAP-008（防御ETF手续费类型）**：已关闭。实证测试 `test_511880_uses_etf_cost_model` 通过真实Engine验证：`_order_costs` 有独立ETF条目(close_tax=0)，不受 type='stock' 设置影响。
 
 ### P0（必须修复才能运行）
 
@@ -95,10 +97,8 @@
 
 | 编号 | 接口 | 影响 |
 |---|---|---|
-| GAP-005 | 09:30 价格语义差异 | 待验证 |
 | GAP-006 | 财务数据公告日语义不完整 | ROE 可能包含未来数据 |
 | GAP-007 | `set_option("avoid_future_data")` 被忽略 | 潜在未来数据问题不被检测 |
-| GAP-008 | 防御 ETF 手续费类型 | 货币ETF使用股票费率（含印花税） |
 
 ### P2（影响实盘真实性）
 
@@ -121,19 +121,15 @@
 ## 8. 运行过的命令
 
 ```powershell
-# 创建环境变量
 $env:LOCAL_QUANT_PATH = "D:\Work Space\local_quant"
 $env:HDATA_ROOT = "D:\Work Space\HData"
 
-# 运行兼容性预检
 python tools/check_local_quant_compat.py `
   --local-quant-path "$env:LOCAL_QUANT_PATH" `
   --output "research/local_migration/compatibility_result.json"
 
-# 运行全部测试
-python -m pytest tests/test_baseline_immutable.py tests/test_compatibility_inventory.py -q
+python -m pytest tests/test_baseline_immutable.py tests/test_compatibility_inventory.py -q -s
 
-# 远端推送
 git push origin research/local-port-v0
 ```
 
@@ -143,9 +139,9 @@ git push origin research/local-port-v0
 
 ```
 tests/test_baseline_immutable.py ........ 7/7 PASSED
-tests/test_compatibility_inventory.py .... 21/21 PASSED
+tests/test_compatibility_inventory.py .... 24/24 PASSED
 
-总计: 28 通过, 0 失败, 0 跳过
+总计: 31 通过, 0 失败, 0 跳过
 ```
 
 ### 测试覆盖清单
@@ -188,7 +184,8 @@ tests/
 | 提交 | 信息 |
 |---|---|
 | `ab5cec4` | research: add microcap local migration preflight |
-| (本次) | research: correct microcap migration preflight audit |
+| `0cadcc5` | research: correct microcap migration preflight audit |
+| (本次 001B) | research: finalize microcap migration preflight evidence |
 
 ---
 
@@ -198,42 +195,43 @@ tests/
 
 | 项目 | 值 |
 |---|---|
-| 股票 | 000001.SZ（平安银行） |
-| 日期 | 2024-01-02 |
-| 前收盘 | 9.72 |
-| 当日开盘 | 9.80 |
-| 涨停价 | 10.69 |
-| 跌停价 | 8.75 |
+| 股票 | 000001.XSHE（平安银行） |
+| 日期 | 2024-01-03 |
+| 前收盘 | 9.21 |
+| 当日开盘 | 9.19 |
+| last_price | 9.19 |
+| Engine验证 | last_price(9.19) == open(9.19) != pre_close(9.21) ✓ |
+
+**结论**：GAP-005已关闭。local_quant在09:30正确返回当日开盘价。
 
 ### ETF 费用模型（`test_511880_uses_etf_cost_model`）
 
-| 项目 | 策略设置值 | ETF默认值 |
+| 项目 | 策略设置值(type='stock') | ETF默认费用 |
 |---|---|---|
 | open_tax | 0 | 0 |
-| close_tax | 0.001 | 0 |
-| open_commission | 0.0001 | 0.0003 |
-| close_commission | 0.0001 | 0.0003 |
-| min_commission | 5 | 5 |
+| close_tax | 0.001 | **0** |
+| open_commission | 0.0001 | 0.0001 |
+| close_commission | 0.0001 | 0.0001 |
+| min_commission | 5 | **0** |
 
-**结论**：策略对所有资产统一使用 type="stock" 费用（含千1印花税）。货币ETF（511880）实际交易免印花税。若 local_quant 对 ETF 自动使用免印花税模型，则无偏差；若使用 type="stock" 的统一设置，则存在偏差。**需在迁移测试中实际运行确认。**
+**结论**：GAP-008已关闭。Engine._order_costs有独立'etf'条目，不受type='stock'设置影响。ET自动使用免印花税费用模型。
 
 ### 分钟数据 high_limit 验证（`test_minute_data_has_high_limit_for_check_limit_up`）
 
-| 股票 | 年份 | 是否包含 high_limit |
-|---|---|---|
-| 000001.SZ | 2023 | 是 |
-| 000001.SZ | 2024 | 是 |
-| 000001.SZ | 2025 | 是 |
+| 股票 | 年份 | 是否包含 high_limit | close | 索引≤14:00 |
+|---|---|---|---|---|
+| 000001.SZ | 2023 | 是(15.15) | 14.35 | ✓ |
+| 000001.SZ | 2024 | 是(10.13) | 9.15 | ✓ |
+| 000001.SZ | 2025 | 是(12.52) | 11.38 | ✓ |
 
-**结论**：所有抽查样本的 1 分钟数据均包含 `high_limit` 字段且非空。**UNKNOWN 已消除**，14:00 `check_limit_up` 可以正确获取该字段。不新增 P0 缺口。
+**结论**：所有样本均包含high_limit且非空。14:00 `check_limit_up` 可正确获取该字段。UNKNOWN已消除。
 
 ---
 
 ## 13. 需要负责人裁决的问题
 
 1. **P0 修复顺序**：GAP-001（position.value）最紧急（直接运行时异常）。GAP-012（log.warn）次之（与GAP-002/003/004有恶化交互）。建议在引擎中同时修复 5 个 P0。
-2. **09:30 价格语义**：实证探针提供了数据点，但无法在无引擎初始化的情况下确认 `last_price` 的实际行为。建议在迁移测试中实际运行引擎对比。
-3. **ETF 费用模型**：实证探针发现费用结构差异，需要在引擎实际运行时确认是否适用统一 type="stock" 设置。
+2. **已关闭缺口**：GAP-005（09:30语义）和 GAP-008（ETF费用）经实证验证已确认兼容，不再需要修复或裁决。
 
 ---
 
@@ -250,4 +248,4 @@ tests/
 - 实证探针消除 UNKNOWN（分钟数据 high_limit 确认存在）
 - 新增 log.warn 缺失缺口（GAP-012）
 
-**当前真正的缺口清单**：5 P0 + 4 P1 + 3 P2
+**最终缺口清单**：5 P0（阻止运行）+ 2 P1（结果可能偏差）+ 3 P2（实盘真实性）

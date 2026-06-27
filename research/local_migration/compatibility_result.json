@@ -427,7 +427,7 @@
   "semantic_checks": {
     "position_value_property": {
       "status": "FAIL",
-      "detail": "no @property value"
+      "detail": "no @property value in context.py"
     }
   },
   "stats": {
@@ -445,8 +445,19 @@
     "log.warn"
   ],
   "critical_partial": [
-    "set_benchmark",
     "set_option",
     "get_fundamentals"
-  ]
+  ],
+  "blocking_missing": [
+    "position.value",
+    "cash_flow.net_operate_cash_flow",
+    "balance.total_liability",
+    "balance.total_assets",
+    "log.warn"
+  ],
+  "blocking_partial": [
+    "set_option",
+    "get_fundamentals"
+  ],
+  "non_blocking_partial": []
 }

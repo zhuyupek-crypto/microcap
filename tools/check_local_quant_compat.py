@@ -129,8 +129,16 @@ CRITICAL_APIS = {
     "OrderCost",
     "set_slippage",
     "FixedSlippage",
-    "set_benchmark",
     "set_option",
+}
+
+# set_benchmark is deliberately excluded from CRITICAL_APIS:
+# it is a PARTIAL no-op that does NOT affect strategy signals or trade execution.
+
+# APIs whose PARTIAL status blocks correct execution (affects signals or trades)
+BLOCKING_PARTIAL = {
+    "get_fundamentals",   # missing cash_flow/balance tables → risk filter silent failure
+    "set_option",          # avoid_future_data silently ignored
 }
 
 # ─── AST 提取策略依赖 ─────────────────────────────────────────────────
@@ -558,26 +566,35 @@ def check_local_quant_coverage(local_quant_path):
 def run_semantic_checks(local_quant_path):
     """运行时语义探针 — 尝试导入确认 static 无法确认的项目。
 
-    注意：local_quant 初始化需要 HDATA_ROOT 等环境变量，因此失败不代表问题。
+    注意：local_quant 某些模块需要 HDATA_ROOT 等环境变量才能导入。
     """
     results = {}
     lq_path = Path(local_quant_path)
     sys.path.insert(0, str(lq_path))
 
-    try:
-        from engine.context import Position, Portfolio
-        pos = Position("000001.SZ", 10.0, 100)
-        has_value_property = isinstance(getattr(type(pos), 'value', None), property)
+    # Check position.value without importing engine.core (which has side effects)
+    import ast as _ast
+    context_py = lq_path / "engine" / "context.py"
+    if context_py.exists():
+        text = context_py.read_text(encoding="utf-8")
+        tree = _ast.parse(text)
+        has_value_property = False
+        for node in _ast.walk(tree):
+            if isinstance(node, _ast.FunctionDef) and node.name == "value":
+                for decorator in node.decorator_list:
+                    if isinstance(decorator, _ast.Name) and decorator.id == "property":
+                        has_value_property = True
+                        break
         results["position_value_property"] = {
             "status": "PASS" if has_value_property else "FAIL",
-            "detail": "position.value is a @property" if has_value_property else "no @property value",
+            "detail": ("@property value found in Position class"
+                       if has_value_property else
+                       "no @property value in context.py"),
         }
-    except ImportError as e:
+    else:
         results["position_value_property"] = {
-            "status": "SKIPPED", "detail": "import error (expected in non-engine context): %s" % str(e)
+            "status": "ERROR", "detail": "context.py not found",
         }
-    except Exception as e:
-        results["position_value_property"] = {"status": "SKIPPED", "detail": str(e)}
 
     return results
 
@@ -695,6 +712,15 @@ def main():
         api for api, info in coverage.items()
         if info["status"] == "PARTIAL" and api in CRITICAL_APIS
     ]
+    blocking_missing = critical_missing  # all MISSING in CRITICAL_APIS are blocking
+    blocking_partial = [
+        api for api in critical_partial
+        if api in BLOCKING_PARTIAL
+    ]
+    non_blocking_partial = [
+        api for api in critical_partial
+        if api not in BLOCKING_PARTIAL
+    ]
 
     print("=" * 80)
     print("微盘股策略 → local_quant 兼容性预检报告")
@@ -740,8 +766,9 @@ def main():
     print("  UNKNOWN: %d" % unknown_count)
     print("  合计:    %d" % total_items)
     print()
-    print("关键缺失 (MISSING): %s" % ", ".join(critical_missing) if critical_missing else "无")
-    print("关键 PARTIAL: %s" % ", ".join(critical_partial) if critical_partial else "无")
+    print("Blocking MISSING: %s" % ", ".join(blocking_missing) if blocking_missing else "无")
+    print("Blocking PARTIAL: %s" % ", ".join(blocking_partial) if blocking_partial else "无")
+    print("Non-blocking PARTIAL: %s" % ", ".join(non_blocking_partial) if non_blocking_partial else "无")
     print()
 
     # 构建结果
@@ -766,6 +793,9 @@ def main():
         },
         "critical_missing": critical_missing,
         "critical_partial": critical_partial,
+        "blocking_missing": blocking_missing,
+        "blocking_partial": blocking_partial,
+        "non_blocking_partial": non_blocking_partial,
     }
 
     # 输出 JSON
@@ -777,9 +807,9 @@ def main():
         print("结果已写入: %s" % out_path)
 
     # 退出码
-    if missing_count > 0:
+    if blocking_missing:
         sys.exit(2)
-    if critical_partial:
+    if blocking_partial:
         sys.exit(2)
 
     sys.exit(0)

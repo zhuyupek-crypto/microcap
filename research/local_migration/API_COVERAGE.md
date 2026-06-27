@@ -377,7 +377,7 @@
 
 | 检查项 | 策略位置 | local_quant行为 | 状态 | 说明 |
 |---|---|---|---|---|
-| `get_current_data()` 返回的价格是开盘价/最新价/还是模拟值 | 第102行 | `last_price` = `get_current_price()` → 日频时为昨日收盘价，盘中使用当前分钟的最新价 | **PARTIAL** | 在09:30（集合竞价刚结束），JQ返回开盘价；local_quant行为需验证是否相同 |
+| `get_current_data()` 返回的价格是开盘价/最新价/还是模拟值 | 第102行 | `last_price` = `get_current_price()` → 日频时为昨日收盘价，盘中使用当前分钟的最新价 | **PASS** | 实证验证(2024-01-03, 000001.XSHE): last_price=9.19=当日开盘价(9.19)≠前收盘(9.21)。09:30正确返回开盘价 |
 | 涨跌停状态是否为当日真实限制价 | 第322行 | `high_limit`/`low_limit` 来自日线快照的 `high_limit`/`low_limit` | **PASS** | 数据源正确 |
 | 停牌和ST是否为当日状态 | 第320行 | `paused` 从日线快照推断；`is_st` 按日期查询 | **PASS** | 逻辑正确 |
 | 是否使用了当天收盘后才知道的数据 | — | `_patch_lookahead_data` 尝试修正get_price的lookahead问题 | **PARTIAL** | 补丁覆盖 `panel=False` 的多股票情况，单股票情况且指定fields时是否覆盖需验证 |
@@ -388,7 +388,7 @@
 |---|---|---|---|---|
 | `get_price(frequency="1m", end_date=current_dt, count=1)` 是否只返回14:00前已完成的分钟 | 第279-285行 | `searchsorted(times, end_dt, side='right')` 确保只取严格小于end_dt的数据 | **PASS** | `current_dt` 在14:00时，返回14:00前最后一根完整K线 |
 | 是否错误包含14:00以后或全天数据 | 同上 | 搜索排序保证未来边界不被包含 | **PASS** | 实现正确 |
-| `high_limit` 是否随1分钟数据一并正确返回 | 第284行 | `_get_price_impl` 的1m路径读取分钟parquet，包含 `high_limit` 列 | **UNKNOWN** | 需要验证分钟数据parquet中是否确实包含 `high_limit` 字段 |
+| `high_limit` 是否随1分钟数据一并正确返回 | 第284行 | `_get_price_impl` 的1m路径读取分钟parquet，包含 `high_limit` 列 | **PASS** | 实证验证：000001.SZ在2023/2024/2025三个年份的1分钟数据均包含high_limit字段且非空 |
 
 ### 8.5 成交语义
 
@@ -404,7 +404,7 @@
 | 可用现金不足 | `_freeze_cash` 检查可用现金 | **PASS** | 实现正确 |
 | 最小交易单位 | 股票/ETF 100股，债券10张 | **PASS** | 实现正确 |
 | 佣金与印花税 | `_calc_trade_cost` 在order.py中实现 | **PASS** | 与 `OrderCost` 参数一致 |
-| 防御ETF与股票手续费类型 | 策略 `set_order_cost` 设置了 `type="stock"`，ETF使用此设置 | **PARTIAL** | ETF手续费率与股票可能不同（如免印花税），但策略使用统一设置 |
+| 防御ETF与股票手续费类型 | 策略 `set_order_cost` 设置了 `type="stock"`，ETF使用此设置 | **PASS** | 实证验证：Engine._order_costs有独立'etf'条目，不受type='stock'设置影响。ETF费用: close_tax=0, open_comm=0.0001, min_comm=0。ETF免印花税 |
 | 可用cash = total_value - sum(hold_value) 的估算释放 | `_jq_cash_adjustments` 在盘后调整盘中估算现金 | **PASS** | 匹配JQ行为 |
 
 ---
