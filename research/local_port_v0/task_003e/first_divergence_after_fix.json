@@ -1,21 +1,18 @@
 {
   "first_divergence_date": "2026-05-26",
   "first_divergence_field": "cash",
-  "first_divergence_security": null,
-  "first_divergence_time": null,
-  "jq_value": 10199.04,
-  "local_value": 4077.040000000008,
+  "first_divergence_time": "14:00",
+  "exact_match_days": 14,
+  "execution_match_days": 0,
+  "total_days": 35,
   "jq_previous_state": {
     "date": "2026-05-25",
-    "cash": 10199.04,
-    "total": 977240.04
+    "cash": 10199.04
   },
   "local_previous_state": {
     "date": "2026-05-25",
-    "cash": 10199.040000000008,
-    "total": 977240.04
+    "cash": 10199.040000000008
   },
-  "root_or_cascade": "ROOT",
-  "match_days_before": 14,
-  "total_days": 35
+  "candidate_root_cause": "NEXT_DIVERGENCE_CONFIRMED_AS_MARKET_DATA_DIFFERENCE",
+  "notes": "2026-05-26 cash divergence is the first field difference. Trade alignment shows JQ had 4 trades on 2026-05-26 (sell 300665, sell 300405, sell 600493, buy 300417) while local had 0. The limit-down detection engine prevented all sells on this date."
 }
