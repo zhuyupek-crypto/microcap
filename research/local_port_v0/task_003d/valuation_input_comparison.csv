@@ -1,0 +1,10 @@
+date,time,field,jq_value,local_value,source
+2026-05-14,09:30,portfolio_total_value,"~1,002,141 (EOD 05-13)","1,005,257 (open 05-14)","local from audit, JQ inferred"
+2026-05-14,09:30,stock_value (total/5/10),"~20,043","20,105.14",calculated
+2026-05-14,09:30,300405_target (2 phases),"~40,086","40,210.28",aggregate_target_values
+2026-05-14,09:30,300405_position_value,"40,544 (5600*7.24)","40,488 (5600*7.23)",JQ portfolio vs local current_data
+2026-05-14,09:30,300405_price,7.24 (close 05-13),7.23 (open 05-14),current_data.last_price
+2026-05-14,09:30,300405_target_shares,~5536 (40086/7.24),5561 (40210/7.23),target_value/price
+2026-05-14,09:30,300405_rounded_target_shares,5600 (5536->5600),5500 (5561->5500),100-share lot rounding
+2026-05-14,09:30,300405_delta_shares,0 (sell 0),-100 (sell 100),current - rounded_target
+2026-05-14,09:30,300405_order_result,no trade recorded,filled -100 @ 7.23,JQ trades vs local engine

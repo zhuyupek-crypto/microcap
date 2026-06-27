@@ -1,0 +1,6 @@
+date,security,field,jq_value,local_value,is_equal
+2026-05-14,300405.XSHE,in_yesterday_HL_list,False,False,True
+2026-05-14,300405.XSHE,previous_close,7.15 (from HData),7.15 (from HData),True
+2026-05-14,300405.XSHE,13-day close,7.24,7.24,True
+2026-05-14,300405.XSHE,high_limit,8.58 (20% ChiNext),8.58,True
+2026-05-14,300405.XSHE,close>=high_limit,False,False,True

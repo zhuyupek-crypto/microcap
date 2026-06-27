@@ -1,0 +1,17 @@
+field,jq_value,local_value,is_equal,first_layer_of_difference,evidence_source
+g_days,3,3,True,,g.days field
+due_offsets,[9],[9],True,,g.last_due_offsets
+phase_targets,2 phases include 300405,"phases [0,12] include 300405",True,,phase_targets content
+phase_membership_count,2,2,True,,number of phases containing 300405
+portfolio_total_value,"~1,002,141","1,005,257",False,DIFFERENCE_HERE,"total_value at 09:30; JQ is EOD 05-13, local is open 05-14"
+stock_value_per_phase,"~20,043","20,105.14",False,CASCADE_FROM_PRIMARY_DIFF,total_value/5/10
+aggregate_target_value,"~40,086","40,210.28",False,CASCADE_FROM_PRIMARY_DIFF,300405 in 2 phases: 2*stock_value
+yesterday_HL,False,False,True,,300405 not in yesterday_HL_list
+last_price,7.24 (close 05-13),7.23 (open 05-14),False,CASCADE_FROM_PRIMARY_DIFF,prices used by order_target_value
+current_value,"40,544 (5600*7.24)","40,488 (5600*7.23)",False,CASCADE_FROM_PRIMARY_DIFF,position market value at 09:30
+current_value_gt_target,"True (40,544 > ~40,086)","True (40,488 > 40,210)",True,,"both sides, so sell plan triggered"
+can_sell,True,True,True,,can_sell_today returns True
+sell_plan,includes 300405,"includes 300405 with target=40,210",False,CASCADE_FROM_PRIMARY_DIFF,sell plan created on both sides
+order_intent,"order_target_value to 40,086","order_target_value to 40,210",False,CASCADE_FROM_PRIMARY_DIFF,target values differ
+order_status,filled 0 (no JQ trade recorded),filled -100 @ 7.23,False,CASCADE_FROM_PRIMARY_DIFF,order results differ
+fill,0 shares,-100 shares,False,CASCADE_FROM_PRIMARY_DIFF,execution result

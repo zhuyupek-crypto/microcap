@@ -1,0 +1,62 @@
+{
+  "root_cause_id": "ROOT_CAUSE_0930_VALUATION_DATA_DIFFERENCE",
+  "first_divergence_date": "2026-05-14",
+  "first_divergence_time": "09:30:00",
+  "first_divergence_security": "300405.XSHE",
+  "divergence_description": "Portfolio total_value at 09:30 differs between JQ and local (~1,002,141 vs 1,005,257), leading to different stock_value_per_phase (~20,043 vs 20,105.14), different aggregate_target for 300405 (~40,086 vs 40,210.28), and different rounding in order_target_value (JQ: 5600->0 delta, Local: 5500->-100 delta).",
+  "evidence": {
+    "yesterday_limit_up_differs": false,
+    "both_not_at_limit_up": true,
+    "phase_membership_identical": true,
+    "phase_membership": "[0, 12]",
+    "total_value_differ": true,
+    "jq_total_value_inferred": "1,002,141",
+    "local_total_value_confirmed": "1,005,257",
+    "stock_value_diff_pct": 0.31,
+    "target_300405_jq_inferred": "~40,086",
+    "target_300405_local_confirmed": "40,210.28",
+    "price_300405_jq": "7.24 (EOD 05-13 close)",
+    "price_300405_local": "7.23 (open 05-14)",
+    "target_shares_jq": "~5536",
+    "target_shares_local": "5561",
+    "rounded_target_jq": "5600 (round up, delta=0)",
+    "rounded_target_local": "5500 (round down, delta=-100)",
+    "jq_order_result": "no trade recorded",
+    "local_order_result": "filled -100 @ 7.23"
+  },
+  "root_or_cascade": "ROOT",
+  "first_layer_of_difference": "portfolio_total_value_at_0930",
+  "cascade_layers": [
+    "stock_value_per_phase",
+    "aggregate_target_value_for_300405",
+    "target_shares_calculation",
+    "100_share_rounding",
+    "order_result"
+  ],
+  "unresolved_questions": [
+    "What was JQ's exact total_value at 09:30 on 2026-05-14? (cannot access JQ intraday snapshot)",
+    "Did JQ's get_current_data() return the same last_price=7.23 for 300405?",
+    "What rounding rule does JQ's order_target_value use internally? (local engine uses round-to-nearest-100)"
+  ],
+  "answer_checklist": {
+    "JQ_yesterday_HL_for_300405": "False (confirmed from HData: close=7.24 < high_limit=8.58)",
+    "local_yesterday_HL_for_300405": "False (confirmed from audit log)",
+    "phase_targets_identical": "True (both have 300405 in offsets [0, 12])",
+    "phase_membership_count_identical": "True (2 phases each)",
+    "aggregate_target_value_identical": "False (JQ ~40,086 vs Local 40,210.28)",
+    "0930_current_value_identical": "False (JQ ~40,544 vs Local 40,488)",
+    "JQ_generated_sell_plan": "Inferred: yes, because current_value > target_value and not in yesterday_HL_list",
+    "JQ_called_order_target_value": "Inferred: yes, because sell plan includes 300405",
+    "JQ_order_not_filled_reason": "Inferred: rounding to 100-share lots gave 0 delta",
+    "first_internal_variable_diff": "portfolio_total_value at 09:30 (~1,002,141 vs 1,005,257)"
+  },
+  "task_status_code": "ROOT_CAUSE_0930_VALUATION_DATA_DIFFERENCE",
+  "additional_codes": [
+    "DATA_ALIGNMENT_REQUIRED",
+    "ORDER_MODEL_ALIGNMENT_REQUIRED"
+  ],
+  "recommend_task_003d2": false,
+  "recommend_hdata_fix": false,
+  "recommend_engine_fix": false,
+  "notes": "The first internal variable difference is portfolio_total_value at 09:30. This propagates through stock_value -> aggregate_target -> rounding -> order_result. The exact total_value on JQ at 09:30 is inferred from EOD data, not directly confirmed. HData and JQ may have different opening prices for 300405 and other positions, causing the total_value difference."
+}

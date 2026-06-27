@@ -1,0 +1,6 @@
+date,security,field,jq_value,local_value,source
+2026-05-14,300405.XSHE,sell_plan_includes,"True (inferred, both sides have diff>0)",True (confirmed from audit),"local from engine log, JQ inferred"
+2026-05-14,300405.XSHE,sell_plan_target_value,"~40,086","40,210.28",aggregate_target_values
+2026-05-14,300405.XSHE,order_target_value_called,True (inferred),True (confirmed from audit),strategy logic
+2026-05-14,300405.XSHE,order_target_value_param,"40,086","40,210.28",target value parameter
+2026-05-14,300405.XSHE,order_result,not filled (no JQ trade),-100 shares @ 7.23,different execution outcomes

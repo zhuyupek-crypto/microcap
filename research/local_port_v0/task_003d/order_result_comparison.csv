@@ -1,0 +1,5 @@
+date,security,field,jq_value,local_value,is_equal
+2026-05-14,300405.XSHE,order_exists,False,True (filled -100),False
+2026-05-14,300405.XSHE,filled_quantity,0,-100,False
+2026-05-14,300405.XSHE,filled_price,N/A,7.23,N/A
+2026-05-14,300405.XSHE,explanation,Rounding to 100-share lots gave 0 delta,Rounding to 100-share lots gave -100 delta,False
