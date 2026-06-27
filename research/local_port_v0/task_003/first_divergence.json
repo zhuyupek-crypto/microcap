@@ -1,0 +1,38 @@
+{
+  "first_divergence_date": "2026-05-14",
+  "first_divergence_time": "09:30:00",
+  "security": "300405.XSHE",
+  "field": "cash",
+  "jq_value": 410485.0,
+  "local_value": 411202.28,
+  "jq_previous_state": {
+    "date": "2026-05-13",
+    "cash": 608407.0,
+    "total_asset": 1002141.0,
+    "positions_value": 393734.0,
+    "position_count": 11,
+    "300405.XSHE_quantity": 5600
+  },
+  "local_previous_state": {
+    "date": "2026-05-13",
+    "cash": 608407.0,
+    "total_asset": 1002141.0,
+    "positions_value": 393734.0,
+    "position_count": 11,
+    "300405.XSHE_quantity": 5600
+  },
+  "jq_current_event": "JQ had 10 buy trades on 2026-05-14, NO sell of 300405.XSHE; kept 5600 shares",
+  "local_current_event": "Local executed 10 buy trades PLUS a sell of 100 shares of 300405.XSHE @ 7.23",
+  "local_order_intent": "sell_plan_0930 listed 300405.XSHE target=40210 (exit/reduction), buy_plan_0930 did not include 300405.XSHE",
+  "local_order_result": "PARTIAL_FILL: -100 shares of 300405.XSHE @ 7.23",
+  "local_rejection_reason": "None (order executed partially at 09:30; not rejected)",
+  "root_or_cascade": "ROOT",
+  "evidence_level": "STRONG",
+  "candidate_root_cause": "FIRST_DIVERGENCE_CONSISTENT_WITH_STRATEGY_SIGNAL_DIFFERENCE_DRIVEN_BY_DATA_SOURCE",
+  "unresolved_questions": [
+    "Which exact HData fundamental or price field caused 300405.XSHE to be selected for reduction locally but kept on JQ?",
+    "Why was only -100 shares filled locally when target value implied ~5562 shares?",
+    "Does JQ's order_target_value fill more aggressively for the same target?"
+  ],
+  "root_cause_detail": "Strategy code is identical. On 2026-05-14 local engine's sell_plan/buy_plan calculation decided to reduce/exit 300405.XSHE, while JQ kept it. This is consistent with HData fundamental/market data differing from JQ data, causing stock selection/rotation decisions to diverge. No engine rejection occurred on this date; the order was partially filled. Cannot prove JQ's internal target value because JQ logs do not expose order intent."
+}
