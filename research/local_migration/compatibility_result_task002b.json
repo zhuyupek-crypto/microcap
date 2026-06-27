@@ -1,0 +1,447 @@
+{
+  "strategy_file": "D:\\Work Space\\他山之石\\微盘股\\微盘股-母版-20260627.py",
+  "strategy_sha256": "f363464fa55218c5b721d9286449c99a0c9acc097524b6f5f3db89a13af151d6",
+  "local_quant_path": "D:\\Work Space\\local_quant",
+  "local_quant_branch": "task/microcap-compat-v1",
+  "local_quant_commit": "780ea2f171cfa52082c3745d31a09df5bb4a0f8a",
+  "local_quant_remote": "https://github.com/zhuyupek-crypto/local_quant",
+  "extracted_dependencies": [
+    "<expr>.filter",
+    "<expr>.join",
+    "<expr>.sort_values",
+    "<expr>.tolist",
+    "FixedSlippage",
+    "OrderCost",
+    "aggregate_target_values",
+    "balance.total_assets",
+    "balance.total_liability",
+    "build_risk_filter_map",
+    "buy_plan.append",
+    "can_buy_today",
+    "can_sell_today",
+    "cash_flow.net_operate_cash_flow",
+    "code.startswith",
+    "context.current_dt",
+    "context.current_dt.month",
+    "context.portfolio",
+    "context.portfolio.positions",
+    "context.portfolio.positions.keys",
+    "context.portfolio.total_value",
+    "context.previous_date",
+    "curr.empty",
+    "data.high_limit",
+    "data.is_st",
+    "data.last_price",
+    "data.low_limit",
+    "data.paused",
+    "df.empty",
+    "df.iloc",
+    "df.iterrows",
+    "g.days",
+    "g.defensive_etfs",
+    "g.defensive_months",
+    "g.in_defensive_mode",
+    "g.last_due_offsets",
+    "g.last_target_values",
+    "g.min_list_days",
+    "g.phase_cycle",
+    "g.phase_offsets",
+    "g.phase_targets",
+    "g.phase_targets.get",
+    "g.phase_targets.items",
+    "g.stocknum",
+    "g.trade_enabled",
+    "g.use_risk_filter",
+    "g.yesterday_HL_list",
+    "g.yesterday_HL_list.append",
+    "get_all_securities",
+    "get_current_data",
+    "get_extras",
+    "get_fundamentals",
+    "get_price",
+    "get_stock_pool",
+    "indicator.roe",
+    "is_common_stock",
+    "is_defensive_asset",
+    "len",
+    "list",
+    "log.info",
+    "log.warn",
+    "log_plan",
+    "mcap_df.dropna",
+    "mcap_df.empty",
+    "order_target",
+    "order_target_value",
+    "parts.append",
+    "pool.append",
+    "query",
+    "rebalance_to_aggregate_targets",
+    "risk_ok.get",
+    "row.get",
+    "run_daily",
+    "securities.iterrows",
+    "select_smallest_market_cap",
+    "sell_plan.append",
+    "set_benchmark",
+    "set_option",
+    "set_order_cost",
+    "set_slippage",
+    "sorted",
+    "stock.endswith",
+    "stock.split",
+    "switch_to_defensive",
+    "target_list.append",
+    "target_values.get",
+    "target_values.items",
+    "valuation.code",
+    "valuation.code.in_",
+    "valuation.market_cap",
+    "volume.columns"
+  ],
+  "matched_dependencies": [
+    "FixedSlippage",
+    "OrderCost",
+    "balance.total_assets",
+    "balance.total_liability",
+    "cash_flow.net_operate_cash_flow",
+    "context.current_dt",
+    "context.portfolio.available_cash",
+    "context.portfolio.positions",
+    "context.portfolio.total_value",
+    "context.previous_date",
+    "get_all_securities",
+    "get_current_data",
+    "get_extras",
+    "get_fundamentals",
+    "get_price",
+    "indicator.roe",
+    "log.info",
+    "log.warn",
+    "order_target",
+    "order_target_value",
+    "run_daily",
+    "set_benchmark",
+    "set_option",
+    "set_order_cost",
+    "set_slippage",
+    "valuation.code",
+    "valuation.market_cap"
+  ],
+  "unmatched_dependencies": [
+    "<expr>.filter",
+    "<expr>.join",
+    "<expr>.sort_values",
+    "<expr>.tolist",
+    "aggregate_target_values",
+    "build_risk_filter_map",
+    "buy_plan.append",
+    "can_buy_today",
+    "can_sell_today",
+    "code.startswith",
+    "context.current_dt.month",
+    "context.portfolio",
+    "context.portfolio.positions.keys",
+    "curr.empty",
+    "data.high_limit",
+    "data.is_st",
+    "data.last_price",
+    "data.low_limit",
+    "data.paused",
+    "df.empty",
+    "df.iloc",
+    "df.iterrows",
+    "g.days",
+    "g.defensive_etfs",
+    "g.defensive_months",
+    "g.in_defensive_mode",
+    "g.last_due_offsets",
+    "g.last_target_values",
+    "g.min_list_days",
+    "g.phase_cycle",
+    "g.phase_offsets",
+    "g.phase_targets",
+    "g.phase_targets.get",
+    "g.phase_targets.items",
+    "g.stocknum",
+    "g.trade_enabled",
+    "g.use_risk_filter",
+    "g.yesterday_HL_list",
+    "g.yesterday_HL_list.append",
+    "get_stock_pool",
+    "is_common_stock",
+    "is_defensive_asset",
+    "len",
+    "list",
+    "log_plan",
+    "mcap_df.dropna",
+    "mcap_df.empty",
+    "parts.append",
+    "pool.append",
+    "query",
+    "rebalance_to_aggregate_targets",
+    "risk_ok.get",
+    "row.get",
+    "securities.iterrows",
+    "select_smallest_market_cap",
+    "sell_plan.append",
+    "sorted",
+    "stock.endswith",
+    "stock.split",
+    "switch_to_defensive",
+    "target_list.append",
+    "target_values.get",
+    "target_values.items",
+    "valuation.code.in_",
+    "volume.columns"
+  ],
+  "coverage": {
+    "set_benchmark": {
+      "status": "PARTIAL",
+      "file": "engine/core.py",
+      "line": 210,
+      "evidence": "lambda x: None (no-op)"
+    },
+    "set_option": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 818,
+      "evidence": "stores avoid_future_data, use_real_price, order_volume_ratio"
+    },
+    "set_slippage": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 805,
+      "evidence": "def set_slippage(self, slippage, type='stock', ref=None):"
+    },
+    "FixedSlippage": {
+      "status": "PASS",
+      "file": "engine/order.py",
+      "line": 20,
+      "evidence": "class FixedSlippage:"
+    },
+    "set_order_cost": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 798,
+      "evidence": "def set_order_cost(self, cost, type='stock', ref=None):"
+    },
+    "OrderCost": {
+      "status": "PASS",
+      "file": "engine/order.py",
+      "line": 6,
+      "evidence": "class OrderCost:"
+    },
+    "run_daily": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1164,
+      "evidence": "def run_daily(self, func, time=\"09:30\"):"
+    },
+    "get_all_securities": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 1301,
+      "evidence": "def get_all_securities(self, types=None, date=None):"
+    },
+    "get_extras": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 1456,
+      "evidence": "def get_extras(self, label, security, start_date=None, end_date=None, **kwargs):"
+    },
+    "get_price": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 899,
+      "evidence": "def get_price(self, security, start_date=None, end_date=None, frequency='daily', fields=None, fq='pre', count=None, **kwargs):"
+    },
+    "get_fundamentals": {
+      "status": "PASS",
+      "file": "engine/data_api.py",
+      "line": 1580,
+      "evidence": "PASS: PIT reading for cash_flow, balance, fina_indicator all implemented"
+    },
+    "get_current_data": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1411,
+      "evidence": "def get_current_data(self):"
+    },
+    "order_target": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 372,
+      "evidence": "def order_target(self, security, amount, style=None):"
+    },
+    "order_target_value": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 395,
+      "evidence": "def order_target_value(self, security, value, style=None):"
+    },
+    "context.current_dt": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 44,
+      "evidence": "self._current_dt = pd.to_datetime(start_date)"
+    },
+    "context.previous_date": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 45,
+      "evidence": "self.previous_date = None"
+    },
+    "context.portfolio.positions": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 22,
+      "evidence": "self.positions = {} # {code: Position}"
+    },
+    "context.portfolio.total_value": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 38,
+      "evidence": "def total_value(self):"
+    },
+    "context.portfolio.available_cash": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 21,
+      "evidence": "self.available_cash = cash"
+    },
+    "position.value": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 13,
+      "evidence": "def value(self):"
+    },
+    "position.total_amount": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 8,
+      "evidence": "self.total_amount = amount"
+    },
+    "position.closeable_amount": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 9,
+      "evidence": "self.closeable_amount = 0 # T+1 rule: bought today cannot be sold today"
+    },
+    "position.price": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 10,
+      "evidence": "self.price = price # Current price"
+    },
+    "position.avg_cost": {
+      "status": "PASS",
+      "file": "engine/context.py",
+      "line": 7,
+      "evidence": "self.avg_cost = price"
+    },
+    "current_data.paused": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 941,
+      "evidence": "paused = row.get(\"paused\", False)"
+    },
+    "current_data.is_st": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1434,
+      "evidence": "'is_st', code,"
+    },
+    "current_data.last_price": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1442,
+      "evidence": "'last_price': price,"
+    },
+    "current_data.high_limit": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 939,
+      "evidence": "high = round(float(row.get(\"high_limit\", 999999)), 2)"
+    },
+    "current_data.low_limit": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 940,
+      "evidence": "low = round(float(row.get(\"low_limit\", 0)), 2)"
+    },
+    "valuation.code": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 141,
+      "evidence": "'code': JQField('valuation', 'code'),"
+    },
+    "valuation.market_cap": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 142,
+      "evidence": "'market_cap': JQField('valuation', 'market_cap'),"
+    },
+    "indicator.roe": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 157,
+      "evidence": "'roe': JQField('indicator', 'roe'),"
+    },
+    "cash_flow.net_operate_cash_flow": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 165,
+      "evidence": "namespace + PIT reader implemented in data_api"
+    },
+    "balance.total_liability": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 169,
+      "evidence": "namespace + PIT reader implemented in data_api"
+    },
+    "balance.total_assets": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 169,
+      "evidence": "namespace + PIT reader implemented in data_api"
+    },
+    "log.info": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1145,
+      "evidence": "def info(self, msg):"
+    },
+    "log.warning": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1153,
+      "evidence": "def warning(self, msg):"
+    },
+    "log.warn": {
+      "status": "PASS",
+      "file": "engine/core.py",
+      "line": 1157,
+      "evidence": "def warn(self, msg):"
+    }
+  },
+  "semantic_checks": {
+    "position_value_property": {
+      "status": "PASS",
+      "detail": "@property value found in Position class"
+    }
+  },
+  "stats": {
+    "PASS": 37,
+    "PARTIAL": 1,
+    "MISSING": 0,
+    "UNKNOWN": 0,
+    "total": 38
+  },
+  "critical_missing": [],
+  "critical_partial": [],
+  "blocking_missing": [],
+  "blocking_partial": [],
+  "non_blocking_partial": [
+    "set_benchmark"
+  ]
+}

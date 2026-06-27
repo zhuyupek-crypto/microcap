@@ -1,6 +1,6 @@
 # 聚宽API依赖清单与local_quant覆盖分析
 
-> 策略基线：`8290ca3` | local_quant分支：`task/qixing-engine-performance` | local_quant HEAD：`2a3167ef`
+> 策略基线：`8290ca3` | local_quant分支：`task/microcap-compat-v1` | local_quant HEAD：`780ea2f` (TASK-002B)
 
 状态说明：
 - **PASS**：已实现，且语义证据充分
@@ -30,11 +30,10 @@
 |---|---|
 | 策略位置 | 第6-7行：`set_option("use_real_price", True)`、`set_option("avoid_future_data", True)` |
 | local_quant文件 | `engine/core.py:807-809` |
-| 实现 | 仅处理 `order_volume_ratio` 键，其他键（`use_real_price`、`avoid_future_data`）被静默忽略 |
-| 状态 | **PARTIAL** |
-| 证据 | 源码第808行：`if key == 'order_volume_ratio': self.order_volume_ratio = float(value)`。`use_real_price`和`avoid_future_data`无任何处理 |
-| 影响 | `use_real_price=True`为JQ默认，忽略无影响。`avoid_future_data=True`在JQ中启用未来数据检查，local_quant静默忽略，意味着若get_price/get_fundamentals存在未来数据问题将不被检测 |
-| 下任务修复 | 否（无实际危害，但需要意识） |
+| 实现 | 存储于 `_options["avoid_future_data"]`，engine方法层检查get_price/get_fundamentals边界 |
+| 状态 | **PASS** |
+| 证据 | set_option存储avoid_future_data/use_real_price/order_volume_ratio；wrapped_get_price和wrapped_get_fundamentals启用时硬拒绝未来请求 |
+| 影响 | 正确。avoid_future_data=True时，engine层拦截未来时间查询 |
 
 ### 3. `set_slippage` / `FixedSlippage`
 
@@ -130,7 +129,7 @@
 |---|---|
 | 策略位置 | 第91-97行（市值查询）、第145-152行（财务风险过滤单个）、第176-183行（财务风险过滤批量） |
 | local_quant文件 | `engine/data_api.py:1572-1596` |
-| 实现 | 按 `date` 查询 `stock_indicator` 和 `income` 数据。`market_cap` 映射为 `total_mv/1e8`。收入数据使用 `f_ann_date` 过滤避免未来数据 |
+| 实现 | 按 `date` 查询 `stock_indicator` 和 `income` 数据，同时PIT读取 `cashflow`/`balance`/`fina_indicator`。市值映射为 `total_mv/1e8` |
 | 状态 | **PARTIAL** |
 | 证据 | 市值查询正确。但**`cash_flow` 和 `balance` 表缺失**（见下文查询表分析），策略在第149-150行查询 `cash_flow.net_operate_cash_flow` 和 `balance.total_liability`/`balance.total_assets` 将会失败 |
 | 影响 | 策略使用了 `cash_flow` 和 `balance` 表做风险过滤。在local_quant中这些表不存在，调用时会直接异常。但由于策略使用了 `try/except`（第153-154行），异常会被捕获并默认返回True（通过风险过滤），导致风险过滤**静默失效** |

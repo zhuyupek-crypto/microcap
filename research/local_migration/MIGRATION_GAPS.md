@@ -94,33 +94,27 @@
 | 关闭证据 | 实证测试 `test_current_data_0930_last_price_uses_open` 通过：Engine实例化后设current_dt=2024-01-03 09:30，000001.XSHE的last_price=9.19=当日开盘价(9.19)≠前收盘(9.21)。local_quant在09:30正确返回开盘价，语义与聚宽一致 |
 | 关闭日期 | TASK-MICROCAP-001B |
 
-### GAP-006：财务数据公告日语义不完整
+### ~~GAP-006：财务数据公告日语义不完整~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-006 |
-| 优先级 | **P1** |
+| 编号 | ~~GAP-006~~ |
+| 优先级 | ~~P1~~ → **已关闭** |
 | 涉及接口 | `get_fundamentals` 的 `date` 参数 |
-| 聚宽策略中的使用位置 | 第97行、第152行、第183行 |
-| local_quant当前行为 | `stock_indicator` 按日期直接读取，不使用 `f_ann_date`。`income` 数据正确使用 `f_ann_date`。`roe` 字段来自 `stock_indicator` |
-| 预期正确行为 | ROE等基本面指标应使用最新可得的公告数据，即在查询日期之前已披露的财报数据 |
-| 可能导致的偏差 | ROE可能使用了未来公告日才可知的数据。如果某公司在2024年4月30日披露一季报，而`stock_indicator` 在4月1日已包含一季报ROE数据，则4月1日的策略选股将基于不可得的未来信息 |
-| 建议修复位置 | `engine/data_api.py:1572-1596` 对 `stock_indicator` 增加 `f_ann_date` 过滤逻辑 |
-| 建议测试 | 构造一个跨财报披露日的场景：验证某股票在披露日前后 `get_fundamentals` 返回的ROE是否一致 |
+| 关闭证据 | 实证测试：fina_indicator.date字段天然PIT。000001.XSHE 2023年报(20231231) ROE：release=2024-03-15，before(03-14)=8.80，on(03-15)=10.24。新ROE仅在公告日后可见。cashflow和balance均使用f_ann_date PIT过滤。 |
+| 关闭日期 | TASK-MICROCAP-002B |
+| 备注 | fina_indicator无f_ann_date，用date字段替代。实证确认无未来数据泄漏。 |
 
-### GAP-007：set_option 静默忽略未来数据检查
+### ~~GAP-007：set_option 静默忽略未来数据检查~~ **已关闭**
 
 | 项目 | 内容 |
 |---|---|
-| 编号 | GAP-007 |
-| 优先级 | **P1** |
+| 编号 | ~~GAP-007~~ |
+| 优先级 | ~~P1~~ → **已关闭** |
 | 涉及接口 | `set_option("avoid_future_data", True)` |
-| 聚宽策略中的使用位置 | 第7行 |
-| local_quant当前行为 | 静默忽略 |
-| 预期正确行为 | 当 `get_price` 或 `get_fundamentals` 可能返回未来数据时应发出警告或阻止 |
-| 可能导致的偏差 | 由于设置了 `avoid_future_data=True` 但被忽略，任何未来数据问题不会被检测到 |
-| 建议修复位置 | `engine/core.py:807-809` 增加对 `avoid_future_data` 的处理（至少记录警告日志） |
-| 建议测试 | 无需专门测试 |
+| 关闭证据 | wrapped_get_price和wrapped_get_fundamentals在avoid_future_data=True时硬拒绝未来时间查询(RuntimeError)。测试验证：get_price with future end_date raises RuntimeError；关闭option后允许。 |
+| 关闭日期 | TASK-MICROCAP-002B |
+| 备注 | 同时存储use_real_price和order_volume_ratio。未知option记录警告。 |
 
 ### ~~GAP-008：防御ETF手续费类型~~ **已关闭**
 
@@ -175,6 +169,6 @@
 | 优先级 | 数量 | 编号 |
 |---|---|---|
 | **P0** | 5 | GAP-001, GAP-002, GAP-003, GAP-004, GAP-012 |
-| **P1** | 2 | GAP-006, GAP-007 |
+| **P1** | 0 | — |
 | **P2** | 3 | GAP-009, GAP-010, GAP-011 |
-| **合计** | **10** | |
+| **合计** | **8** | |
