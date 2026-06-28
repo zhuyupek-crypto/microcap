@@ -2,17 +2,63 @@
   "first_divergence_date": "2026-05-26",
   "first_divergence_field": "cash",
   "first_divergence_time": "14:00",
+  "callback_name": "check_limit_up",
   "exact_match_days": 14,
-  "execution_match_days": 0,
   "total_days": 35,
-  "jq_previous_state": {
+  "divergence_stocks": [
+    "300417.XSHE",
+    "301167.XSHE",
+    "600493.XSHG",
+    "300535.XSHE"
+  ],
+  "local_side": "buy",
+  "local_total_trades": 4,
+  "jq_total_trades": 0,
+  "local_trade_detail": [
+    {
+      "security": "300417.XSHE",
+      "amount": 100,
+      "price": 14.13
+    },
+    {
+      "security": "301167.XSHE",
+      "amount": 100,
+      "price": 15.95
+    },
+    {
+      "security": "600493.XSHG",
+      "amount": 200,
+      "price": 6.81
+    },
+    {
+      "security": "300535.XSHE",
+      "amount": 100,
+      "price": 17.32
+    }
+  ],
+  "jq_trade_detail": [],
+  "yesterday_HL_contains_targets": true,
+  "confirmed_facts": [
+    "2026-05-26 14:00 local engine executed 4 buy trades via check_limit_up handler",
+    "JQ has 0 trades on 2026-05-26",
+    "All 4 stocks (300417, 301167, 600493, 300535) were in yesterday_HL_list on 2026-05-26",
+    "HData raw 1d_stock shows none of these 4 hit limit-up on 2026-05-25",
+    "The 4 trades are small (100-200 shares each), consistent with order_target_value targeting"
+  ],
+  "unresolved_questions": [
+    "What does the engine's get_price() return for these 4 stocks on 2026-05-25? (differs from raw HData 1d_stock parquet, possibly adjusted data)",
+    "What was JQ's yesterday_HL_list on 2026-05-26? (cannot access)",
+    "Did JQ's check_limit_up fire on 2026-05-26? (cannot access)",
+    "Would the divergence disappear if get_price() returns match HData raw prices?"
+  ],
+  "candidate_root_cause": "NEXT_DIVERGENCE_CONSISTENT_WITH_14_00_MARKET_DATA_OR_TARGET_DELTA_DIFFERENCE",
+  "root_cause_derivation": "Derived from evidence chain: 1) 4 buy trades on 2026-05-26 14:00 (local_trades_after_fix.csv); 2) JQ has 0 trades (jq_trades_normalized.csv); 3) Execute at 14:00 = check_limit_up handler (strategy code: run_daily(check_limit_up, time=14:00)); 4) All 4 stocks in yesterday_HL_list (engine_logs from TASK-003B); 5) HData raw prices show NO limit-up on 2026-05-25 (forensic_0526_v2.py). Chain incomplete: step 4-5 conflict suggests engine get_price returns different data than raw HData parquet. Cannot determine root cause without engine get_price internal trace.",
+  "last_exact_match_date": "2026-05-25",
+  "last_exact_match_state": {
     "date": "2026-05-25",
-    "cash": 10199.04
-  },
-  "local_previous_state": {
-    "date": "2026-05-25",
-    "cash": 10199.040000000008
-  },
-  "candidate_root_cause": "NEXT_DIVERGENCE_CONFIRMED_AS_MARKET_DATA_DIFFERENCE",
-  "notes": "2026-05-26 cash divergence is the first field difference. Trade alignment shows JQ had 4 trades on 2026-05-26 (sell 300665, sell 300405, sell 600493, buy 300417) while local had 0. The limit-down detection engine prevented all sells on this date."
+    "jq_cash": 10199.04,
+    "jq_total_asset": 977240.04,
+    "local_cash": 10199.040000000008,
+    "local_total_asset": 977240.04
+  }
 }
