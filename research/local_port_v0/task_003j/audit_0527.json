@@ -1,0 +1,165 @@
+{
+  "candidates": {
+    "result": [
+      "300929.XSHE",
+      "600455.XSHG",
+      "301167.XSHE",
+      "600561.XSHG",
+      "300535.XSHE",
+      "600493.XSHG",
+      "600697.XSHG",
+      "301098.XSHE",
+      "603879.XSHG",
+      "300605.XSHE"
+    ],
+    "count": 10
+  },
+  "targets": {
+    "all": {
+      "300929.XSHE": 93556.3,
+      "600455.XSHG": 93556.3,
+      "301167.XSHE": 93556.3,
+      "600561.XSHG": 93556.3,
+      "300535.XSHE": 74845.04,
+      "600493.XSHG": 93556.3,
+      "600697.XSHG": 93556.3,
+      "301098.XSHE": 93556.3,
+      "603879.XSHG": 37422.52,
+      "300605.XSHE": 18711.26,
+      "300417.XSHE": 74845.04,
+      "300405.XSHE": 37422.52,
+      "300665.XSHE": 37422.52
+    },
+    "count": 13
+  },
+  "orders": [
+    {
+      "security": "301098.XSHE",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600455.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300665.XSHE",
+      "target_value": 38305.4016,
+      "return": "Order(53, 300665.XSHE, amount=-2300, filled=-2300, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300929.XSHE",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300417.XSHE",
+      "target_value": 76610.8032,
+      "return": "Order(54, 300417.XSHE, amount=-1100, filled=-1100, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300405.XSHE",
+      "target_value": 38305.4016,
+      "return": "Order(55, 300405.XSHE, amount=-2800, filled=-2800, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600561.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "Order(56, 600561.XSHG, amount=100, filled=100, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "301167.XSHE",
+      "target_value": 95763.50399999999,
+      "return": "Order(57, 301167.XSHE, amount=100, filled=100, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600697.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "Order(58, 600697.XSHG, amount=100, filled=100, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300500.XSHE",
+      "target_value": 0.0,
+      "return": "Order(59, 300500.XSHE, amount=-1600, filled=-1600, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600493.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "Order(60, 600493.XSHG, amount=3000, filled=3000, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300535.XSHE",
+      "target_value": 76610.8032,
+      "return": "Order(61, 300535.XSHE, amount=1100, filled=1100, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "603879.XSHG",
+      "target_value": 38305.4016,
+      "return": "Order(62, 603879.XSHG, amount=3600, filled=3600, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600455.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "301167.XSHE",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600561.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300535.XSHE",
+      "target_value": 76610.8032,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600493.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "600697.XSHG",
+      "target_value": 95763.50399999999,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "603879.XSHG",
+      "target_value": 38305.4016,
+      "return": "None",
+      "dt": "2026-05-27 09:30:00"
+    },
+    {
+      "security": "300605.XSHE",
+      "target_value": 19152.7008,
+      "return": "Order(63, 300605.XSHE, amount=1600, filled=1600, status=filled)",
+      "dt": "2026-05-27 09:30:00"
+    }
+  ],
+  "hl_list": {},
+  "g_state": {}
+}
