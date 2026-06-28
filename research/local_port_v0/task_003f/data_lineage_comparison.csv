@@ -1,0 +1,17 @@
+security,date,layer,field,value,derivation
+300417.XSHE,2026-05-25,L0,high_limit,17.89,pre_close * price_limit_mult
+300417.XSHE,2026-05-25,L1_L2_L3,high_limit,14.5,equals close (DataAPI bug)
+300417.XSHE,2026-05-26,L0,high_limit,17.4,pre_close * price_limit_mult
+300417.XSHE,2026-05-26,L1_L2_L3,high_limit,14.2,equals close (DataAPI bug)
+301167.XSHE,2026-05-25,L0,high_limit,20.38,pre_close * price_limit_mult
+301167.XSHE,2026-05-25,L1_L2_L3,high_limit,16.59,equals close (DataAPI bug)
+301167.XSHE,2026-05-26,L0,high_limit,19.91,pre_close * price_limit_mult
+301167.XSHE,2026-05-26,L1_L2_L3,high_limit,16.05,equals close (DataAPI bug)
+600493.XSHG,2026-05-25,L0,high_limit,7.9,pre_close * price_limit_mult
+600493.XSHG,2026-05-25,L1_L2_L3,high_limit,6.94,equals close (DataAPI bug)
+600493.XSHG,2026-05-26,L0,high_limit,7.63,pre_close * price_limit_mult
+600493.XSHG,2026-05-26,L1_L2_L3,high_limit,6.83,equals close (DataAPI bug)
+300535.XSHE,2026-05-25,L0,high_limit,21.74,pre_close * price_limit_mult
+300535.XSHE,2026-05-25,L1_L2_L3,high_limit,17.36,equals close (DataAPI bug)
+300535.XSHE,2026-05-26,L0,high_limit,20.83,pre_close * price_limit_mult
+300535.XSHE,2026-05-26,L1_L2_L3,high_limit,17.33,equals close (DataAPI bug)

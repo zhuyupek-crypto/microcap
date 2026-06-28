@@ -1,0 +1,5 @@
+security,position_before,price,current_value,target_value,delta_value,delta_lots,trade_amount,expected_delta,root_cause
+300417.XSHE,6600,14.13,93258.0,60315.42,-32942.58,-23,100,0,high_limit equals close
+301167.XSHE,5800,15.95,92510.0,60315.42,-32194.58,-20,100,0,high_limit equals close
+600493.XSHG,11000,6.81,74910.0,40210.28,-34699.72,-50,200,0,high_limit equals close
+300535.XSHE,3200,17.32,55424.0,40210.28,-15213.72,-8,100,0,high_limit equals close

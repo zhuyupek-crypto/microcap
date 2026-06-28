@@ -1,0 +1,60 @@
+{
+  "first_divergence_date": "2026-05-26",
+  "first_divergence_time": "14:00",
+  "callback": "check_limit_up",
+  "candidate_root_cause": "ROOT_CAUSE_DATA_API_ADJUSTMENT",
+  "root_cause_detail": "DataAPI.get_price returns high_limit = close for all securities, instead of computing high_limit from pre_close * price_limit_multiplier. This causes every non-zero-price stock to satisfy close >= high_limit, making all positions enter yesterday_HL_list. check_limit_up at 14:00 fires for all 13 HL-listed stocks, but only 4 produce buy trades because the others have target_value - current_value below the 100-share lot threshold.",
+  "first_layer_of_difference": "L1_DataAPI_get_price_high_limit",
+  "evidence_chain": {
+    "L0_raw_hdata": {
+      "high_limit": "NOT STORED as column",
+      "source": "1d_stock/2026.parquet"
+    },
+    "L1_dataapi_raw": {
+      "high_limit": "returns same as close",
+      "observed": true
+    },
+    "L2_wrapped_gp": {
+      "high_limit": "same as L1 (close)",
+      "observed": true
+    },
+    "L3_strategy_gp": {
+      "high_limit": "same as L1 (close)",
+      "decision": "close>=high_limit always True"
+    },
+    "yesterday_HL_list": "ALL 13 portfolio stocks enter the list"
+  },
+  "4_target_stocks": {
+    "300417.XSHE": {
+      "L0_high_limit": 17.89,
+      "L1_high_limit": 14.5,
+      "equals_close": true
+    },
+    "301167.XSHE": {
+      "L0_high_limit": 20.38,
+      "L1_high_limit": 16.59,
+      "equals_close": true
+    },
+    "600493.XSHG": {
+      "L0_high_limit": 7.9,
+      "L1_high_limit": 6.94,
+      "equals_close": true
+    },
+    "300535.XSHE": {
+      "L0_high_limit": 21.74,
+      "L1_high_limit": 17.36,
+      "equals_close": true
+    }
+  },
+  "first_internal_variable": "DataAPI.get_price().high_limit",
+  "first_deviation_value": "14.5 (should be 17.89 for 300417.XSHE on 2026-05-25)",
+  "status_code": "ROOT_CAUSE_DATA_API_ADJUSTMENT",
+  "needs_local_quant_fix": true,
+  "needs_hdata_fix": false,
+  "needs_jq_enhanced_log": false,
+  "fix_location": "engine/data_api.py get_price or _get_price_impl: high_limit computation",
+  "unresolved_questions": [
+    "Why does DataAPI.get_price return high_limit=close? Is 'high_limit' missing from HData schema?",
+    "Does the DataAPI compute high_limit from pre_close anywhere? If not, where should it be added?"
+  ]
+}

@@ -1,0 +1,5 @@
+security,date,time,correct_high_limit,close_ge_correct_hl,should_be_in_HL_list,actual_in_HL_list,check_limit_up_would_fire,check_limit_up_did_fire,root_cause
+300417.XSHE,2026-05-26,14:00,17.89,False,False,True,False,True,high_limit equals close in DataAPI
+301167.XSHE,2026-05-26,14:00,20.38,False,False,True,False,True,high_limit equals close in DataAPI
+600493.XSHG,2026-05-26,14:00,7.9,True,False,True,False,True,high_limit equals close in DataAPI
+300535.XSHE,2026-05-26,14:00,21.74,False,False,True,False,True,high_limit equals close in DataAPI
