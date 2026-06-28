@@ -1,62 +1,65 @@
 {
   "audit_reproduced": true,
   "trades": 56,
-  "300665_sold_on_0519": true,
-  "300665_sold_qty": -300,
-  "300665_sold_price": 9.85,
-  "4_buy_trades_on_0526": true,
-  "normal_case_300665": {
-    "date": "2026-05-18",
-    "L0_correct_hl": 12.06,
-    "L3_returned_hl": 12.06,
-    "L3_returned_close": 9.9,
-    "close_ge_hl": false,
-    "in_yesterday_HL_list": false,
-    "hl_correct": true
+  "300665_final_return_branch": "MULTI_FIELD_SINGLE_SECURITY_VIA_HISTORY_CACHED",
+  "300417_final_return_branch": "MULTI_FIELD_SINGLE_SECURITY_VIA_HISTORY_CACHED",
+  "both_same_branch": true,
+  "branch_executed": "hdata_reader.history with field=('close','high_limit')",
+  "year_parquet_fallback_reached": false,
+  "reason_year_parquet_not_reached": "data_root is default wrong path D:/work space/hdata/data/processed",
+  "hdata_reader_available": true,
+  "300665_backtest_probe": {
+    "return_shape": "(1, 2)",
+    "has_high_limit": true,
+    "high_limit_value": 12.06,
+    "close_value": 9.9,
+    "high_limit_correct": true,
+    "expected_high_limit": 12.06,
+    "pre_close": 10.05,
+    "computation": "10.05 * 1.20 = 12.06"
   },
-  "abnormal_case_300417": {
-    "date": "2026-05-25",
-    "L0_correct_hl": 17.89,
-    "L3_returned_hl": 14.5,
-    "L3_returned_close": 14.5,
-    "close_ge_hl": true,
-    "in_yesterday_HL_list": true,
-    "hl_correct": false,
-    "hl_equals_close": true
+  "300417_backtest_probe": {
+    "return_shape": "(1, 2)",
+    "has_high_limit": true,
+    "high_limit_value": 14.5,
+    "close_value": 14.5,
+    "high_limit_correct": false,
+    "expected_high_limit": 17.89,
+    "pre_close": 14.91,
+    "computation": "14.91 * 1.20 = 17.89",
+    "actual_value": "equals close (14.5) - hdata_reader fallback"
   },
-  "first_layer_of_difference": "L2/L3 (DataAPI.get_price / strategy get_price)",
-  "first_difference_field": "high_limit",
-  "root_cause": "ROOT_CAUSE_HISTORY_READER_MISSING_FIELD_FALLBACK",
-  "root_cause_detail": "HData parquet does not store high_limit as a column. The DataAPI must compute it from pre_close * price_limit_mult. For stock 300665.XSHE on 2026-05-18, the computation works (returns 12.06). For the 4 stocks on 2026-05-25, the computation fails and returns close instead. The most likely explanation: cache contamination. Fields requested during backtest (e.g., \"volume\" for pool queries vs [\"close\",\"high_limit\"] for HL check) create incompatible cache entries. The 300665.XSHE cache entry was populated with correct fields, while the 4 target stocks had malformed cache entries.",
-  "chain_comparison": {
-    "300665_0518": {
-      "L0_raw_hl": 12.06,
-      "L3_strategy_hl": 12.06,
-      "L2_dataapi_hl": 12.06,
-      "hdata_reader": "ERROR (list//int bug)",
-      "data_chain": "CONSISTENT"
-    },
-    "300417_0525": {
-      "L0_raw_hl": 17.89,
-      "L3_strategy_hl": 14.5,
-      "L2_dataapi_hl": 14.5,
-      "hdata_reader": "ERROR (list//int bug)",
-      "data_chain": "BROKEN at L2/L3"
-    }
+  "list_int_exception": {
+    "occurs_in": "hdata_reader.history called from _get_price_impl's hdata_reader path",
+    "scope": "Only affects non-default fq values or certain field combinations",
+    "does_not_affect": "The default get_price path with fq='pre' and single security",
+    "resolved_path": "Exception caught at except Exception: pass, year-parquet fallback unavailable (wrong data_root)"
   },
-  "why_no_early_exposure": "300665 was correctly handled on 2026-05-19 because its high_limit was correctly computed (12.06). The cache entry for 300665 was populated correctly during earlier queries. The 4 target stocks had their cache entries contaminated or incorrectly populated during the backtest, resulting in high_limit = close.",
-  "14_00_minute_data": "The 1-minute parquet files for these stocks do not exist (confirmed by check_minute_hl.py). When check_limit_up calls get_price(frequency='1m'), the engine falls back to some other data source or returns empty. The 4 buy trades at 14:00 are executed because the order_target_value path is reached despite the minute data issue. Further investigation of _load_minute_data fallback behavior is needed.",
-  "recommendations": {
-    "fix_location": "engine/data_api.py - _history_cached or _get_price_impl",
-    "fix_type": "Ensure computed fields (high_limit, low_limit) are correctly computed from pre_close regardless of cache state",
-    "new_tests": [
-      "test_high_limit_computed_correctly_across_cache_hits",
-      "test_cache_fields_dont_contaminate_computed_fields",
-      "test_different_field_queries_produce_consistent_high_limit"
-    ]
+  "year_parquet_code_path": {
+    "_load_year_to_records_called": false,
+    "_price_records_populated": false,
+    "blocking_issue": "self.data_root = 'D:/work space/hdata/data/processed' (doesn't exist)",
+    "root_cause": "DataAPI.data_root is the legacy default, not the actual HDATA path",
+    "impact": "year-parquet high_limit computation at line 805-810 never executes"
   },
-  "status_code": "ROOT_CAUSE_HISTORY_READER_MISSING_FIELD_FALLBACK",
+  "actual_data_source": "hdata_reader.history (from scripts.core)",
+  "hdata_reader_bug": "returns high_limit = close for 300417.XSHE on 2026-05-25",
+  "hdata_reader_works_for": "300665.XSHE on 2026-05-18 (correct high_limit=12.06)",
+  "root_cause": "ROOT_CAUSE_HISTORY_RETURN_EARLY",
+  "root_cause_detail": "_get_price_impl returns at line 657 (multi-field single security via _history_cached). _history_cached returns hdata_reader.history result which has incorrect high_limit for 300417 on 2026-05-25 (high_limit = close instead of pre_close*1.20). The year-parquet fallback is not reached because data_root is the wrong default path. Both 300665 and 300417 take the SAME return branch, but hdata_reader returns correct high_limit for 300665 and incorrect for 300417.",
+  "14_00_minute_data": {
+    "minute_files_exist": false,
+    "check_limit_up_fired": true,
+    "explanation": "2026-05-26 yesterday_HL_list incorrectly includes all 13 stocks (because daily get_price returns high_limit=close for all stocks in afternoon). check_limit_up iterates the HL list. For stocks where 14:00 minute get_price returns empty (no minute files), the condition 'curr is not None and not curr.empty' fails. The 4 buy trades at 14:00 must come from a different mechanism - possibly the rebalance_to_aggregate_targets handler or a secondary fallback in get_price that returns daily data when minute data is unavailable.",
+    "unresolved": true
+  },
   "needs_local_quant_fix": true,
-  "needs_hdata_fix": false,
-  "needs_jq_enhanced_log": false
+  "needs_hdata_fix": true,
+  "fix_suggestions": {
+    "local_quant": "Set data_root correctly in legacy mode (use HDATA_ROOT when available)",
+    "hdata_reader": "Fix high_limit computation bug (returns close instead of pre_close*limit)",
+    "alternative": "Add high_limit computation in engine DataAPI._get_price_impl as explicit post-processing after _history_cached returns, ensuring it always corrects any incorrect values from hdata_reader"
+  },
+  "status_code": "ROOT_CAUSE_HISTORY_RETURN_EARLY",
+  "minute_status": "ROOT_CAUSE_MINUTE_DATA_FALLBACK"
 }
