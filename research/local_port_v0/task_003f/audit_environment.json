@@ -1,0 +1,11 @@
+{
+  "LOCAL_QUANT_HDATA_SOURCE": "legacy",
+  "HDATA_ROOT": "D:\\Work Space\\HData",
+  "LOCALQUANT_DATA_ROOT": null,
+  "cwd": "D:\\Work Space\\\u4ed6\u5c71\u4e4b\u77f3\\\u5fae\u76d8\u80a1\\research\\local_port_v0\\task_003f",
+  "lq_commit": "eb07910219d54824c3a92c0226b4dba10f2c5291",
+  "mc_commit": "f19574a5faa64ff069b85e4a390d29e3ae08f758",
+  "strategy_sha": "F363464FA55218C5B721D9286449C99A0C9ACC097524B6F5F3DB89A13AF151D6",
+  "_USING_CORE": "False",
+  "DataAPI_default_data_root": "(None,)"
+}

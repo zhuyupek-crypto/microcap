@@ -1,0 +1,62 @@
+{
+  "audit_reproduced": true,
+  "trades": 56,
+  "300665_sold_on_0519": true,
+  "300665_sold_qty": -300,
+  "300665_sold_price": 9.85,
+  "4_buy_trades_on_0526": true,
+  "normal_case_300665": {
+    "date": "2026-05-18",
+    "L0_correct_hl": 12.06,
+    "L3_returned_hl": 12.06,
+    "L3_returned_close": 9.9,
+    "close_ge_hl": false,
+    "in_yesterday_HL_list": false,
+    "hl_correct": true
+  },
+  "abnormal_case_300417": {
+    "date": "2026-05-25",
+    "L0_correct_hl": 17.89,
+    "L3_returned_hl": 14.5,
+    "L3_returned_close": 14.5,
+    "close_ge_hl": true,
+    "in_yesterday_HL_list": true,
+    "hl_correct": false,
+    "hl_equals_close": true
+  },
+  "first_layer_of_difference": "L2/L3 (DataAPI.get_price / strategy get_price)",
+  "first_difference_field": "high_limit",
+  "root_cause": "ROOT_CAUSE_HISTORY_READER_MISSING_FIELD_FALLBACK",
+  "root_cause_detail": "HData parquet does not store high_limit as a column. The DataAPI must compute it from pre_close * price_limit_mult. For stock 300665.XSHE on 2026-05-18, the computation works (returns 12.06). For the 4 stocks on 2026-05-25, the computation fails and returns close instead. The most likely explanation: cache contamination. Fields requested during backtest (e.g., \"volume\" for pool queries vs [\"close\",\"high_limit\"] for HL check) create incompatible cache entries. The 300665.XSHE cache entry was populated with correct fields, while the 4 target stocks had malformed cache entries.",
+  "chain_comparison": {
+    "300665_0518": {
+      "L0_raw_hl": 12.06,
+      "L3_strategy_hl": 12.06,
+      "L2_dataapi_hl": 12.06,
+      "hdata_reader": "ERROR (list//int bug)",
+      "data_chain": "CONSISTENT"
+    },
+    "300417_0525": {
+      "L0_raw_hl": 17.89,
+      "L3_strategy_hl": 14.5,
+      "L2_dataapi_hl": 14.5,
+      "hdata_reader": "ERROR (list//int bug)",
+      "data_chain": "BROKEN at L2/L3"
+    }
+  },
+  "why_no_early_exposure": "300665 was correctly handled on 2026-05-19 because its high_limit was correctly computed (12.06). The cache entry for 300665 was populated correctly during earlier queries. The 4 target stocks had their cache entries contaminated or incorrectly populated during the backtest, resulting in high_limit = close.",
+  "14_00_minute_data": "The 1-minute parquet files for these stocks do not exist (confirmed by check_minute_hl.py). When check_limit_up calls get_price(frequency='1m'), the engine falls back to some other data source or returns empty. The 4 buy trades at 14:00 are executed because the order_target_value path is reached despite the minute data issue. Further investigation of _load_minute_data fallback behavior is needed.",
+  "recommendations": {
+    "fix_location": "engine/data_api.py - _history_cached or _get_price_impl",
+    "fix_type": "Ensure computed fields (high_limit, low_limit) are correctly computed from pre_close regardless of cache state",
+    "new_tests": [
+      "test_high_limit_computed_correctly_across_cache_hits",
+      "test_cache_fields_dont_contaminate_computed_fields",
+      "test_different_field_queries_produce_consistent_high_limit"
+    ]
+  },
+  "status_code": "ROOT_CAUSE_HISTORY_READER_MISSING_FIELD_FALLBACK",
+  "needs_local_quant_fix": true,
+  "needs_hdata_fix": false,
+  "needs_jq_enhanced_log": false
+}

@@ -1,0 +1,6 @@
+{"trace": 1, "type": "hdata_reader_found", "path": "<module 'scripts.core.hdata_reader' from 'D:\\\\Work Space\\\\HData\\\\scripts\\\\core\\\\hdata_reader.py'>", "ts": 1782610857.1332557}
+{"trace": 2, "type": "strategy_get_price_wrapped", "ts": 1782610857.1339679}
+{"trace": 1, "type": "hdata_reader_found", "path": "<module 'scripts.core.hdata_reader' from 'D:\\\\Work Space\\\\HData\\\\scripts\\\\core\\\\hdata_reader.py'>", "ts": 1782610884.2163835}
+{"trace": 2, "type": "strategy_get_price_wrapped", "ts": 1782610884.2169502}
+{"trace": 1, "type": "hdata_reader_found", "path": "<module 'scripts.core.hdata_reader' from 'D:\\\\Work Space\\\\HData\\\\scripts\\\\core\\\\hdata_reader.py'>", "ts": 1782611080.4277818}
+{"trace": 2, "type": "strategy_get_price_wrapped", "ts": 1782611080.4865937}
