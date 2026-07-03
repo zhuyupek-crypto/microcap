@@ -154,8 +154,7 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
     with open(output_dir / "engine_logs.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(engine.logs))
 
-    # TASK-006A: fix OrderStatus comparison bug (str(OrderStatus('filled')) != 'filled')
-    # Use .status.name to get the string value, or compare with OrderStatus class attributes
+    # TASK-006A-R1: fix OrderStatus comparison bug + mutually exclusive status counts
     def _count_orders_by_status(status_name):
         return len([o for o in engine.orders.values()
                     if getattr(o, 'status', None) is not None
@@ -163,21 +162,39 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
                          or str(o.status).strip("'") == status_name
                          or o.status == status_name)])
 
+    # Mutually exclusive: rejected and canceled are separate (not summed)
     orders_summary = {
         "submitted": len(engine.orders),
         "filled": _count_orders_by_status("filled"),
         "partially_filled": _count_orders_by_status("partial") + _count_orders_by_status("partially_filled"),
-        "rejected": _count_orders_by_status("rejected") + _count_orders_by_status("canceled"),
+        "rejected": _count_orders_by_status("rejected"),
         "canceled": _count_orders_by_status("canceled"),
     }
 
-    # TASK-006A: determine execution price/volume source based on engine mode
+    # TASK-006A-R1: collect real rejection reasons from engine logs
+    rejection_reasons = {}
+    for line in engine.logs:
+        if "Rejected order" in line or "order rejected" in line.lower():
+            # Extract reason after the last ': ' or '->'
+            reason = line.split(": ")[-1].strip() if ": " in line else "unknown"
+            # Normalize common reasons
+            reason_key = reason[:80]  # truncate long reasons
+            rejection_reasons[reason_key] = rejection_reasons.get(reason_key, 0) + 1
+
+    # TASK-006A-R1: determine execution price/volume source based on engine mode
     if engine_mode == "research":
-        exec_price_src = "daily_open"
+        exec_price_src = "daily_open_intraday_or_minute_bar_close"
         exec_vol_src = "call_auction.volume"
     else:
         exec_price_src = "daily_close_or_open_with_jq_patch"
         exec_vol_src = "1d_stock.volume (full-day)"
+
+    # TASK-006A-R1: git dirty status and cross-repo commit tracking
+    def _git_dirty(cwd):
+        out = _git_cmd(cwd, "status", "--porcelain")
+        return bool(out and out.strip())
+
+    microcap_root = os.getcwd()
 
     result = {
         "tag": tag,
@@ -189,7 +206,12 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
         "end_date": end_date,
         "frequency": frequency,
         "local_quant_branch": _git_cmd(LQ_ROOT, "rev-parse", "--abbrev-ref", "HEAD"),
-        "local_quant_commit": _git_cmd(LQ_ROOT, "rev-parse", "HEAD")[:10],
+        "local_quant_commit": _git_cmd(LQ_ROOT, "rev-parse", "HEAD"),
+        "local_quant_git_dirty": _git_dirty(LQ_ROOT),
+        "microcap_branch": _git_cmd(microcap_root, "rev-parse", "--abbrev-ref", "HEAD"),
+        "microcap_commit": _git_cmd(microcap_root, "rev-parse", "HEAD"),
+        "microcap_git_dirty": _git_dirty(microcap_root),
+        "data_cutoff": end_date,
         # TASK-006A: engine mode and execution source provenance
         "engine_mode": engine_mode,
         "execution_price_source": exec_price_src,
@@ -199,7 +221,7 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
         "orders": orders_summary,
         "orders_filled": orders_summary["filled"],
         "orders_rejected": orders_summary["rejected"],
-        "rejection_reasons": {},
+        "rejection_reasons": rejection_reasons,
         "ending_positions": {
             k: {"amount": v.total_amount, "price": float(v.price), "value": float(v.value)}
             for k, v in engine.context.portfolio.positions.items()
