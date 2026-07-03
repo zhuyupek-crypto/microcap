@@ -171,15 +171,33 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
         "canceled": _count_orders_by_status("canceled"),
     }
 
-    # TASK-006A-R1: collect real rejection reasons from engine logs
+    # TASK-006A-R1: collect real rejection reasons from engine logs.
+    # Engine emits several phrasings:
+    #   "Rejected order for X: reason"
+    #   "Rejected market order for X: reason"
+    #   "Rejected sell order for X: reason"
+    #   "Rejected market sell for X due to limit down"
+    #   "Rejected market buy for X due to limit up"
+    # Match any line containing "Rejected" (case-insensitive); the engine
+    # only logs this token for actual order rejections.
+    import re as _re
     rejection_reasons = {}
     for line in engine.logs:
-        if "Rejected order" in line or "order rejected" in line.lower():
-            # Extract reason after the last ': ' or '->'
-            reason = line.split(": ")[-1].strip() if ": " in line else "unknown"
-            # Normalize common reasons
-            reason_key = reason[:80]  # truncate long reasons
-            rejection_reasons[reason_key] = rejection_reasons.get(reason_key, 0) + 1
+        if not _re.search(r"Rejected", line, _re.IGNORECASE):
+            continue
+        # Log format: "[ts] INFO: Rejected ... for X: reason"
+        # or         "[ts] INFO: Rejected ... for X due to reason"
+        # Split on ": " and take the last segment; if that segment still
+        # starts with "Rejected" (no ": reason" suffix), try "due to".
+        reason = line.split(": ")[-1].strip() if ": " in line else "unknown"
+        if reason.lower().startswith("rejected"):
+            parts = _re.split(r"\s+due to\s+", reason, flags=_re.IGNORECASE)
+            reason = parts[-1].strip() if len(parts) > 1 else "limit/volume guard"
+        # Strip parenthetical numeric details so "execution volume limit is 0
+        # (bar volume=NNN)" aggregates into one key.
+        reason = _re.sub(r"\s*\(.*\)\s*$", "", reason).strip() or reason
+        reason_key = reason[:80]
+        rejection_reasons[reason_key] = rejection_reasons.get(reason_key, 0) + 1
 
     # TASK-006A-R1: determine execution price/volume source based on engine mode
     if engine_mode == "research":

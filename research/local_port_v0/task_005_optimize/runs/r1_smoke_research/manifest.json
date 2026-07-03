@@ -1,0 +1,92 @@
+{
+  "tag": "r1_smoke_research",
+  "strategy_sha256": "49f32316a2d77cf5",
+  "strategy_path": "strategies/P3_code_cleanup.py",
+  "run_timestamp": "2026-07-03T22:42:54.480761",
+  "initial_cash": 1000000,
+  "start_date": "2024-05-06",
+  "end_date": "2024-05-08",
+  "frequency": "daily",
+  "local_quant_branch": "research/research-mode-v1",
+  "local_quant_commit": "4735659bcc",
+  "engine_mode": "research",
+  "execution_price_source": "daily_open",
+  "execution_volume_source": "call_auction.volume",
+  "parity_patches_enabled": false,
+  "metrics": {
+    "total_return": -0.002313674672634436,
+    "annual_return": -0.17681461597654258,
+    "sharpe": -2.8556345870164357,
+    "max_drawdown": -0.0056612064845138815,
+    "max_dd_duration_days": 1,
+    "volatility": 0.07242334748180168,
+    "calmar": -31.23267389384497,
+    "annual_turnover": 16.3632,
+    "win_rate": 1.0,
+    "n_fills": 12,
+    "ending_value": 1003962.77,
+    "trading_days": 3
+  },
+  "orders": {
+    "submitted": 12,
+    "filled": 12,
+    "partially_filled": 0,
+    "rejected": 0,
+    "canceled": 0
+  },
+  "orders_filled": 12,
+  "orders_rejected": 0,
+  "rejection_reasons": {},
+  "ending_positions": {
+    "002193.XSHE": {
+      "amount": 5100,
+      "price": 3.98,
+      "value": 20298.0
+    },
+    "002633.XSHE": {
+      "amount": 2800,
+      "price": 7.02,
+      "value": 19656.0
+    },
+    "300417.XSHE": {
+      "amount": 2600,
+      "price": 7.69,
+      "value": 19994.0
+    },
+    "002856.XSHE": {
+      "amount": 2600,
+      "price": 7.78,
+      "value": 20228.0
+    },
+    "000668.XSHE": {
+      "amount": 2700,
+      "price": 7.6,
+      "value": 20520.0
+    },
+    "600539.XSHG": {
+      "amount": 4100,
+      "price": 4.74,
+      "value": 19434.0
+    },
+    "600847.XSHG": {
+      "amount": 2100,
+      "price": 7.37,
+      "value": 15477.0
+    },
+    "600455.XSHG": {
+      "amount": 1100,
+      "price": 17.81,
+      "value": 19591.0
+    },
+    "600768.XSHG": {
+      "amount": 2300,
+      "price": 8.74,
+      "value": 20102.0
+    },
+    "603272.XSHG": {
+      "amount": 1700,
+      "price": 11.21,
+      "value": 19057.0
+    }
+  }
+}

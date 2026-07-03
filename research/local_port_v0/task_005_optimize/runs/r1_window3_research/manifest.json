@@ -1,0 +1,48 @@
+{
+  "tag": "r1_window3_research",
+  "strategy_sha256": "49f32316a2d77cf5",
+  "strategy_path": "strategies/P3_code_cleanup.py",
+  "run_timestamp": "2026-07-03T23:08:09.446387",
+  "initial_cash": 1000000,
+  "start_date": "2026-06-01",
+  "end_date": "2026-06-30",
+  "frequency": "daily",
+  "local_quant_branch": "research/research-mode-v1",
+  "local_quant_commit": "d11e6cee48af7c171081896792b5e4800762ddef",
+  "local_quant_git_dirty": true,
+  "microcap_branch": "research/task-006a-trust-v1",
+  "microcap_commit": "47129bb397f1a49df8d44fc6d4f109c52d0ed3a3",
+  "microcap_git_dirty": true,
+  "data_cutoff": "2026-06-30",
+  "engine_mode": "research",
+  "execution_price_source": "daily_open_intraday_or_minute_bar_close",
+  "execution_volume_source": "call_auction.volume",
+  "parity_patches_enabled": false,
+  "metrics": {
+    "total_return": 0.0,
+    "annual_return": 0.0,
+    "sharpe": 0.0,
+    "max_drawdown": 0.0,
+    "max_dd_duration_days": 0,
+    "volatility": 0.0,
+    "calmar": 0.0,
+    "annual_turnover": 0.0,
+    "win_rate": 0.0,
+    "n_fills": 0,
+    "ending_value": 1000000.0,
+    "trading_days": 19
+  },
+  "orders": {
+    "submitted": 48,
+    "filled": 0,
+    "partially_filled": 0,
+    "rejected": 48,
+    "canceled": 0
+  },
+  "orders_filled": 0,
+  "orders_rejected": 48,
+  "rejection_reasons": {
+    "execution volume limit is 0": 48
+  },
+  "ending_positions": {}
+}
