@@ -14,7 +14,8 @@ from pathlib import Path
 from datetime import datetime
 import shutil
 
-warnings.filterwarnings("ignore")
+# TASK-006A: do not globally silence warnings; use default filter so anomalies surface
+warnings.simplefilter("default")
 
 LQ_ROOT = r"D:\Work Space\local_quant"
 sys.path.insert(0, LQ_ROOT)
@@ -110,7 +111,8 @@ def extended_metrics(equity_df, trades_df, initial_cash):
 
 
 def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-31",
-                 initial_cash=1_000_000, frequency="daily", output_dir=None):
+                 initial_cash=1_000_000, frequency="daily", output_dir=None,
+                 engine_mode="research"):
     """运行单次回测并保存结果到 output_dir/runs/<tag>/。"""
     from engine.core import Engine
 
@@ -126,13 +128,14 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
     # 复制策略文件以便复现
     shutil.copy(strategy_path, output_dir / "strategy.py")
 
-    print(f"[{tag}] Running backtest {start_date} -> {end_date} cash={initial_cash:.0f}")
+    print(f"[{tag}] Running backtest {start_date} -> {end_date} cash={initial_cash:.0f} mode={engine_mode}")
     engine = Engine(
         strategy_code=strategy_code,
         start_date=start_date,
         end_date=end_date,
         initial_cash=initial_cash,
         frequency=frequency,
+        compatibility_mode=engine_mode,
     )
     equity_df, trades_df, logs, metrics = engine.run()
     ext = extended_metrics(equity_df, trades_df, initial_cash)
@@ -151,6 +154,31 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
     with open(output_dir / "engine_logs.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(engine.logs))
 
+    # TASK-006A: fix OrderStatus comparison bug (str(OrderStatus('filled')) != 'filled')
+    # Use .status.name to get the string value, or compare with OrderStatus class attributes
+    def _count_orders_by_status(status_name):
+        return len([o for o in engine.orders.values()
+                    if getattr(o, 'status', None) is not None
+                    and (o.status.name == status_name
+                         or str(o.status).strip("'") == status_name
+                         or o.status == status_name)])
+
+    orders_summary = {
+        "submitted": len(engine.orders),
+        "filled": _count_orders_by_status("filled"),
+        "partially_filled": _count_orders_by_status("partial") + _count_orders_by_status("partially_filled"),
+        "rejected": _count_orders_by_status("rejected") + _count_orders_by_status("canceled"),
+        "canceled": _count_orders_by_status("canceled"),
+    }
+
+    # TASK-006A: determine execution price/volume source based on engine mode
+    if engine_mode == "research":
+        exec_price_src = "daily_open"
+        exec_vol_src = "call_auction.volume"
+    else:
+        exec_price_src = "daily_close_or_open_with_jq_patch"
+        exec_vol_src = "1d_stock.volume (full-day)"
+
     result = {
         "tag": tag,
         "strategy_sha256": sha256[:16],
@@ -162,9 +190,16 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
         "frequency": frequency,
         "local_quant_branch": _git_cmd(LQ_ROOT, "rev-parse", "--abbrev-ref", "HEAD"),
         "local_quant_commit": _git_cmd(LQ_ROOT, "rev-parse", "HEAD")[:10],
+        # TASK-006A: engine mode and execution source provenance
+        "engine_mode": engine_mode,
+        "execution_price_source": exec_price_src,
+        "execution_volume_source": exec_vol_src,
+        "parity_patches_enabled": engine_mode == "jq_parity",
         "metrics": ext,
-        "orders_filled": len([o for o in engine.orders.values() if str(getattr(o, 'status', '')) == 'filled']),
-        "orders_rejected": len([o for o in engine.orders.values() if str(getattr(o, 'status', '')) == 'rejected']),
+        "orders": orders_summary,
+        "orders_filled": orders_summary["filled"],
+        "orders_rejected": orders_summary["rejected"],
+        "rejection_reasons": {},
         "ending_positions": {
             k: {"amount": v.total_amount, "price": float(v.price), "value": float(v.value)}
             for k, v in engine.context.portfolio.positions.items()
@@ -183,6 +218,9 @@ def main():
     p.add_argument("--start-date", default="2025-01-02")
     p.add_argument("--end-date", default="2025-12-31")
     p.add_argument("--initial-cash", type=float, default=1_000_000)
+    # TASK-006A: engine mode switch (default research for causal backtests)
+    p.add_argument("--engine-mode", default="research", choices=["research", "jq_parity"],
+                   help="research: causal, no patches; jq_parity: preserve JQ anomalies")
     args = p.parse_args()
 
     print("=" * 60)
@@ -192,13 +230,15 @@ def main():
     print(f"  Data   : {os.environ['HDATA_ROOT']}")
     print(f"  Branch : {_git_cmd(LQ_ROOT, 'rev-parse', '--abbrev-ref', 'HEAD')}")
     print(f"  Commit : {_git_cmd(LQ_ROOT, 'rev-parse', 'HEAD')[:10]}")
+    print(f"  Mode   : {args.engine_mode}")
     print(f"  Strategy: {args.strategy}")
     print()
 
     try:
         run_backtest(args.strategy, args.tag,
                      start_date=args.start_date, end_date=args.end_date,
-                     initial_cash=args.initial_cash)
+                     initial_cash=args.initial_cash,
+                     engine_mode=args.engine_mode)
     except Exception as e:
         print(f"  RUN FAILED: {e}")
         traceback.print_exc()
