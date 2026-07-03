@@ -1,0 +1,35 @@
+{
+  "tag": "P1_signal_defense_2024",
+  "strategy_sha256": "086b42359bb173de",
+  "strategy_path": "d:\\Work Space\\他山之石\\微盘股\\research\\local_port_v0\\task_005_optimize\\strategies\\P1_signal_defense.py",
+  "run_timestamp": "2026-07-02T22:46:07.313441",
+  "initial_cash": 1000000,
+  "start_date": "2024-01-02",
+  "end_date": "2024-12-31",
+  "frequency": "daily",
+  "local_quant_branch": "task/jq-order-target-value-parity-v1",
+  "local_quant_commit": "d650a29bb1",
+  "metrics": {
+    "total_return": 0.15571613803812334,
+    "annual_return": 0.1626482272820695,
+    "sharpe": 0.6141629571187742,
+    "max_drawdown": -0.17231687830633757,
+    "max_dd_duration_days": 71,
+    "volatility": 0.21598213592099857,
+    "calmar": 0.9438902844614006,
+    "annual_turnover": 19.595077854545455,
+    "win_rate": 0.5511811023622047,
+    "n_fills": 615,
+    "ending_value": 1164070.810000001,
+    "trading_days": 242
+  },
+  "orders_filled": 0,
+  "orders_rejected": 0,
+  "ending_positions": {
+    "511880.XSHG": {
+      "amount": 11600,
+      "price": 100.093,
+      "value": 1161078.8
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "tag": "P0_3_fixed_base_value",
+  "strategy_sha256": "f51ceda0e6689e70",
+  "strategy_path": "d:\\Work Space\\他山之石\\微盘股\\research\\local_port_v0\\task_005_optimize\\strategies\\P0_3_fixed_base_value.py",
+  "run_timestamp": "2026-07-02T19:19:31.521083",
+  "initial_cash": 1000000,
+  "start_date": "2025-01-02",
+  "end_date": "2025-12-31",
+  "frequency": "daily",
+  "local_quant_branch": "task/jq-order-target-value-parity-v1",
+  "local_quant_commit": "d650a29bb1",
+  "metrics": {
+    "total_return": 0.4983428759447186,
+    "annual_return": 0.5209513618447352,
+    "sharpe": 2.075837069365117,
+    "max_drawdown": -0.13546746657106687,
+    "max_dd_duration_days": 21,
+    "volatility": 0.2365076571230563,
+    "calmar": 3.845582818007759,
+    "annual_turnover": 14.042504725925925,
+    "win_rate": 0.8392857142857143,
+    "n_fills": 695,
+    "ending_value": 1498194.54,
+    "trading_days": 243
+  },
+  "orders_filled": 0,
+  "orders_rejected": 0,
+  "ending_positions": {
+    "300929.XSHE": {
+      "amount": 13900,
+      "price": 10.75,
+      "value": 149425.0
+    },
+    "002193.XSHE": {
+      "amount": 27700,
+      "price": 5.32,
+      "value": 147364.0
+    },
+    "600768.XSHG": {
+      "amount": 6600,
+      "price": 14.0,
+      "value": 92400.0
+    },
+    "603729.XSHG": {
+      "amount": 9300,
+      "price": 16.09,
+      "value": 149637.0
+    },
+    "002719.XSHE": {
+      "amount": 17000,
+      "price": 8.54,
+      "value": 145180.0
+    },
+    "300594.XSHE": {
+      "amount": 4600,
+      "price": 19.61,
+      "value": 90206.0
+    },
+    "301098.XSHE": {
+      "amount": 17300,
+      "price": 8.58,
+      "value": 148434.0
+    },
+    "600455.XSHG": {
+      "amount": 5800,
+      "price": 25.97,
+      "value": 150626.0
+    },
+    "002883.XSHE": {
+      "amount": 13600,
+      "price": 10.94,
+      "value": 148784.0
+    },
+    "300854.XSHE": {
+      "amount": 8900,
+      "price": 16.84,
+      "value": 149876.0
+    },
+    "301372.XSHE": {
+      "amount": 2300,
+      "price": 25.36,
+      "value": 58328.0
+    },
+    "600543.XSHG": {
+      "amount": 11000,
+      "price": 5.31,
+      "value": 58409.99999999999
+    }
+  }
+}

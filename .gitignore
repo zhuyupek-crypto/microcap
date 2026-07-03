@@ -3,3 +3,6 @@ __pycache__/
 .pytest_cache/
 *.pyc
 
+# 回测调试日志（体积大，不入库）
+research/local_port_v0/task_005_optimize/runs/*/engine_logs.txt
+

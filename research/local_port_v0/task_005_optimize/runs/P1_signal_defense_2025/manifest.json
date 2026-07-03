@@ -1,0 +1,85 @@
+{
+  "tag": "P1_signal_defense_2025",
+  "strategy_sha256": "086b42359bb173de",
+  "strategy_path": "d:\\Work Space\\他山之石\\微盘股\\research\\local_port_v0\\task_005_optimize\\strategies\\P1_signal_defense.py",
+  "run_timestamp": "2026-07-02T22:31:45.421921",
+  "initial_cash": 1000000,
+  "start_date": "2025-01-02",
+  "end_date": "2025-12-31",
+  "frequency": "daily",
+  "local_quant_branch": "task/jq-order-target-value-parity-v1",
+  "local_quant_commit": "d650a29bb1",
+  "metrics": {
+    "total_return": 0.43861016212622395,
+    "annual_return": 0.4581186643364583,
+    "sharpe": 2.6809460528705524,
+    "max_drawdown": -0.08580132352972884,
+    "max_dd_duration_days": 25,
+    "volatility": 0.15968939914999838,
+    "calmar": 5.339296009550799,
+    "annual_turnover": 19.36983605925926,
+    "win_rate": 0.7642857142857142,
+    "n_fills": 660,
+    "ending_value": 1436780.2499999993,
+    "trading_days": 243
+  },
+  "orders_filled": 0,
+  "orders_rejected": 0,
+  "ending_positions": {
+    "300929.XSHE": {
+      "amount": 7900,
+      "price": 10.75,
+      "value": 84925.0
+    },
+    "603729.XSHG": {
+      "amount": 5300,
+      "price": 16.09,
+      "value": 85277.0
+    },
+    "301098.XSHE": {
+      "amount": 9900,
+      "price": 8.58,
+      "value": 84942.0
+    },
+    "300594.XSHE": {
+      "amount": 2900,
+      "price": 19.61,
+      "value": 56869.0
+    },
+    "300854.XSHE": {
+      "amount": 5100,
+      "price": 16.84,
+      "value": 85884.0
+    },
+    "600455.XSHG": {
+      "amount": 3300,
+      "price": 25.97,
+      "value": 85701.0
+    },
+    "002883.XSHE": {
+      "amount": 7800,
+      "price": 10.94,
+      "value": 85332.0
+    },
+    "600768.XSHG": {
+      "amount": 4200,
+      "price": 14.0,
+      "value": 58800.0
+    },
+    "600847.XSHG": {
+      "amount": 7400,
+      "price": 11.62,
+      "value": 85988.0
+    },
+    "301372.XSHE": {
+      "amount": 3300,
+      "price": 25.36,
+      "value": 83688.0
+    },
+    "600543.XSHG": {
+      "amount": 10600,
+      "price": 5.31,
+      "value": 56285.99999999999
+    }
+  }
+}

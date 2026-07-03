@@ -1,0 +1,60 @@
+{
+  "tag": "sens_s5_p30_2025",
+  "strategy_sha256": "c882bd6601dcd0f3",
+  "strategy_path": "d:\\Work Space\\他山之石\\微盘股\\research\\local_port_v0\\task_005_optimize\\strategies\\sensitivity\\sens_s5_p30.py",
+  "run_timestamp": "2026-07-03T11:27:18.772641",
+  "initial_cash": 1000000,
+  "start_date": "2025-01-02",
+  "end_date": "2025-12-31",
+  "frequency": "daily",
+  "local_quant_branch": "task/jq-order-target-value-parity-v1",
+  "local_quant_commit": "d650a29bb1",
+  "metrics": {
+    "total_return": 0.20268957161939682,
+    "annual_return": 0.21093880093784279,
+    "sharpe": 1.837646239167021,
+    "max_drawdown": -0.05683949108828595,
+    "max_dd_duration_days": 8,
+    "volatility": 0.09846225953688441,
+    "calmar": 3.711131062208176,
+    "annual_turnover": 7.032204355555555,
+    "win_rate": 0.8390804597701149,
+    "n_fills": 170,
+    "ending_value": 1200189.1800000002,
+    "trading_days": 243
+  },
+  "orders_filled": 0,
+  "orders_rejected": 0,
+  "ending_positions": {
+    "300929.XSHE": {
+      "amount": 6600,
+      "price": 10.75,
+      "value": 70950.0
+    },
+    "603729.XSHG": {
+      "amount": 4400,
+      "price": 16.09,
+      "value": 70796.0
+    },
+    "301098.XSHE": {
+      "amount": 8400,
+      "price": 8.58,
+      "value": 72072.0
+    },
+    "600455.XSHG": {
+      "amount": 2700,
+      "price": 25.97,
+      "value": 70119.0
+    },
+    "300594.XSHE": {
+      "amount": 3700,
+      "price": 19.61,
+      "value": 72557.0
+    },
+    "300854.XSHE": {
+      "amount": 4200,
+      "price": 16.84,
+      "value": 70728.0
+    }
+  }
+}

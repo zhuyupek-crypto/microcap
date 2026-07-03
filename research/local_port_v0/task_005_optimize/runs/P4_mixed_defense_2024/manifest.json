@@ -1,0 +1,35 @@
+{
+  "tag": "P4_mixed_defense_2024",
+  "strategy_sha256": "a67ff023a887df7b",
+  "strategy_path": "d:\\Work Space\\他山之石\\微盘股\\research\\local_port_v0\\task_005_optimize\\strategies\\P4_mixed_defense.py",
+  "run_timestamp": "2026-07-03T10:26:00.596651",
+  "initial_cash": 1000000,
+  "start_date": "2024-01-02",
+  "end_date": "2024-12-31",
+  "frequency": "daily",
+  "local_quant_branch": "task/jq-order-target-value-parity-v1",
+  "local_quant_commit": "d650a29bb1",
+  "metrics": {
+    "total_return": 0.12554641243540998,
+    "annual_return": 0.1310605706452277,
+    "sharpe": 0.581364499579589,
+    "max_drawdown": -0.10048205465594516,
+    "max_dd_duration_days": 69,
+    "volatility": 0.17383340523597357,
+    "calmar": 1.3043181799375487,
+    "annual_turnover": 22.211154624793394,
+    "win_rate": 0.6212121212121212,
+    "n_fills": 501,
+    "ending_value": 1123507.2600000007,
+    "trading_days": 242
+  },
+  "orders_filled": 0,
+  "orders_rejected": 0,
+  "ending_positions": {
+    "511880.XSHG": {
+      "amount": 11200,
+      "price": 100.093,
+      "value": 1121041.6
+    }
+  }
+}
