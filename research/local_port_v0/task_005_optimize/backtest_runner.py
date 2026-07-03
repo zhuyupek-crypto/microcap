@@ -214,6 +214,75 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
 
     microcap_root = os.getcwd()
 
+    # TASK-006A-R2: structured data_cutoff - probe real max dates per source
+    def _probe_data_cutoffs():
+        """Probe each HData source for its real max available date.
+
+        Returns a dict; null for any source that cannot be probed (never
+        fabricated). Reads only the date column of the latest-year parquet
+        to keep it fast.
+        """
+        import pandas as pd
+        hdata_root = os.environ.get("HDATA_ROOT", r"D:\Work Space\HData")
+        processed = os.path.join(hdata_root, "data", "processed")
+
+        def _max_date_in_yearly_parquets(subdir):
+            """Return max date across all YYYY.parquet files in subdir."""
+            full = os.path.join(processed, subdir)
+            if not os.path.isdir(full):
+                return None
+            try:
+                # Pick the latest year parquet (by filename sort)
+                pq_files = sorted(
+                    f for f in os.listdir(full)
+                    if f.endswith(".parquet") and f[:4].isdigit()
+                )
+                if not pq_files:
+                    return None
+                # Read only the date column of the latest file
+                latest = pq_files[-1]
+                df = pd.read_parquet(os.path.join(full, latest), columns=["date"])
+                if df.empty:
+                    return None
+                max_d = int(df["date"].max())
+                # Normalize to ISO string YYYY-MM-DD
+                return f"{max_d // 10000:04d}-{(max_d // 100) % 100:02d}-{max_d % 100:02d}"
+            except Exception:
+                return None
+
+        def _max_date_in_single_parquet(subdir, fname):
+            """Return max date in a single parquet (e.g. fina_indicator)."""
+            full = os.path.join(processed, subdir, fname)
+            if not os.path.exists(full):
+                return None
+            try:
+                # Try date column first, then f_ann_date, then end_date
+                df = pd.read_parquet(full, columns=["date"] if False else None)
+                for col in ("date", "f_ann_date", "end_date", "ann_date"):
+                    if col in df.columns:
+                        max_d = df[col].max()
+                        if pd.notna(max_d):
+                            try:
+                                return pd.Timestamp(max_d).strftime("%Y-%m-%d")
+                            except Exception:
+                                return str(max_d)[:10]
+                return None
+            except Exception:
+                return None
+
+        return {
+            "backtest_end_date": end_date,
+            "call_auction_max_date": _max_date_in_yearly_parquets(
+                os.path.join("1d_feature", "call_auction")),
+            "daily_price_max_date": _max_date_in_yearly_parquets("1d_stock"),
+            "st_status_max_date": _max_date_in_yearly_parquets(
+                os.path.join("1d_feature", "st_list")),
+            "fundamental_max_date": _max_date_in_single_parquet(
+                "fundamental", "fina_indicator.parquet"),
+        }
+
+    data_cutoff = _probe_data_cutoffs()
+
     result = {
         "tag": tag,
         "strategy_sha256": sha256[:16],
@@ -229,7 +298,7 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
         "microcap_branch": _git_cmd(microcap_root, "rev-parse", "--abbrev-ref", "HEAD"),
         "microcap_commit": _git_cmd(microcap_root, "rev-parse", "HEAD"),
         "microcap_git_dirty": _git_dirty(microcap_root),
-        "data_cutoff": end_date,
+        "data_cutoff": data_cutoff,
         # TASK-006A: engine mode and execution source provenance
         "engine_mode": engine_mode,
         "execution_price_source": exec_price_src,
