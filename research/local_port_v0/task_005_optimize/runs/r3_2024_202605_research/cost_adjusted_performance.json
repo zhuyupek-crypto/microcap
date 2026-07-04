@@ -1,0 +1,90 @@
+{
+  "tag": "r3_2024_202605_research",
+  "engine_mode": "research",
+  "start_date": "2024-01-01",
+  "end_date": "2026-05-28",
+  "scenarios": {
+    "gross": {
+      "initial_value": 1000168.3,
+      "ending_value": 2693218.830000001,
+      "total_return": 1.6927656375432023,
+      "cagr": 0.5389931169960516,
+      "max_drawdown": -0.24547501152867146,
+      "max_drawdown_start": "2024-05-17",
+      "max_drawdown_end": "2024-06-24",
+      "volatility": 0.3312863417214868,
+      "sharpe": 1.5364144333603806,
+      "calmar": 2.195714804694478,
+      "trading_days": 579,
+      "cost_rate": 0.0,
+      "total_round_trip_cost": 0.0
+    },
+    "cost_10bp": {
+      "initial_value": 999177.3694000001,
+      "ending_value": 2616473.625300001,
+      "total_return": 1.6186277886489537,
+      "cagr": 0.5204059806657593,
+      "max_drawdown": -0.24812800647909927,
+      "max_drawdown_start": "2024-05-17",
+      "max_drawdown_end": "2024-06-24",
+      "volatility": 0.3348271780818261,
+      "sharpe": 1.464654044738006,
+      "calmar": 2.0973286653540053,
+      "trading_days": 579,
+      "cost_rate": 0.001,
+      "total_round_trip_cost": 76745.20469999997
+    },
+    "cost_20bp": {
+      "initial_value": 998186.4388,
+      "ending_value": 2539728.4206000012,
+      "total_return": 1.5443427418761693,
+      "cagr": 0.5014813984553297,
+      "max_drawdown": -0.2512372183786812,
+      "max_drawdown_start": "2025-11-17",
+      "max_drawdown_end": "2026-03-23",
+      "volatility": 0.33852110240724514,
+      "sharpe": 1.3927681172683044,
+      "calmar": 1.996047407671359,
+      "trading_days": 579,
+      "cost_rate": 0.002,
+      "total_round_trip_cost": 153490.40939999995
+    },
+    "cost_30bp": {
+      "initial_value": 997195.5082,
+      "ending_value": 2462983.215900001,
+      "total_return": 1.469910058405537,
+      "cagr": 0.48220356375295026,
+      "max_drawdown": -0.2598041170802494,
+      "max_drawdown_start": "2025-11-17",
+      "max_drawdown_end": "2026-03-23",
+      "volatility": 0.34237721386435455,
+      "sharpe": 1.320775873630736,
+      "calmar": 1.8560274147003033,
+      "trading_days": 579,
+      "cost_rate": 0.003,
+      "total_round_trip_cost": 230235.6141
+    },
+    "cost_50bp": {
+      "initial_value": 995213.647,
+      "ending_value": 2309492.8065000013,
+      "total_return": 1.320600017354868,
+      "cagr": 0.44251842906579864,
+      "max_drawdown": -0.27773343876082046,
+      "max_drawdown_start": "2025-11-17",
+      "max_drawdown_end": "2026-03-23",
+      "volatility": 0.35061683889083545,
+      "sharpe": 1.1765505341123568,
+      "calmar": 1.5933206712170094,
+      "trading_days": 579,
+      "cost_rate": 0.005,
+      "total_round_trip_cost": 383726.0234999998
+    }
+  },
+  "notes": [
+    "Cost is deducted DAILY (on the day the trade occurs), not lump-sum at end.",
+    "single-side cost_rate applied to BOTH buy and sell => round_trip = 2*rate*notional.",
+    "daily_cost = cost_rate * sum(abs(price*amount)) for fills that day.",
+    "net_equity[t] = gross_equity[t] - cumulative_cost[t].",
+    "Drawdown, volatility, Sharpe are ALL recomputed from the net curve."
+  ]
+}

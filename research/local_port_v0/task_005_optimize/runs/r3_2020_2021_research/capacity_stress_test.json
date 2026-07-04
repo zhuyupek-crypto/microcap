@@ -1,0 +1,291 @@
+{
+  "tag": "r3_2020_2021_research",
+  "initial_cash": 1000000.0,
+  "participation_stats": {
+    "buy_max_participation": 46.0,
+    "buy_p95_participation": 3.98,
+    "buy_median_participation": 0.138889,
+    "sell_max_participation": 69.0,
+    "sell_p95_participation": 3.084821,
+    "all_max_participation": 69.0,
+    "all_p95_participation": 3.732955,
+    "all_p99_participation": 19.775,
+    "all_median_participation": 0.098837,
+    "matched_trades": 1416,
+    "unmatched_trades": 179,
+    "buy_trades": 825,
+    "sell_trades": 591
+  },
+  "capacity_ceilings": {
+    "5%": 1086.96,
+    "10%": 2173.91,
+    "20%": 4347.83,
+    "30%": 6521.74
+  },
+  "recommended_capital_tiers": {
+    "conservative": {
+      "capital": 1000000,
+      "rule": "5% buy auction participation, fill_rate >= 95%"
+    },
+    "neutral": {
+      "capital": 1000000,
+      "rule": "10% buy auction participation, fill_rate >= 90%"
+    },
+    "aggressive": {
+      "capital": 1000000,
+      "rule": "20% buy auction participation, fill_rate >= 80%"
+    },
+    "max_recommended": 1086.9565217391305
+  },
+  "stress_matrix": [
+    {
+      "capital_label": "100万",
+      "capital": 1000000,
+      "auction_participation_limit": "5%",
+      "limit_rate": 0.05,
+      "estimated_fill_rate": 0.3176,
+      "estimated_unfilled_value": 12061289.0,
+      "estimated_turnover_loss": 0.8998,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "100万",
+      "capital": 1000000,
+      "auction_participation_limit": "10%",
+      "limit_rate": 0.1,
+      "estimated_fill_rate": 0.4352,
+      "estimated_unfilled_value": 11049216.0,
+      "estimated_turnover_loss": 0.8243,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "100万",
+      "capital": 1000000,
+      "auction_participation_limit": "20%",
+      "limit_rate": 0.2,
+      "estimated_fill_rate": 0.5673,
+      "estimated_unfilled_value": 9318965.0,
+      "estimated_turnover_loss": 0.6952,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "100万",
+      "capital": 1000000,
+      "auction_participation_limit": "30%",
+      "limit_rate": 0.3,
+      "estimated_fill_rate": 0.64,
+      "estimated_unfilled_value": 7891055.0,
+      "estimated_turnover_loss": 0.5887,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "300万",
+      "capital": 3000000,
+      "auction_participation_limit": "5%",
+      "limit_rate": 0.05,
+      "estimated_fill_rate": 0.1697,
+      "estimated_unfilled_value": 12851418.0,
+      "estimated_turnover_loss": 0.9588,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "300万",
+      "capital": 3000000,
+      "auction_participation_limit": "10%",
+      "limit_rate": 0.1,
+      "estimated_fill_rate": 0.2582,
+      "estimated_unfilled_value": 12459555.0,
+      "estimated_turnover_loss": 0.9295,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "300万",
+      "capital": 3000000,
+      "auction_participation_limit": "20%",
+      "limit_rate": 0.2,
+      "estimated_fill_rate": 0.36,
+      "estimated_unfilled_value": 11706528.0,
+      "estimated_turnover_loss": 0.8733,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "300万",
+      "capital": 3000000,
+      "auction_participation_limit": "30%",
+      "limit_rate": 0.3,
+      "estimated_fill_rate": 0.4291,
+      "estimated_unfilled_value": 11057780.0,
+      "estimated_turnover_loss": 0.8249,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "500万",
+      "capital": 5000000,
+      "auction_participation_limit": "5%",
+      "limit_rate": 0.05,
+      "estimated_fill_rate": 0.1176,
+      "estimated_unfilled_value": 13107368.0,
+      "estimated_turnover_loss": 0.9779,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "500万",
+      "capital": 5000000,
+      "auction_participation_limit": "10%",
+      "limit_rate": 0.1,
+      "estimated_fill_rate": 0.1915,
+      "estimated_unfilled_value": 12783358.0,
+      "estimated_turnover_loss": 0.9537,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "500万",
+      "capital": 5000000,
+      "auction_participation_limit": "20%",
+      "limit_rate": 0.2,
+      "estimated_fill_rate": 0.2897,
+      "estimated_unfilled_value": 12250230.0,
+      "estimated_turnover_loss": 0.9139,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "500万",
+      "capital": 5000000,
+      "auction_participation_limit": "30%",
+      "limit_rate": 0.3,
+      "estimated_fill_rate": 0.3455,
+      "estimated_unfilled_value": 11855496.0,
+      "estimated_turnover_loss": 0.8845,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "1000万",
+      "capital": 10000000,
+      "auction_participation_limit": "5%",
+      "limit_rate": 0.05,
+      "estimated_fill_rate": 0.0691,
+      "estimated_unfilled_value": 13275818.0,
+      "estimated_turnover_loss": 0.9904,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "1000万",
+      "capital": 10000000,
+      "auction_participation_limit": "10%",
+      "limit_rate": 0.1,
+      "estimated_fill_rate": 0.1176,
+      "estimated_unfilled_value": 13107368.0,
+      "estimated_turnover_loss": 0.9779,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "1000万",
+      "capital": 10000000,
+      "auction_participation_limit": "20%",
+      "limit_rate": 0.2,
+      "estimated_fill_rate": 0.1915,
+      "estimated_unfilled_value": 12783358.0,
+      "estimated_turnover_loss": 0.9537,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "1000万",
+      "capital": 10000000,
+      "auction_participation_limit": "30%",
+      "limit_rate": 0.3,
+      "estimated_fill_rate": 0.2424,
+      "estimated_unfilled_value": 12539440.0,
+      "estimated_turnover_loss": 0.9355,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "2000万",
+      "capital": 20000000,
+      "auction_participation_limit": "5%",
+      "limit_rate": 0.05,
+      "estimated_fill_rate": 0.0461,
+      "estimated_unfilled_value": 13325727.0,
+      "estimated_turnover_loss": 0.9941,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "2000万",
+      "capital": 20000000,
+      "auction_participation_limit": "10%",
+      "limit_rate": 0.1,
+      "estimated_fill_rate": 0.0691,
+      "estimated_unfilled_value": 13275818.0,
+      "estimated_turnover_loss": 0.9904,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "2000万",
+      "capital": 20000000,
+      "auction_participation_limit": "20%",
+      "limit_rate": 0.2,
+      "estimated_fill_rate": 0.1176,
+      "estimated_unfilled_value": 13107368.0,
+      "estimated_turnover_loss": 0.9779,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "2000万",
+      "capital": 20000000,
+      "auction_participation_limit": "30%",
+      "limit_rate": 0.3,
+      "estimated_fill_rate": 0.1576,
+      "estimated_unfilled_value": 12913634.0,
+      "estimated_turnover_loss": 0.9634,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "5000万",
+      "capital": 50000000,
+      "auction_participation_limit": "5%",
+      "limit_rate": 0.05,
+      "estimated_fill_rate": 0.0279,
+      "estimated_unfilled_value": 13363552.0,
+      "estimated_turnover_loss": 0.997,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "5000万",
+      "capital": 50000000,
+      "auction_participation_limit": "10%",
+      "limit_rate": 0.1,
+      "estimated_fill_rate": 0.0388,
+      "estimated_unfilled_value": 13338820.0,
+      "estimated_turnover_loss": 0.9951,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "5000万",
+      "capital": 50000000,
+      "auction_participation_limit": "20%",
+      "limit_rate": 0.2,
+      "estimated_fill_rate": 0.0594,
+      "estimated_unfilled_value": 13289542.0,
+      "estimated_turnover_loss": 0.9914,
+      "capacity_pass": "FAIL"
+    },
+    {
+      "capital_label": "5000万",
+      "capital": 50000000,
+      "auction_participation_limit": "30%",
+      "limit_rate": 0.3,
+      "estimated_fill_rate": 0.0776,
+      "estimated_unfilled_value": 13268579.0,
+      "estimated_turnover_loss": 0.9899,
+      "capacity_pass": "FAIL"
+    }
+  ],
+  "notes": [
+    "Capacity is based on CALL-AUCTION volume (09:25 snapshot), not full-day volume.",
+    "Buy participation = abs(buy_shares) / call_auction.volume.",
+    "Sell participation reported separately (sells are position-driven, not auction-constrained).",
+    "Capacity ceiling uses BUY-only max participation (engine constrains buys via order_volume_ratio).",
+    "At capital K, buy participation scales linearly by K/initial_cash.",
+    "179 trades had no matching call_auction record and were excluded.",
+    "This is a static capacity estimate; it does NOT account for market impact or adverse selection that would occur at higher participation rates."
+  ]
+}
