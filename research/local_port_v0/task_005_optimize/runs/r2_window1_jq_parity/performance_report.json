@@ -1,0 +1,60 @@
+{
+  "tag": "r2_window1_jq_parity",
+  "engine_mode": "jq_parity",
+  "start_date": "2024-05-01",
+  "end_date": "2024-06-10",
+  "initial_cash": 1000000.0,
+  "equity_metrics": {
+    "initial_value": 1006354.0,
+    "ending_value": 856452.69,
+    "total_return": -0.14895485087752425,
+    "annual_return_cagr": -0.8032466143570676,
+    "max_drawdown": -0.22690667758606242,
+    "max_drawdown_start": "2024-05-17",
+    "max_drawdown_end": "2024-06-06",
+    "volatility_annualized": 0.45587913754209425,
+    "sharpe_annualized": -1.8277796585506803,
+    "calmar": -3.539986671623658,
+    "trading_days": 25
+  },
+  "trade_flow_metrics": {
+    "buy_turnover": 1.239514,
+    "sell_turnover": 0.240329,
+    "gross_turnover": 1.479843,
+    "annualized_gross_turnover": 14.91681744,
+    "number_of_fills": 99,
+    "number_of_buy_fills": 75,
+    "number_of_sell_fills": 24
+  },
+  "closed_trade_metrics": {
+    "number_of_closed_trades": 31,
+    "win_rate": 0.41935483870967744,
+    "average_return": -0.019990901081666214,
+    "median_return": -0.00652741514360311,
+    "average_win": 0.05158384163526511,
+    "average_loss": 0.075900463222947,
+    "profit_loss_ratio": 0.6796248592547425,
+    "expectancy_per_trade": -0.019990901081666214,
+    "average_holding_days": 21.93548387096774,
+    "median_holding_days": 21.0
+  },
+  "open_position_metrics": {
+    "number_of_open_positions": 15,
+    "open_positions_value": 856373.0,
+    "note": "Open positions are excluded from closed-trade win rate. Unrealized P&L is not computed (would require market data)."
+  },
+  "execution_quality": {
+    "orders_submitted": 107,
+    "orders_filled": 99,
+    "orders_rejected": 8,
+    "fill_rate": 0.9252336448598131,
+    "rejection_reasons": {
+      "cash insufficient for even 1 lot.": 8
+    }
+  },
+  "notes": [
+    "Closed-trade P&L is GROSS (excludes commission/tax). trades.csv has commission/tax columns but they are not netted here per spec §6.3.",
+    "risk_free_rate = 0.03; trading_days_per_year = 252.",
+    "Turnover denominator = manifest.initial_cash = 1000000.00 (not equity first value)."
+  ]
+}

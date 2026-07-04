@@ -329,6 +329,15 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
     with open(output_dir / "manifest.json", "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False, default=str)
 
+    # TASK-006B: generate performance_report.json / summary.md / closed_trades.csv
+    # Pure-stats post-processing; reads only the three artifacts written above.
+    try:
+        from performance_report import generate_report
+        generate_report(output_dir)
+    except Exception as exc:
+        # Report generation must never break the runner itself.
+        print(f"[{tag}] WARN: performance_report.generate_report failed: {exc}")
+
     return result
 
 

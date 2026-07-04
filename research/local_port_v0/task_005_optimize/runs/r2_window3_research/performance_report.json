@@ -1,0 +1,58 @@
+{
+  "tag": "r2_window3_research",
+  "engine_mode": "research",
+  "start_date": "2026-05-01",
+  "end_date": "2026-05-28",
+  "initial_cash": 1000000.0,
+  "equity_metrics": {
+    "initial_value": 1001161.0,
+    "ending_value": 933795.26,
+    "total_return": -0.06728761907425473,
+    "annual_return_cagr": -0.6439141149650358,
+    "max_drawdown": -0.07490525606669274,
+    "max_drawdown_start": "2026-05-14",
+    "max_drawdown_end": "2026-05-28",
+    "volatility_annualized": 0.2261284319734227,
+    "sharpe_annualized": -2.980227249991466,
+    "calmar": -8.596380932089994,
+    "trading_days": 17
+  },
+  "trade_flow_metrics": {
+    "buy_turnover": 1.073009,
+    "sell_turnover": 0.078726,
+    "gross_turnover": 1.151735,
+    "annualized_gross_turnover": 17.072777647058825,
+    "number_of_fills": 63,
+    "number_of_buy_fills": 58,
+    "number_of_sell_fills": 5
+  },
+  "closed_trade_metrics": {
+    "number_of_closed_trades": 6,
+    "win_rate": 0.5,
+    "average_return": 0.04995367747136783,
+    "median_return": 0.03809844518813732,
+    "average_win": 0.1240143781820043,
+    "average_loss": 0.02410702323926865,
+    "profit_loss_ratio": 5.144325657760747,
+    "expectancy_per_trade": 0.04995367747136783,
+    "average_holding_days": 18.833333333333332,
+    "median_holding_days": 21.0
+  },
+  "open_position_metrics": {
+    "number_of_open_positions": 13,
+    "open_positions_value": 928472.0,
+    "note": "Open positions are excluded from closed-trade win rate. Unrealized P&L is not computed (would require market data)."
+  },
+  "execution_quality": {
+    "orders_submitted": 63,
+    "orders_filled": 63,
+    "orders_rejected": 0,
+    "fill_rate": 1.0,
+    "rejection_reasons": {}
+  },
+  "notes": [
+    "Closed-trade P&L is GROSS (excludes commission/tax). trades.csv has commission/tax columns but they are not netted here per spec §6.3.",
+    "risk_free_rate = 0.03; trading_days_per_year = 252.",
+    "Turnover denominator = manifest.initial_cash = 1000000.00 (not equity first value)."
+  ]
+}
