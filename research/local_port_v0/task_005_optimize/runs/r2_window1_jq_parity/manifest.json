@@ -1,0 +1,130 @@
+{
+  "tag": "r2_window1_jq_parity",
+  "strategy_sha256": "28dbe6c46287a80a",
+  "strategy_path": "D:\\Work Space\\他山之石\\微盘股\\微盘股-母版-20260627.py",
+  "run_timestamp": "2026-07-04T07:44:23.791909",
+  "initial_cash": 1000000,
+  "start_date": "2024-05-01",
+  "end_date": "2024-06-10",
+  "frequency": "daily",
+  "local_quant_branch": "research/research-mode-v1",
+  "local_quant_commit": "8bf1f781b9c03d1626c4a6393810a8e46d10edbe",
+  "local_quant_git_dirty": false,
+  "microcap_branch": "research/task-006a-trust-v1",
+  "microcap_commit": "a5a3391093586f8118e4094492f9191d0a5fcd18",
+  "microcap_git_dirty": false,
+  "data_cutoff": {
+    "backtest_end_date": "2024-06-10",
+    "call_auction_max_date": "2026-05-28",
+    "daily_price_max_date": "2026-06-26",
+    "st_status_max_date": "2026-06-26",
+    "fundamental_max_date": "2026-06-26"
+  },
+  "engine_mode": "jq_parity",
+  "execution_price_source": "daily_close_or_open_with_jq_patch",
+  "execution_volume_source": "1d_stock.volume (full-day)",
+  "parity_patches_enabled": true,
+  "metrics": {
+    "total_return": -0.14895485087752425,
+    "annual_return": -0.8032466143570676,
+    "sharpe": -1.8277796585506805,
+    "max_drawdown": -0.22690667758606256,
+    "max_dd_duration_days": 14,
+    "volatility": 0.4558791375420942,
+    "calmar": -3.5399866716236557,
+    "annual_turnover": 14.91681744,
+    "win_rate": 0.4583333333333333,
+    "n_fills": 99,
+    "ending_value": 856452.69,
+    "trading_days": 25
+  },
+  "orders": {
+    "submitted": 107,
+    "filled": 99,
+    "partially_filled": 0,
+    "rejected": 8,
+    "canceled": 0
+  },
+  "orders_filled": 99,
+  "orders_rejected": 8,
+  "rejection_reasons": {
+    "cash insufficient for even 1 lot.": 8
+  },
+  "ending_positions": {
+    "002193.XSHE": {
+      "amount": 28000,
+      "price": 3.03,
+      "value": 84840.0
+    },
+    "002633.XSHE": {
+      "amount": 13800,
+      "price": 6.13,
+      "value": 84594.0
+    },
+    "300417.XSHE": {
+      "amount": 9300,
+      "price": 7.5,
+      "value": 69750.0
+    },
+    "002856.XSHE": {
+      "amount": 4000,
+      "price": 8.59,
+      "value": 34360.0
+    },
+    "002629.XSHE": {
+      "amount": 46300,
+      "price": 1.83,
+      "value": 84729.0
+    },
+    "000668.XSHE": {
+      "amount": 13900,
+      "price": 6.29,
+      "value": 87431.0
+    },
+    "600539.XSHG": {
+      "amount": 22500,
+      "price": 3.89,
+      "value": 87525.0
+    },
+    "603021.XSHG": {
+      "amount": 25300,
+      "price": 2.66,
+      "value": 67298.0
+    },
+    "600455.XSHG": {
+      "amount": 4400,
+      "price": 15.21,
+      "value": 66924.0
+    },
+    "300329.XSHE": {
+      "amount": 9100,
+      "price": 3.74,
+      "value": 34034.0
+    },
+    "300716.XSHE": {
+      "amount": 3000,
+      "price": 6.47,
+      "value": 19410.0
+    },
+    "603272.XSHG": {
+      "amount": 7800,
+      "price": 8.76,
+      "value": 68328.0
+    },
+    "000679.XSHE": {
+      "amount": 14600,
+      "price": 2.38,
+      "value": 34748.0
+    },
+    "000953.XSHE": {
+      "amount": 6900,
+      "price": 2.43,
+      "value": 16767.0
+    },
+    "300391.XSHE": {
+      "amount": 5900,
+      "price": 2.65,
+      "value": 15635.0
+    }
+  }
+}

@@ -208,9 +208,21 @@ def run_backtest(strategy_path, tag, start_date="2025-01-02", end_date="2025-12-
         exec_vol_src = "1d_stock.volume (full-day)"
 
     # TASK-006A-R1: git dirty status and cross-repo commit tracking
+    # R2.8: exclude run-product directories (runs/) so that manifest
+    # git_dirty reflects real code changes, not the run's own output.
     def _git_dirty(cwd):
         out = _git_cmd(cwd, "status", "--porcelain")
-        return bool(out and out.strip())
+        if not out or not out.strip():
+            return False
+        for line in out.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            # Skip untracked run-product directories (generated during run)
+            if "runs/" in line or "runs\\" in line:
+                continue
+            return True
+        return False
 
     microcap_root = os.getcwd()
 
