@@ -1,0 +1,108 @@
+{
+  "tag": "r3_2024_202605_research",
+  "engine_mode": "research",
+  "start_date": "2024-01-01",
+  "end_date": "2026-05-28",
+  "initial_cash": 1000000.0,
+  "scenarios": {
+    "gross": {
+      "number_of_closed_trades": 1719,
+      "win_rate": 0.6451425247236765,
+      "average_return": 0.13620245261453753,
+      "median_return": 0.06967213114754098,
+      "average_win": 0.26304254308622943,
+      "average_loss": 0.0951771309722949,
+      "profit_loss_ratio": 2.763715825420273,
+      "expectancy_per_trade": 0.13620245261453753,
+      "average_holding_days": 57.9499709133217,
+      "median_holding_days": 39.0,
+      "total_net_pnl": 1947001.9,
+      "equity_metrics_net": {
+        "ending_value_net": 2693218.830000001,
+        "total_return_net": 1.6927656375432023,
+        "cagr_net": 0.5389931169960516,
+        "max_drawdown": -0.24547501152867146,
+        "max_drawdown_start": "2024-05-17",
+        "max_drawdown_end": "2024-06-24",
+        "sharpe_net": 1.5364144333603806,
+        "total_round_trip_cost": 0.0
+      }
+    },
+    "cost_10bp": {
+      "number_of_closed_trades": 1719,
+      "win_rate": 0.6387434554973822,
+      "average_return": 0.134066250161923,
+      "median_return": 0.06760245901639345,
+      "average_win": 0.26340010016132376,
+      "average_loss": 0.09461099186600291,
+      "profit_loss_ratio": 2.784032753132702,
+      "expectancy_per_trade": 0.134066250161923,
+      "average_holding_days": 57.9499709133217,
+      "median_holding_days": 39.0,
+      "total_net_pnl": 1873167.0123,
+      "equity_metrics_net": {
+        "ending_value_net": 2619383.942300001,
+        "total_return_net": 1.6189431741637894,
+        "cagr_net": 0.5204856763396619,
+        "max_drawdown": -0.24547501152867146,
+        "max_drawdown_start": "2024-05-17",
+        "max_drawdown_end": "2024-06-24",
+        "sharpe_net": 1.4805490434375177,
+        "total_round_trip_cost": 73834.8877
+      }
+    },
+    "cost_20bp": {
+      "number_of_closed_trades": 1719,
+      "win_rate": 0.6352530541012217,
+      "average_return": 0.13193004770930847,
+      "median_return": 0.0655327868852459,
+      "average_win": 0.26257581646469674,
+      "average_loss": 0.09560612371155922,
+      "profit_loss_ratio": 2.7464330345290437,
+      "expectancy_per_trade": 0.13193004770930847,
+      "average_holding_days": 57.9499709133217,
+      "median_holding_days": 39.0,
+      "total_net_pnl": 1799332.1245999997,
+      "equity_metrics_net": {
+        "ending_value_net": 2545549.054600001,
+        "total_return_net": 1.5451207107843756,
+        "cagr_net": 0.5016811964230545,
+        "max_drawdown": -0.24547501152867146,
+        "max_drawdown_start": "2024-05-17",
+        "max_drawdown_end": "2024-06-24",
+        "sharpe_net": 1.4237870295890376,
+        "total_round_trip_cost": 147669.7754
+      }
+    },
+    "cost_30bp": {
+      "number_of_closed_trades": 1719,
+      "win_rate": 0.6288539848749273,
+      "average_return": 0.12979384525669393,
+      "median_return": 0.06346311475409835,
+      "average_win": 0.26296784872776524,
+      "average_loss": 0.09585050858692372,
+      "profit_loss_ratio": 2.7435206406785855,
+      "expectancy_per_trade": 0.12979384525669393,
+      "average_holding_days": 57.9499709133217,
+      "median_holding_days": 39.0,
+      "total_net_pnl": 1725497.2369,
+      "equity_metrics_net": {
+        "ending_value_net": 2471714.166900001,
+        "total_return_net": 1.4712982474049627,
+        "cagr_net": 0.4825660807530603,
+        "max_drawdown": -0.24547501152867146,
+        "max_drawdown_start": "2024-05-17",
+        "max_drawdown_end": "2024-06-24",
+        "sharpe_net": 1.3660873503005253,
+        "total_round_trip_cost": 221504.6631
+      }
+    }
+  },
+  "notes": [
+    "Cost is applied as a single-side rate on BOTH buy and sell legs.",
+    "round_trip_cost = cost_rate * (buy_notional + sell_notional).",
+    "net_pnl = gross_pnl - round_trip_cost.",
+    "Equity drawdown shape is unchanged (costs applied as lump-sum at end).",
+    "This is a post-processing approximation; the backtest itself is not re-run."
+  ]
+}

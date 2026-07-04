@@ -1,0 +1,64 @@
+{
+  "tag": "r3_full_2020_202605_research",
+  "engine_mode": "research",
+  "start_date": "2020-01-01",
+  "end_date": "2026-05-28",
+  "initial_cash": 1000000.0,
+  "equity_metrics": {
+    "initial_value": 1000069.3,
+    "ending_value": 11287258.869999994,
+    "total_return": 10.286476717163493,
+    "annual_return_cagr": 0.4833242507170843,
+    "max_drawdown": -0.23198943367387326,
+    "max_drawdown_start": "2024-05-17",
+    "max_drawdown_end": "2024-06-24",
+    "volatility_annualized": 0.258086867701249,
+    "sharpe_annualized": 1.7564793387389017,
+    "calmar": 2.0833890710580087,
+    "trading_days": 1549
+  },
+  "trade_flow_metrics": {
+    "buy_turnover": 219.428079,
+    "sell_turnover": 218.6249031,
+    "gross_turnover": 438.0529821,
+    "annualized_gross_turnover": 71.2649138083925,
+    "number_of_fills": 5005,
+    "number_of_buy_fills": 2977,
+    "number_of_sell_fills": 2028
+  },
+  "closed_trade_metrics": {
+    "number_of_closed_trades": 4537,
+    "win_rate": 0.6980383513334802,
+    "average_return": 0.10665914961352235,
+    "median_return": 0.06382978723404253,
+    "average_win": 0.18609309389188697,
+    "average_loss": 0.0778186469070518,
+    "profit_loss_ratio": 2.3913689236226428,
+    "expectancy_per_trade": 0.10665914961352235,
+    "average_holding_days": 59.30923517743002,
+    "median_holding_days": 41.0
+  },
+  "open_position_metrics": {
+    "number_of_open_positions": 15,
+    "open_positions_value": 11287251.0,
+    "note": "Open positions are excluded from closed-trade win rate. Unrealized P&L is not computed (would require market data)."
+  },
+  "execution_quality": {
+    "orders_submitted": 6467,
+    "orders_filled": 5005,
+    "orders_rejected": 1462,
+    "fill_rate": 0.7739291789083037,
+    "rejection_reasons": {
+      "cash insufficient for even 1 lot.": 1452,
+      "available cash is too low.": 2,
+      "sell amount 3000 exceeds closeable amount 2300": 1,
+      "limit down": 6,
+      "limit up": 1
+    }
+  },
+  "notes": [
+    "Closed-trade P&L is GROSS (excludes commission/tax). trades.csv has commission/tax columns but they are not netted here per spec §6.3.",
+    "risk_free_rate = 0.03; trading_days_per_year = 252.",
+    "Turnover denominator = manifest.initial_cash = 1000000.00 (not equity first value)."
+  ]
+}

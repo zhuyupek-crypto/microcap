@@ -1,0 +1,61 @@
+{
+  "tag": "r3_2024_202605_research",
+  "engine_mode": "research",
+  "start_date": "2024-01-01",
+  "end_date": "2026-05-28",
+  "initial_cash": 1000000.0,
+  "equity_metrics": {
+    "initial_value": 1000168.3,
+    "ending_value": 2693218.830000001,
+    "total_return": 1.6927656375432023,
+    "annual_return_cagr": 0.5389931169960516,
+    "max_drawdown": -0.24547501152867146,
+    "max_drawdown_start": "2024-05-17",
+    "max_drawdown_end": "2024-06-24",
+    "volatility_annualized": 0.3312863417214868,
+    "sharpe_annualized": 1.5364144333603806,
+    "calmar": 2.195714804694478,
+    "trading_days": 579
+  },
+  "trade_flow_metrics": {
+    "buy_turnover": 38.854259899999995,
+    "sell_turnover": 37.8909448,
+    "gross_turnover": 76.74520469999999,
+    "annualized_gross_turnover": 33.40205800414507,
+    "number_of_fills": 1936,
+    "number_of_buy_fills": 1199,
+    "number_of_sell_fills": 737
+  },
+  "closed_trade_metrics": {
+    "number_of_closed_trades": 1719,
+    "win_rate": 0.6451425247236765,
+    "average_return": 0.13620245261453753,
+    "median_return": 0.069672131147541,
+    "average_win": 0.2630425430862295,
+    "average_loss": 0.09517713097229491,
+    "profit_loss_ratio": 2.7637158254202734,
+    "expectancy_per_trade": 0.13620245261453753,
+    "average_holding_days": 57.9499709133217,
+    "median_holding_days": 39.0
+  },
+  "open_position_metrics": {
+    "number_of_open_positions": 13,
+    "open_positions_value": 2693038.0,
+    "note": "Open positions are excluded from closed-trade win rate. Unrealized P&L is not computed (would require market data)."
+  },
+  "execution_quality": {
+    "orders_submitted": 2154,
+    "orders_filled": 1936,
+    "orders_rejected": 218,
+    "fill_rate": 0.8987929433611885,
+    "rejection_reasons": {
+      "cash insufficient for even 1 lot.": 216,
+      "limit down": 2
+    }
+  },
+  "notes": [
+    "Closed-trade P&L is GROSS (excludes commission/tax). trades.csv has commission/tax columns but they are not netted here per spec §6.3.",
+    "risk_free_rate = 0.03; trading_days_per_year = 252.",
+    "Turnover denominator = manifest.initial_cash = 1000000.00 (not equity first value)."
+  ]
+}
