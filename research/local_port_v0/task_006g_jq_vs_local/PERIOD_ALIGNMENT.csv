@@ -1,0 +1,10 @@
+item,jq_value,local_value,delta,evidence_level,notes
+start_date,~2018-03,2020-01-01,~2 years,B,CAGR reverse calculation
+end_date,~2026-05-28,2026-05-28,0,A,inferred alignment
+trading_days,~1970,1549,~421,B,reverse calculated
+total_return_pct,6932.96,1028.65,5904.31,C,jq summary only
+cagr_pct,68.24,48.33,19.91,C,jq summary only
+max_drawdown_pct,24.13,23.20,0.93,C,jq summary only
+sharpe,2.317,1.76,0.557,C,jq summary only
+2018_2019_contribution_pct,~523,0,~523,B,mathematical decomposition
+local_data_start,2020-01-01,2020-01-01,0,A,HData limitation
