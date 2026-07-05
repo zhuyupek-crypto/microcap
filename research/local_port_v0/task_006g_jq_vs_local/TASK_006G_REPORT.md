@@ -48,7 +48,7 @@
 
 ### 2.1 数据盘点结果（DATA_INVENTORY.csv/md）
 
-共盘点 30 个相关文件：
+共盘点 29 个相关文件：
 
 | 数据类型 | 文件数 | A 级 | B 级 | C 级 |
 |----------|-------:|-----:|-----:|-----:|
@@ -366,7 +366,7 @@
 
 | 文件 | 类型 | 说明 |
 |------|------|------|
-| `DATA_INVENTORY.csv/md` | G0 | 30 个文件数据盘点 |
+| `DATA_INVENTORY.csv/md` | G0 | 29 个文件数据盘点 |
 | `JQ_PLATFORM_RESULT_SOURCE.md` | G1 | 聚宽 68.24% 来源确认（C 级） |
 | `PERIOD_ALIGNMENT.csv/md` | G2 | 区间差异归因 |
 | `JQ_LOCAL_2025_TRADE_MATCH.csv` | G3 | 2025 逐笔交易对比（651 行） |
