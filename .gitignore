@@ -6,3 +6,13 @@ __pycache__/
 # 回测调试日志（体积大，不入库）
 research/local_port_v0/task_005_optimize/runs/*/engine_logs.txt
 
+# TASK-006E 每日明细产物（数量大，仅保留汇总 CSV 作为证据）
+# 汇总文件 pilot_dashboard.csv / risk_status_summary.csv / capacity_summary.csv 仍入库
+research/local_port_v0/task_006e_live_pilot_prep/reports/daily_pilot_report_*.md
+research/local_port_v0/task_006e_live_pilot_prep/reports/daily_risk_status_*.csv
+research/local_port_v0/task_006e_live_pilot_prep/reports/daily_execution_feasibility_*.csv
+
+# 用户提供的母版实盘对照数据（非 006E 工程化产物，单独管理）
+母版交易记录-*.txt
+母版持仓&资金记录-*.txt
+
