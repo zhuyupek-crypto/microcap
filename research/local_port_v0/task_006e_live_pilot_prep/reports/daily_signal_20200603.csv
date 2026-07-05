@@ -1,0 +1,2 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2020-06-03,601558.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,available cash is too low.

@@ -1,0 +1,5 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2024-06-11,000668.XSHE,sell,5508.0,900,6.12,sell_phase,,False,t_3357,
+2024-06-11,600539.XSHG,sell,10612.0,2800,3.79,sell_phase,,False,t_3358,
+2024-06-11,300716.XSHE,sell,6633.0,1100,6.03,sell_phase,,False,t_3359,
+2024-06-11,002633.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.

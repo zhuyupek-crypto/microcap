@@ -1,0 +1,15 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2020-02-19,002076.XSHE,buy,232.0,100,2.32,buy_new,,False,t_55,
+2020-02-19,000679.XSHE,buy,22165.0,6500,3.41,buy_new,,False,t_56,
+2020-02-19,002473.XSHE,buy,20790.0,2700,7.7,buy_new,,False,t_57,
+2020-02-19,600561.XSHG,buy,21210.0,4200,5.05,buy_new,,False,t_58,
+2020-02-19,300106.XSHE,buy,20615.0,3500,5.89,buy_new,,False,t_59,
+2020-02-19,000929.XSHE,buy,22680.0,3500,6.48,buy_new,,False,t_60,
+2020-02-19,300665.XSHE,buy,21670.0,2200,9.85,buy_new,,False,t_61,
+2020-02-19,603991.XSHG,buy,22400.0,1400,16.0,buy_new,,False,t_62,
+2020-02-19,000691.XSHE,buy,21000.0,5600,3.75,buy_new,,False,t_63,
+2020-02-19,600241.XSHG,buy,21944.0,5200,4.22,buy_new,,False,t_64,
+2020-02-19,002633.XSHE,buy,12150.0,1500,8.1,buy_new,,False,t_65,
+2020-02-19,300412.XSHE,sell,4365.0,500,8.73,sell_phase,,False,t_66,
+2020-02-19,300029.XSHE,sell,5697.0,900,6.33,sell_phase,,False,t_67,
+2020-02-19,002633.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.

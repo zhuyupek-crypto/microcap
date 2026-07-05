@@ -1,0 +1,25 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2024-12-04,001211.XSHE,sell,156028.0,7600,20.53,sell_phase,,False,t_3869,
+2024-12-04,603709.XSHG,sell,186277.0,16100,11.57,sell_phase,,False,t_3870,
+2024-12-04,002620.XSHE,buy,2400.0,600,4.0,buy_new,,False,t_3871,
+2024-12-04,600455.XSHG,buy,2419.0,100,24.19,buy_new,,False,t_3872,
+2024-12-04,300854.XSHE,buy,215883.0,15300,14.11,buy_new,,False,t_3873,
+2024-12-04,301336.XSHE,sell,61081.0,1700,35.93,sell_phase,,False,t_3874,
+2024-12-04,600768.XSHG,buy,7105.0,700,10.15,buy_new,,False,t_3875,
+2024-12-04,300929.XSHE,buy,29087.0,2900,10.03,buy_new,,False,t_3876,
+2024-12-04,603813.XSHG,buy,92872.0,7600,12.22,buy_new,,False,t_3877,
+2024-12-04,603880.XSHG,buy,18204.0,3700,4.92,buy_new,,False,t_3878,
+2024-12-04,000668.XSHE,buy,34188.0,3700,9.24,buy_new,,False,t_3879,
+2024-12-04,300665.XSHE,buy,740.0,100,7.4,buy_new,,False,t_3880,
+2024-12-04,000668.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,600768.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,300478.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,300929.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,603813.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,300665.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,603880.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,002856.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,300478.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,002856.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,301273.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-12-04,002629.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.

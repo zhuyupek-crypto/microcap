@@ -1,0 +1,12 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2023-05-16,300478.XSHE,buy,60858.0,6300,9.66,buy_new,,False,t_2519,
+2023-05-16,600768.XSHG,buy,58352.0,5600,10.42,buy_new,,False,t_2520,
+2023-05-16,300169.XSHE,buy,61050.0,15000,4.07,buy_new,,False,t_2521,
+2023-05-16,603389.XSHG,buy,60784.0,11600,5.24,buy_new,,False,t_2522,
+2023-05-16,300417.XSHE,buy,60480.0,6000,10.08,buy_new,,False,t_2523,
+2023-05-16,603709.XSHG,buy,62900.0,3700,17.0,buy_new,,False,t_2524,
+2023-05-16,603729.XSHG,buy,1512.0,100,15.12,buy_new,,False,t_2525,
+2023-05-16,002652.XSHE,buy,59808.0,22400,2.67,buy_new,,False,t_2526,
+2023-05-16,002856.XSHE,buy,61915.0,6100,10.15,buy_new,,False,t_2527,
+2023-05-16,000691.XSHE,buy,62328.0,14700,4.24,buy_new,,False,t_2528,
+2023-05-16,000702.XSHE,buy,61714.0,11800,5.23,buy_new,,False,t_2529,

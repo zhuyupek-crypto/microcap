@@ -1,0 +1,6 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2020-02-27,600561.XSHG,buy,1996.0,400,4.99,buy_new,,False,t_92,
+2020-02-27,300106.XSHE,sell,22610.0,3800,5.95,sell_phase,,False,t_93,
+2020-02-27,000929.XSHE,buy,1284.0,200,6.42,buy_new,,False,t_94,
+2020-02-27,300736.XSHE,sell,2062.0,200,10.31,sell_phase,,False,t_95,
+2020-02-27,002633.XSHE,buy,20982.0,2600,8.07,buy_new,,False,t_96,

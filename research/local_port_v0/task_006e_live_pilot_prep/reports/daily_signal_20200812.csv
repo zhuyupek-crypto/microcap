@@ -1,0 +1,2 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2020-08-12,002473.XSHE,sell,2181.0,300,7.27,sell_phase,,False,t_457,

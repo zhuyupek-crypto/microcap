@@ -1,0 +1,3 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2024-11-06,002629.XSHE,sell,72930.0,22100,3.3,sell_phase,,False,t_3766,
+2024-11-06,000668.XSHE,sell,62098.0,6100,10.18,sell_phase,,False,t_3767,

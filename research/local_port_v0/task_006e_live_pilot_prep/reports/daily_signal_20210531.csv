@@ -1,0 +1,11 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2021-05-31,300736.XSHE,sell,44070.0,3900,11.3,sell_phase,,False,t_1110,
+2021-05-31,600520.XSHG,buy,1436.0,200,7.18,buy_new,,False,t_1111,
+2021-05-31,300478.XSHE,sell,2745.0,300,9.15,sell_phase,,False,t_1112,
+2021-05-31,600355.XSHG,sell,34048.0,12800,2.66,sell_phase,,False,t_1113,
+2021-05-31,600455.XSHG,buy,1806.0,100,18.06,buy_new,,False,t_1114,
+2021-05-31,603029.XSHG,buy,1236.0,100,12.36,buy_new,,False,t_1115,
+2021-05-31,603813.XSHG,buy,1345.0,100,13.45,buy_new,,False,t_1116,
+2021-05-31,603269.XSHG,buy,3141.0,300,10.47,buy_new,,False,t_1117,
+2021-05-31,600561.XSHG,buy,35174.0,8600,4.09,buy_new,,False,t_1118,
+2021-05-31,603389.XSHG,buy,36105.0,8300,4.35,buy_new,,False,t_1119,

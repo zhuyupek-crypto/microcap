@@ -1,0 +1,5 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2025-02-18,603813.XSHG,sell,21580.0,2000,10.79,sell_phase,,False,t_4024,
+2025-02-18,002848.XSHE,sell,49245.0,6700,7.35,sell_phase,,False,t_4025,
+2025-02-18,600421.XSHG,sell,94620.0,11400,8.3,sell_phase,,False,t_4026,
+2025-02-18,300478.XSHE,sell,77126.0,4900,15.74,sell_phase,,False,t_4027,

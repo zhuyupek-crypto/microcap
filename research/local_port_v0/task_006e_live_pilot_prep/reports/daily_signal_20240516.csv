@@ -1,0 +1,2 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2024-05-16,600847.XSHG,sell,28980.0,3600,8.05,sell_phase,,False,t_3292,

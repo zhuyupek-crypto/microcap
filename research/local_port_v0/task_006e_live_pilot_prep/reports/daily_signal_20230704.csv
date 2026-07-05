@@ -1,0 +1,14 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2023-07-04,300478.XSHE,sell,4160.0,400,10.4,sell_phase,,False,t_2633,
+2023-07-04,300169.XSHE,sell,12040.0,2800,4.3,sell_phase,,False,t_2634,
+2023-07-04,603389.XSHG,sell,8190.0,1500,5.46,sell_phase,,False,t_2635,
+2023-07-04,300417.XSHE,buy,59696.0,5600,10.66,buy_new,,False,t_2636,
+2023-07-04,603709.XSHG,buy,1799.0,100,17.99,buy_new,,False,t_2637,
+2023-07-04,002652.XSHE,sell,5940.0,2200,2.7,sell_phase,,False,t_2638,
+2023-07-04,002856.XSHE,sell,8064.0,800,10.08,sell_phase,,False,t_2639,
+2023-07-04,000702.XSHE,sell,65254.0,11800,5.53,sell_phase,,False,t_2640,
+2023-07-04,000609.XSHE,buy,77220.0,16500,4.68,buy_new,,False,t_2641,
+2023-07-04,300321.XSHE,buy,45948.0,2800,16.41,buy_new,,False,t_2642,
+2023-07-04,600768.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2023-07-04,603729.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2023-07-04,600455.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.

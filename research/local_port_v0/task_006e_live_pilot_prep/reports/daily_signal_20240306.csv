@@ -1,0 +1,25 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2024-03-06,600768.XSHG,sell,1602.0,200,8.01,sell_phase,,False,t_3165,
+2024-03-06,300417.XSHE,buy,1530.0,200,7.65,buy_new,,False,t_3166,
+2024-03-06,600455.XSHG,sell,8995.0,500,17.99,sell_phase,,False,t_3167,
+2024-03-06,002856.XSHE,buy,9000.0,1200,7.5,buy_new,,False,t_3168,
+2024-03-06,000668.XSHE,sell,3256.0,400,8.14,sell_phase,,False,t_3169,
+2024-03-06,300321.XSHE,sell,99353.0,7300,13.61,sell_phase,,False,t_3170,
+2024-03-06,300929.XSHE,sell,4866.0,600,8.11,sell_phase,,False,t_3171,
+2024-03-06,600539.XSHG,buy,100352.0,22400,4.48,buy_new,,False,t_3172,
+2024-03-06,300995.XSHE,sell,97344.0,7200,13.52,sell_phase,,False,t_3173,
+2024-03-06,300886.XSHE,sell,96502.0,6100,15.82,sell_phase,,False,t_3174,
+2024-03-06,300854.XSHE,sell,96570.0,8700,11.1,sell_phase,,False,t_3175,
+2024-03-06,301040.XSHE,sell,97038.0,8100,11.98,sell_phase,,False,t_3176,
+2024-03-06,300836.XSHE,sell,96650.0,5000,19.33,sell_phase,,False,t_3177,
+2024-03-06,300069.XSHE,sell,94080.0,9600,9.8,sell_phase,,False,t_3178,
+2024-03-06,300716.XSHE,sell,1716.0,200,8.58,sell_phase,,False,t_3179,
+2024-03-06,600847.XSHG,buy,104550.0,15000,6.97,buy_new,,False,t_3180,
+2024-03-06,002193.XSHE,buy,205824.0,51200,4.02,buy_new,,False,t_3181,
+2024-03-06,000691.XSHE,buy,275925.0,84900,3.25,buy_new,,False,t_3182,
+2024-03-06,002633.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-03-06,300417.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-03-06,002633.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-03-06,002856.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-03-06,000691.XSHE,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.
+2024-03-06,603389.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,cash insufficient for even 1 lot.

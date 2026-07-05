@@ -1,0 +1,2 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2022-08-10,603389.XSHG,buy,3456.0,600,5.76,buy_new,,False,t_2031,

@@ -1,0 +1,2 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2021-12-14,603813.XSHG,sell,16260.0,1000,16.26,sell_phase,,False,t_1547,

@@ -1,0 +1,16 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2020-06-09,600599.XSHG,buy,2175.0,300,7.25,buy_new,,False,t_286,
+2020-06-09,600561.XSHG,buy,475.0,100,4.75,buy_new,,False,t_287,
+2020-06-09,300029.XSHE,sell,2280.0,400,5.7,sell_phase,,False,t_288,
+2020-06-09,002633.XSHE,buy,781.0,100,7.81,buy_new,,False,t_289,
+2020-06-09,002209.XSHE,buy,1812.0,300,6.04,buy_new,,False,t_290,
+2020-06-09,000929.XSHE,buy,7370.0,1100,6.7,buy_new,,False,t_291,
+2020-06-09,300736.XSHE,buy,4425.0,500,8.85,buy_new,,False,t_292,
+2020-06-09,300665.XSHE,buy,2922.0,300,9.74,buy_new,,False,t_293,
+2020-06-09,000502.XSHE,buy,26480.0,4000,6.62,buy_new,,False,t_294,
+2020-06-09,603269.XSHG,buy,48048.0,3300,14.56,buy_new,,False,t_295,
+2020-06-09,002473.XSHE,buy,1588.0,200,7.94,buy_new,,False,t_296,
+2020-06-09,601558.XSHG,buy,23562.0,107100,0.22,buy_new,,False,t_297,
+2020-06-09,300535.XSHE,buy,25473.0,2100,12.13,buy_new,,False,t_298,
+2020-06-09,300405.XSHE,buy,575.0,100,5.75,buy_new,,False,t_299,
+2020-06-09,601558.XSHG,skip,0,0,0,skip_cash_insufficient,,False,,sell amount 3000 exceeds closeable amount 2300

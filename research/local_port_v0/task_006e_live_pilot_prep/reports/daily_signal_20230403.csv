@@ -1,0 +1,13 @@
+date,code,action,target_value,target_qty,price,reason,phase_index,defense_flag,trade_id,rejection_reason
+2023-04-03,300478.XSHE,sell,304512.0,31200,9.76,sell_defense,,True,t_2485,
+2023-04-03,603729.XSHG,sell,311436.0,21100,14.76,sell_defense,,True,t_2486,
+2023-04-03,603709.XSHG,sell,309320.0,18500,16.72,sell_defense,,True,t_2487,
+2023-04-03,300899.XSHE,sell,123088.0,5600,21.98,sell_defense,,True,t_2488,
+2023-04-03,002856.XSHE,sell,307738.0,30200,10.19,sell_defense,,True,t_2489,
+2023-04-03,002816.XSHE,sell,304531.0,23300,13.07,sell_defense,,True,t_2490,
+2023-04-03,600768.XSHG,sell,244398.0,23100,10.58,sell_defense,,True,t_2491,
+2023-04-03,002652.XSHE,sell,310580.0,117200,2.65,sell_defense,,True,t_2492,
+2023-04-03,603030.XSHG,sell,243978.0,109900,2.22,sell_defense,,True,t_2493,
+2023-04-03,603958.XSHG,sell,311680.0,48700,6.4,sell_defense,,True,t_2494,
+2023-04-03,300169.XSHE,sell,882.0,200,4.41,sell_defense,,True,t_2495,
+2023-04-03,511880.XSHG,buy,2764547.5,27500,100.529,buy_defense,,True,t_2496,
