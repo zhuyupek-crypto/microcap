@@ -1,0 +1,17 @@
+field_name,usage,backtest_source,backtest_status,live_source_candidate,live_source_status,alignment_status,gap_description,resolution_plan,evidence_level
+call_auction_price_0925,开盘信号撮合,本地 call_auction parquet,available_history_only,无,missing,missing,HData 仅有历史数据且非实盘订阅;用户无任何实盘数据源接入能力;call_auction 历史数据从 2020 开始,阻塞:需要先确定实盘数据源候选 (券商API/JQ模拟盘/第三方行情) 并确认能实时获取 09:25 竞价数据,C
+call_auction_volume_0925,容量约束 (5% 参与率),本地 call_auction parquet,available_history_only,无,missing,missing,同上;实盘观察盘需要盘前 09:25 实时竞价成交量,阻塞:同上,C
+high_limit,拒单逻辑 (涨停不买),HData 日线 high_limit parquet,available_history_only,无,missing,missing,实盘需要当日实时涨跌停状态;HData 仅有历史数据,阻塞:需要实盘涨跌停数据源,C
+low_limit,拒单逻辑 (跌停不卖),HData 日线 low_limit parquet,available_history_only,无,missing,missing,同上,阻塞:同上,C
+paused,拒单逻辑 (停牌不交易),HData paused parquet,available_history_only,无,missing,missing,实盘需要当日盘前/盘中实时停牌状态,阻塞:需要实盘停牌状态数据源,C
+is_st,选股过滤 (ST 排除),JQ 财务数据 (历史),available_history_only,无,missing,missing,实盘需要当日 ST 状态查询;ST 状态可能动态变化,阻塞:需要实盘 ST 状态数据源;注意 006G 已识别 ST 状态必须用查询当日信息,C
+minute_close_1400,14:00 减仓信号,HData 分钟 close,available_history_only,无,missing,missing,实盘需要 14:00 实时分钟 close;006G 已识别 HData 与 JQ 分钟 close 有 0.01~0.06 元差异,阻塞:需要实盘分钟行情数据源,C
+minute_close_volume_0930,开盘成交参考,HData 分钟 close/volume,available_history_only,无,missing,missing,实盘需要 09:30 实时分钟数据,阻塞:同上,C
+daily_pre_close,信号计算 (昨收),HData 日线 pre_close parquet,available_history_only,无,missing,missing,实盘需要当日 pre_close (前一日 close),阻塞:需要实盘日线数据源,C
+daily_open,信号计算 (开盘价),HData 日线 open parquet,available_history_only,无,missing,missing,实盘需要当日 open,阻塞:同上,C
+daily_close,信号计算 (收盘),HData 日线 close parquet,available_history_only,无,missing,missing,实盘需要当日 close (盘后),阻塞:同上,C
+market_cap,选股排序 (微盘股筛选),HData fundamentals,available_history_only,无,missing,missing,实盘需要当日 market_cap;006G 已识别 HData 与 JQ market_cap 部分差异,阻塞:需要实盘基本面数据源;这是关键字段因为策略核心是微盘股排序,C
+current_position,风控计算 (持仓),引擎内部状态,available,无,missing,missing,实盘需要券商接口返回真实持仓,阻塞:需要券商API或手动输入持仓,C
+current_cash,风控计算 (现金),引擎内部状态,available,无,missing,missing,实盘需要券商接口返回真实资金,阻塞:同上,C
+order_submit,订单提交,无 (回测引擎内部),not_applicable,无,missing,missing,实盘需要券商交易接口;用户明确无券商API接入能力,阻塞:需要券商API接入;这是第二层 pilot 的硬阻塞,C
+order_fill_report,成交回报,无 (回测引擎内部),not_applicable,无,missing,missing,实盘需要券商接口返回成交回报,阻塞:同上,C
