@@ -1,0 +1,3 @@
+category,count,first_date,last_date,sum_asset_impact,max_single_day_impact,evidence_level,is_real_difference,notes
+cascade_residual,22,2026-06-04,2026-06-24,164137.23,17723.0,B,True,Cascade after first divergence
+cash_rounding,14,2026-06-01,2026-06-22,9611.01,737.44,B,False,"Small diff < 1000, likely rounding"

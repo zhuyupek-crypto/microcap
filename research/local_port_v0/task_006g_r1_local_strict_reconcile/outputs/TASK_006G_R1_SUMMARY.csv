@@ -1,0 +1,44 @@
+metric,value,period,evidence_level,notes
+2025_total_return_jq,0.06578,2025 H1,A,JQ H1 only (last day truncated excluded)
+2025_total_return_local,0.06585,2025 H1,A,Local same-start research mode
+2025_return_diff,-0.00007,2025 H1,A,Nearly zero
+2025_max_drawdown_jq,-0.11626,2025 H1,A,
+2025_max_drawdown_local,-0.11612,2025 H1,A,
+2025_max_drawdown_diff,-0.00014,2025 H1,A,
+2025_daily_return_corr,0.99999,2025 H1,A,Nearly perfect
+2025_mean_abs_asset_diff,65.92,2025 H1,A,
+2025_max_abs_asset_diff,126.87,2025 H1,A,
+2025_first_equity_divergence_date,2025-02-18,2025 H1,A,asset_diff > 1.0
+2025_total_jq_trades,646,2025 full-year,B,
+2025_total_local_trades,641,2025 full-year,B,
+2025_exact_match_count,635,2025 full-year,B,
+2025_exact_match_rate,0.983,2025 full-year,B,98.3%
+2025_qty_zero_export_defect,0,2025 full-year,B,Raw txt has no defect
+2025_first_trade_divergence_date,2025-03-11,2025 full-year,B,
+2025_first_trade_divergence_code,002848.XSHE,2025 full-year,B,Local extra buy 100 shares
+2025_full_year_equity_level,C,2025 full-year,C,Only H1 data available
+2026_fragment_total_return_jq,-0.21206,2026-05~06,A,
+2026_fragment_total_return_local,-0.20993,2026-05~06,A,
+2026_fragment_return_diff,-0.00213,2026-05~06,A,
+2026_fragment_max_drawdown_jq,-0.21849,2026-05~06,A,
+2026_fragment_max_drawdown_local,-0.21638,2026-05~06,A,
+2026_fragment_max_drawdown_diff,-0.00211,2026-05~06,A,
+2026_fragment_daily_return_corr,0.99935,2026-05~06,A,Very high
+2026_fragment_mean_abs_asset_diff,472.84,2026-05~06,A,
+2026_fragment_max_abs_asset_diff,3597.17,2026-05~06,A,
+2026_fragment_first_equity_divergence_date,2026-06-01,2026-05~06,A,
+2026_fragment_total_jq_trades,111,2026-05~06,B,
+2026_fragment_total_local_trades,94,2026-05~06,B,
+2026_fragment_exact_match_count,93,2026-05~06,B,
+2026_fragment_exact_match_rate,0.838,2026-05~06,B,83.8%
+2026_fragment_qty_zero_export_defect,0,2026-05~06,B,
+2026_fragment_first_trade_divergence_date,2026-06-04,2026-05~06,B,3 weeks later than task_003
+2026_fragment_first_trade_divergence_code,600493.XSHG,2026-05~06,B,Local extra sell 100 shares
+diff_attribution_2025_cascade_residual,17,2025,B,Real but small (100-share level)
+diff_attribution_2025_cash_rounding,82,2025,B,Not real (rounding)
+diff_attribution_2026_cascade_residual,22,2026,B,Real but small
+diff_attribution_2026_cash_rounding,14,2026,B,Not real (rounding)
+conclusion_type,A+B,overall,A,Strict high consistency + small explainable diffs
+revise_006g,No,overall,A,Conclusion strengthened
+affect_006e,No,overall,A,Paper trading direction unchanged
+research_mode_baseline_confirmed,Yes,overall,A,Local Research as live trading baseline
