@@ -1,0 +1,6 @@
+category,count,first_date,last_date,sum_impact,max_impact
+missing_in_jq,14,2020-06-22,2020-12-17,12176.0,1312.0
+missing_in_local,155,2020-03-27,2021-03-19,-6532716.6,0.0
+trade_price_and_quantity_diff,1,2020-09-15,2020-09-15,-1511.0,-1511.0
+trade_price_diff,5,2020-02-19,2020-11-12,-137.0,1.0
+trade_quantity_diff,153,2020-03-24,2020-12-30,-24419.000000000022,3114.0
